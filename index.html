@@ -349,7 +349,7 @@ nav .lk{color:#333!important}
 <section id="faq" style="padding-top:20px"><div class="in" style="max-width:820px">
  <div class="eb">FAQ</div><h2>자주 묻는 질문</h2>
  <details><summary>사진이 1장뿐이어도 되나요?</summary><p>네, 한 장이면 충분해요. 찰칵상세가 그 사진 속 상품을 그대로 살려 착용·연출·디테일 사진을 새로 그려요. 상품이 크고 선명하게 나온 사진일수록 결과가 좋아요.</p></details>
- <details><summary>올린 사진은 어디에 저장되나요?</summary><p>찰칵상세가 장면 사진과 문구를 만드는 동안에만 쓰고, 따로 저장하지 않아요. 완성된 상세페이지는 내 기기에 JPG로 저장돼요.</p></details>
+ <details><summary>올린 사진은 어디에 저장되나요?</summary><p>찰칵상세가 장면 사진과 문구를 만드는 동안에만 쓰고, 따로 저장하지 않아요. 완성된 상세페이지는 오른쪽 아래 ⬇ 저장 버튼(또는 고치기 창의 ⬇)을 누르면 고친 내용 그대로 내 기기에 JPG로 저장돼요.</p></details>
  <details><summary>쿠팡·스마트스토어에 바로 올릴 수 있나요?</summary><p>세로로 긴 JPG로 저장되니 상세 설명에 이미지로 올리면 돼요. 마켓마다 권장 크기와 용량이 바뀔 수 있으니 올리기 전에 판매자 센터 안내를 한 번 확인해 주세요. 길면 "나눠 저장"을 쓰세요.</p></details>
  <details><summary>후기나 인증 문구도 넣어 주나요?</summary><p>아니요. 지어낸 후기·별점·수치, 사진으로 확인할 수 없는 인증·효능·소재 주장은 넣지 않아요. 상품 정보표는 흔히 쓰는 규격으로 채워 드리니, 실제 값과 다르면 눌러서 고쳐 주세요.</p></details>
  <details><summary>상업적으로 써도 되나요?</summary><p>네, 만든 상세페이지는 판매에 쓰셔도 돼요. 다만 AI가 그린 연출 사진이 실제 상품과 다르게 보이지 않는지 올리기 전에 꼭 확인해 주세요. 페이지 맨 아래에 AI 연출 안내 문구가 자동으로 들어가요.</p></details>
@@ -731,7 +731,8 @@ function quickEdit(i,rx,ry,cx,cy){qeClose();const q=S.sec[i];QE={i,rx,ry,photo:n
   <div class="qe-b"><button type="button" class="btn pr sm" data-q="go">✏️ 고치기 <small>Enter</small></button>
    <button type="button" class="qi" data-q="photo" title="이 자리 사진을 내 사진으로">🖼</button>
    ${(q._hist&&q._hist.length)?`<button type="button" class="qi" data-q="undo" title="되돌리기">↩</button>`:""}
-   <button type="button" class="qi" data-q="re" title="이 장 통째로 새로 그리기">🔄</button></div>
+   <button type="button" class="qi" data-q="re" title="이 장 통째로 새로 그리기">🔄</button>
+   <button type="button" class="qi" data-q="save" title="지금 페이지를 JPG로 저장">⬇</button></div>
   <small class="qe-f">Enter 고치기 · Shift+Enter 줄바꿈 · Esc 닫기 · 2크레딧(베타 무료)</small>`;
  document.body.appendChild(b);const W=320,H=b.offsetHeight||170;let x=cx+16,y=cy-20;if(x+W>innerWidth-10)x=cx-W-16;if(x<10)x=10;if(y+H>innerHeight-10)y=innerHeight-H-10;if(y<10)y=10;b.style.left=x+"px";b.style.top=y+"px";
  const inp=$("#qeIn");inp.focus();
@@ -740,13 +741,13 @@ function quickEdit(i,rx,ry,cx,cy){qeClose();const q=S.sec[i];QE={i,rx,ry,photo:n
   else{st.textContent="✍️ 글자를 바로 고쳐 쓰세요";if(!inp.value){inp.value=r.text||"";inp.select()}}});
  inp.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&!ev.shiftKey){ev.preventDefault();qeGo()}if(ev.key==="Escape")qeClose()});
  b.addEventListener("click",ev=>{const a=ev.target.closest("[data-q]");if(!a)return;const k=a.dataset.q;
-  if(k==="x")qeClose();else if(k==="go")qeGo();else if(k==="undo"){undoSec(i);qeClose()}else if(k==="re"){qeClose();regenSec(i,"")}
+  if(k==="x")qeClose();else if(k==="go")qeGo();else if(k==="undo"){undoSec(i);qeClose()}else if(k==="re"){qeClose();regenSec(i,"")}else if(k==="save"){qeClose();$("#save").click()}
   else if(k==="photo"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=()=>{if(f.files[0]){QE.photo=f.files[0];a.textContent="✓";$("#qeSt").textContent="🖼 내 사진 선택됨 · 고치기를 누르세요"}};f.click()}})}
 async function qeGo(){if(!QE)return;const v=$("#qeIn").value.trim();const o=QE.kind==="photo"?{req:v,photo:QE.photo}:(v&&v!==QE.from.trim()?{from:QE.from,to:v,photo:QE.photo}:{req:"",photo:QE.photo});
  if(!o.to&&!o.req&&!o.photo){$("#qeSt").textContent="바꿀 내용을 적어 주세요";return}
  const btn=$("#qe [data-q=go]");btn.disabled=true;btn.textContent="고치는 중… 15초";const st=$("#qeSt");st.textContent="✨ 찰칵상세가 그 부분만 고치고 있어요";
  const fake=document.createElement("button");fake.id="edFix";fake.style.display="none";document.body.appendChild(fake);
- await editSpot(QE.i,QE.rx,QE.ry,o);const ok=!/다시 시도/.test(fake.textContent);fake.remove();if(ok)qeClose();else{btn.disabled=false;btn.textContent="✏️ 다시 시도";st.textContent="잠깐 문제가 있었어요. 다시 눌러 주세요"}}
+ await editSpot(QE.i,QE.rx,QE.ry,o);const ok=!/다시 시도/.test(fake.textContent);fake.remove();if(ok){qeClose();fsHint()}else{btn.disabled=false;btn.textContent="✏️ 다시 시도";st.textContent="잠깐 문제가 있었어요. 다시 눌러 주세요"}}
 document.addEventListener("mousedown",ev=>{const b=$("#qe");if(b&&!b.contains(ev.target)&&ev.target.id!=="cv")qeClose()});
 /* ===== 사진 넣고 바로 만들기 ===== */
 const qf=document.createElement("input");qf.type="file";qf.accept="image/*";qf.multiple=true;qf.hidden=true;document.body.appendChild(qf);
@@ -814,5 +815,13 @@ $("#edB").addEventListener("click",e=>{const sc=$("#ed").dataset.sec;if(sc!==""&
 $("#edX").onclick=edClose;
 $("#qsName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#qsGo").click()});
 
+</script>
+<style>#fsave{position:fixed;right:22px;bottom:22px;z-index:60;display:none;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:999px;background:#111;color:#fff;font:700 15px Pretendard,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);cursor:pointer}#fsave:hover{background:#6d4aff}#fsave small{font-weight:500;opacity:.75}#fsave.hint{animation:fsh 1.6s ease 2}@keyframes fsh{50%{transform:translateY(-4px);box-shadow:0 14px 34px rgba(109,74,255,.45)}}</style>
+<button id="fsave" type="button" title="고친 내용이 그대로 들어간 상세페이지를 내 기기에 JPG로 저장">⬇ 상세페이지 저장 <small>JPG</small></button>
+<script>
+(function(){const f=document.getElementById("fsave"),sv=()=>document.getElementById("save");
+f.onclick=()=>{const b=sv();if(b)b.click()};
+setInterval(()=>{const b=sv();f.style.display=(b&&b.offsetParent!==null)?"flex":"none"},800)})();
+function fsHint(){const f=document.getElementById("fsave");if(!f)return;f.classList.remove("hint");void f.offsetWidth;f.classList.add("hint");f.innerHTML="⬇ 고친 페이지 저장 <small>JPG</small>"}
 </script>
 </body></html>
