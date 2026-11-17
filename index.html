@@ -499,7 +499,7 @@ function render(cv,d,imgs,W=860){
 
 function renderAny(cv,d,imgs,W){return d.sec&&d.sec.some(x=>x.img)?renderPosters(cv,d,W):render(cv,d,imgs,W)}
 /* ===== 섹션 포스터 방식 (쿠팡 상위 페이지처럼 섹션을 통째로 그리기) ===== */
-const SEC_PLAN="1 표지(스크롤을 멈추게 하는 첫 화면): 아주 크고 굵은 후킹 제목 2줄 + 화면 70%를 채우는 강렬하고 감성적인 메인 사진(상품을 쓰거나 착용한 장면) + 아래 짧은 키워드 3개, 2 공감: 고객이 겪는 고민 3개를 말풍선으로 + 그 고민을 풀어 주는 상품 사진 + '그래서 준비했어요', 3 브랜드 무드: 감성 문장 + 분위기 있는 큰 라이프스타일 사진 1장, 4 디자인 소개: 상품 클로즈업 + 특징 4개 원형 확대컷, 5 포인트1: 큰 연출 사진 + 아이콘 4개 장점, 6 포인트2: 다른 장면 큰 사진 + 활용 사진 4개, 7 포인트3: 손에 들거나 쓰는 장면 + 아이콘 3개, 8 다양한 활용·코디: 서로 다른 장면 사진 4장 격자, 9 디테일: 부위별 확대 사진 3~4개와 설명선, 10 선물·포장: 선물 상자 연출 + 아이콘 3개, 11 사용·관리법: 단계별 사진이나 아이콘 3~4개, 12 자주 묻는 질문: Q&A 4개(일반적인 사용·관리·배송 질문, 지어낸 후기 없이) + 작은 상품 사진";
+const SEC_PLAN="(사진 중심 — 구매자가 실제로 보고 싶은 사진 위주, 글은 짧게) 1 표지: 상품을 착용·사용한 가장 아름다운 메인 사진이 화면 75% + 짧고 강한 제목 2줄, 2 대표 컷: 상품 단독 고급 스튜디오 컷 크게, 3 착용·사용 컷: 큰 사진 1장 + 다른 장면 2장, 4 디테일 클로즈업: 가장 매력적인 부분 확대 컷 크게 + 짧은 설명 3개, 5 라이프스타일: 실제 생활 공간에 놓인 장면 크게, 6 크기감: 손·몸과 함께 실제 크기가 보이는 컷 + 크기 표기(사진에서 알 수 있는 만큼만), 7 여러 각도: 앞·옆·뒤 3컷 격자, 8 코디·활용: 서로 다른 상황 4장 격자, 9 소재·질감: 매크로 컷 + 소재 느낌 한 줄, 10 선물·포장: 고급 포장 연출 크게, 11 무드 컷: 감성적인 전면 사진 + 한 줄, 12 구성품: 받으면 들어 있는 것 플랫레이";
 async function aiPlan(key,file,name){const data=await b64(file,768);
  const prompt=`너는 쿠팡·네이버 스마트스토어 상위 1% 상세페이지를 만드는 아트디렉터이자 카피라이터야. 목표는 보는 사람이 "이거 갖고 싶다"고 느끼게 하는 것 — 기능 나열보다 이 상품이 주는 기분·장면·변화를 구체적이고 감성적으로 써. 사진 속 상품${name?` (판매자가 적은 이름: "${name}")`:""}으로 섹션 12장짜리 상세페이지를 기획해.
 규칙: 쉬운 한국어. 후기·별점·판매량·인증·효능 수치·가격은 절대 넣지 마. 사진으로 확인할 수 없는 품질·안전 주장(순은/금 함량, 도금 종류, 무니켈, 알레르기 안심, 변색 방지, 방수, 유기농, 원산지, 인증 등)도 섹션 글에 넣지 마 — 대신 디자인·분위기·쓰는 장면·스타일링·선물로 매력을 써. 과장(최고·1위·완벽)·의약품 오인 표현 금지. 한글은 짧게(이미지 안에 그대로 그려짐).
@@ -509,15 +509,16 @@ JSON만 출력:
 "palette":"English: one consistent design system for all sections — background color (hex), accent color (hex), mood, photo lighting; chosen to flatter this product",
 "tone":"warm/clean/bold","spec":[["항목","값"]],
 "sections":[{"en":"짧은 영어 필기체 문구 5단어 이내","h":"한국어 큰 제목 2줄(\\n), 줄당 11자 이내, 가장 중요한 단어 하나를 **로 감싸기","b":"한국어 설명 한 줄 26자 이내","photo":"English: the main photo of this section in detail (scene, model or props, angle, light). People: face cropped or out of frame","layout":"English: how the small items are shown (e.g. 4 circle close-up photos / 4 thin line icons / 3 numbered steps)","items":[["한국어 라벨 6자 이내","한국어 설명 14자 이내"]]}]}
+글은 짧게: 말풍선·질문·고민 나열·Q&A 같은 글 위주 구성은 쓰지 마. 구매자가 사고 싶어지는 건 고퀄리티 사진이야. items는 사진에 붙는 짧은 라벨로 0~3개만.
 spec은 이 종류 상품에서 흔히 쓰는 표준 규격 5~7줄(소재·크기·용량·구성·원산지·관리 등). 사진에서 보이는 건 그대로, 안 보이는 건 가장 일반적인 값.
-sections는 정확히 12개, items는 섹션마다 3~4개 (12번 Q&A는 items에 [질문, 짧은 답] 4개).`;
+sections는 정확히 12개, items는 섹션마다 3~4개 .`;
  const j=await gem(TXT_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.85}},key);
  const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"{}";const o=JSON.parse(t.replace(/^```json|```$/g,"").trim());if(!Array.isArray(o.sections)||o.sections.length<4)throw new Error("기획이 비었어요");return o}
 function secPrompt(sec,i,n,name,palette,styled,extra){
  const hl=(String(sec.h||"").match(/\*\*([^*]+)\*\*/)||[])[1];const L=String(sec.h||"").replace(/\*\*/g,"").split("\n").map(x=>`"${x.trim()}"`).join(" / ");const it=(sec.items||[]).map(x=>Array.isArray(x)?`"${x[0]}"${x[1]?` with caption "${x[1]}"`:""}`:`"${x}"`).join(", ");
- return `Design ONE complete section (${i+1} of ${n}) of a premium Korean e-commerce product detail page, the quality of top-selling Coupang and Naver pages. Tall vertical 9:16 poster packed with rich content (a long, scroll-worthy section). Goal: make a shopper instantly feel "I want this" — aspirational, desirable, emotionally warm, styled like a high-end brand campaign.
+ return `Design ONE complete section (${i+1} of ${n}) of a premium Korean e-commerce product detail page, the quality of top-selling Coupang and Naver pages. Tall vertical 9:16 poster packed with rich content (a long, scroll-worthy section). Goal: make a shopper instantly feel "I want this" — aspirational, desirable, styled like a high-end brand campaign. PHOTOGRAPHY-LED: large, stunning, realistic photos fill most of the section; text is minimal and elegant (under 15% of the area). No speech bubbles, no Q&A, no long paragraphs.
 Product: ${name} — the product in the FIRST reference image. Reproduce it EXACTLY: same shape, color, material, proportions and details. Do not redesign it.${styled?" The SECOND reference image is section 1 of this same page: match its background color, typography, margins, icon style and photo grading exactly so all sections look like one continuous design.":""}
-Show the product used correctly and realistically for what it is (e.g. a necklace is worn around the neck, never on a wrist).${i===0?" This is the COVER section that must stop a shopper scrolling on Coupang or Naver: an extra-large, bold, high-contrast Korean headline (about twice the usual size), a dramatic, emotional, beautifully lit main photo filling about 70% of the height, strong focal point, magazine-cover feel.":""}${i===1?" This is the EMPATHY section: show the customer worries as 3 rounded speech bubbles in a natural conversational style, then the product as the answer.":""}
+Show the product used correctly and realistically for what it is (e.g. a necklace is worn around the neck, never on a wrist).${i===0?" This is the COVER section that must stop a shopper scrolling on Coupang or Naver: an extra-large, bold, high-contrast Korean headline (about twice the usual size), a dramatic, emotional, beautifully lit main photo filling about 70% of the height, strong focal point, magazine-cover feel.":""}
 Design system: ${palette}.${i%3===1?" For rhythm, this section uses a slightly deeper tint of the background color.":""}${i===4?" This section may use a rich deep accent-colored background with light text for contrast.":""} Use the accent color for small English line, key word, icons and thin divider lines. Elegant Korean serif headline, small clean Korean sans-serif body text, thin line icons, generous margins, luxury minimal magazine layout, professional commercial photography.
 Layout, top to bottom:
 1) small italic English script line: "${sec.en||""}"
@@ -526,6 +527,7 @@ Layout, top to bottom:
 4) main photo: ${sec.photo||"the product beautifully styled"}
 5) ${sec.layout||"small items row"}: ${it}
 6) at the bottom: a row of 2–3 extra supporting photos of the product from different angles or in use, with no text
+Photos must look like a real professional product photoshoot: true-to-life colors and scale, perfect focus on the product, flattering natural light.
 ${extra?"Extra request: "+extra+"\n":""}Render every Korean text exactly as given — crisp, correctly spelled, nothing else written. No prices, no reviews, no star ratings, no logos, no watermark.`}
 async function aiPoster(key,file,styleImg,prompt,pro){const data=await b64(file,1024);const parts=[{inline_data:{mime_type:"image/jpeg",data}}];
  if(styleImg){const c=document.createElement("canvas");const s=768/styleImg.height;c.width=styleImg.width*s;c.height=768;c.getContext("2d").drawImage(styleImg,0,0,c.width,c.height);parts.push({inline_data:{mime_type:"image/jpeg",data:c.toDataURL("image/jpeg",.85).split(",")[1]}})}
