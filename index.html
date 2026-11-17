@@ -152,6 +152,7 @@ body:not(.studio) #make .mk{display:none}.mkcta{display:flex;flex-direction:colu
 .pbar{height:6px;border-radius:3px;background:#EEE9F7;overflow:hidden;margin:4px 0}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));transition:width .6s}
 .thg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.thc{display:flex;flex-direction:column;gap:8px;font-size:.85rem}.thi{aspect-ratio:4/5;border-radius:14px;background:#F4F2F8;display:grid;place-items:center;overflow:hidden;font-size:.75rem;color:var(--mu);padding:0}.thi img{width:100%;height:100%;object-fit:contain;background:#fff}@media(max-width:700px){.thg{grid-template-columns:1fr}}
 .spotpv{display:flex;flex-direction:column;gap:4px}.spotpv canvas{width:100%;border-radius:10px;border:1px solid var(--ln)}.spotpv small{color:var(--mu);font-size:.72rem}
+.qe{position:fixed;z-index:80;width:320px;background:#fff;border:1px solid rgba(20,16,40,.12);border-radius:14px;box-shadow:0 18px 50px rgba(30,20,60,.22);padding:10px;display:flex;flex-direction:column;gap:7px;font-size:.84rem}.qe-h{display:flex;justify-content:space-between;align-items:center;color:#555;font-weight:600}.qe-h button{border:0;background:none;cursor:pointer;color:#888}.qe textarea{width:100%;box-sizing:border-box;border:2px solid var(--p2);border-radius:8px;padding:7px 9px;font:inherit;font-size:.95rem;resize:vertical;outline:none}.qe-b{display:flex;gap:6px;align-items:center}.qe-b .btn{flex:1;justify-content:center}.qe-b small{opacity:.7;font-size:.7rem;margin-left:4px}.qi{width:34px;height:34px;border-radius:9px;border:1px solid rgba(20,16,40,.12);background:#fff;cursor:pointer;font-size:1rem}.qe-f{color:#999;font-size:.68rem}
 .ed{position:fixed;right:20px;top:90px;width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 120px);overflow:auto;background:var(--card,#fff);border:1px solid var(--ln);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.18);padding:16px;display:none;flex-direction:column;gap:10px;z-index:60}.ed.on{display:flex}.ed #edB{display:flex;flex-direction:column;gap:10px}
 body.studio .side3{display:flex;flex-direction:column;gap:8px;padding:16px;background:#fff;border-left:1px solid var(--ln);position:sticky;top:56px;max-height:calc(100vh - 56px);overflow:auto}
 .side3 b{font-size:.9rem;margin-bottom:4px}
@@ -340,7 +341,7 @@ nav .lk{color:#333!important}
    <ul><li>가입 없이 바로 사용</li><li>사진 한 장 → 섹션 12장 상세페이지</li><li>섹션 눌러서 고치기 · 다시 그리기</li><li>쇼핑몰 9곳 규격 · 섹션별 저장</li><li>검색 대표 이미지 · 인스타 광고 이미지</li></ul>
    <a class="btn pr go" href="#make" style="align-self:flex-start">무료로 시작하기 →</a></div>
   <div class="pc"><h3>크레딧 충전</h3><div class="pp" style="font-size:1.5rem">12월 공개</div>
-   <ul><li>쓴 만큼만 내는 충전식</li><li>구글·카카오로 간편 로그인</li><li>만든 상세페이지 보관함</li><li>여러 상품 한 번에 만들기</li></ul>
+   <ul><li>쓴 만큼만 내는 충전식 (1크레딧 = ₩100)</li><li>고치기 1회 2크레딧 — 원가 그대로</li><li>구글·카카오로 간편 로그인</li><li>만든 상세페이지 보관함</li><li>여러 상품 한 번에 만들기</li></ul>
    <span class="note" style="margin:0">정식 출시 때 이 자리에서 알려 드려요.</span></div>
  </div>
 </div></section>
@@ -719,6 +720,34 @@ const CATS=[["fashion","패션"],["appliance","가전"],["pet","반려동물"],[
 (()=>{const T=$("#mqt");if(!T)return;const L=[];EX.forEach((e,i)=>{if(e.page)L.push([e.page,CAT[e.cat].n,e.page]);if(CATS[i])L.push(["ex/cat_"+CATS[i][0]+".jpg",CATS[i][1],null])});CATS.slice(EX.length).forEach(c=>L.push(["ex/cat_"+c[0]+".jpg",c[1],null]));
  let okN=0;const card=([src,lab,full])=>`<button type="button" class="mqc" data-full="${full||src}"><img src="${src}" alt="${lab} 상세페이지 첫 화면" loading="lazy" onerror="this.closest('.mqc').remove()" onload="if(!this.src.includes('/cat_'))return;window.__catN=(window.__catN||0)+1;if(window.__catN>=6)document.getElementById('cat').style.display=''"><span>${lab}</span></button>`;T.innerHTML=(L.map(card).join(""))+(L.map(card).join(""));
  T.onclick=e=>{const b=e.target.closest(".mqc");if(!b)return;$("#lbImg").src=b.dataset.full;lb.classList.add("on")}})();
+
+/* ===== 엑셀처럼 바로 고치기: 누른 자리 옆에 작은 칸 ===== */
+let QE=null;
+function qeClose(){const b=$("#qe");if(b)b.remove();QE=null}
+function quickEdit(i,rx,ry,cx,cy){qeClose();const q=S.sec[i];QE={i,rx,ry,photo:null,kind:"",from:""};
+ const b=document.createElement("div");b.id="qe";b.className="qe";
+ b.innerHTML=`<div class="qe-h"><span id="qeSt">글자 읽는 중…</span><button type="button" data-q="x" aria-label="닫기">✕</button></div>
+  <textarea id="qeIn" rows="2" placeholder="잠시만요, 누른 곳의 글자를 읽고 있어요"></textarea>
+  <div class="qe-b"><button type="button" class="btn pr sm" data-q="go">✏️ 고치기 <small>Enter</small></button>
+   <button type="button" class="qi" data-q="photo" title="이 자리 사진을 내 사진으로">🖼</button>
+   ${(q._hist&&q._hist.length)?`<button type="button" class="qi" data-q="undo" title="되돌리기">↩</button>`:""}
+   <button type="button" class="qi" data-q="re" title="이 장 통째로 새로 그리기">🔄</button></div>
+  <small class="qe-f">Enter 고치기 · Shift+Enter 줄바꿈 · Esc 닫기 · 2크레딧(베타 무료)</small>`;
+ document.body.appendChild(b);const W=320,H=b.offsetHeight||170;let x=cx+16,y=cy-20;if(x+W>innerWidth-10)x=cx-W-16;if(x<10)x=10;if(y+H>innerHeight-10)y=innerHeight-H-10;if(y<10)y=10;b.style.left=x+"px";b.style.top=y+"px";
+ const inp=$("#qeIn");inp.focus();
+ readSpot(i,rx,ry).then(r=>{if(!QE||QE.i!==i||QE.rx!==rx)return;QE.kind=r.kind||"";QE.from=r.text||"";const st=$("#qeSt");
+  if(r.kind==="photo"){st.textContent="📷 사진이에요 · 바라는 점을 적거나 🖼로 내 사진 넣기";inp.placeholder="예) 배경을 더 밝게, 모델 빼고 제품만";}
+  else{st.textContent="✍️ 글자를 바로 고쳐 쓰세요";if(!inp.value){inp.value=r.text||"";inp.select()}}});
+ inp.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&!ev.shiftKey){ev.preventDefault();qeGo()}if(ev.key==="Escape")qeClose()});
+ b.addEventListener("click",ev=>{const a=ev.target.closest("[data-q]");if(!a)return;const k=a.dataset.q;
+  if(k==="x")qeClose();else if(k==="go")qeGo();else if(k==="undo"){undoSec(i);qeClose()}else if(k==="re"){qeClose();regenSec(i,"")}
+  else if(k==="photo"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=()=>{if(f.files[0]){QE.photo=f.files[0];a.textContent="✓";$("#qeSt").textContent="🖼 내 사진 선택됨 · 고치기를 누르세요"}};f.click()}})}
+async function qeGo(){if(!QE)return;const v=$("#qeIn").value.trim();const o=QE.kind==="photo"?{req:v,photo:QE.photo}:(v&&v!==QE.from.trim()?{from:QE.from,to:v,photo:QE.photo}:{req:"",photo:QE.photo});
+ if(!o.to&&!o.req&&!o.photo){$("#qeSt").textContent="바꿀 내용을 적어 주세요";return}
+ const btn=$("#qe [data-q=go]");btn.disabled=true;btn.textContent="고치는 중… 15초";const st=$("#qeSt");st.textContent="✨ 찰칵상세가 그 부분만 고치고 있어요";
+ const fake=document.createElement("button");fake.id="edFix";fake.style.display="none";document.body.appendChild(fake);
+ await editSpot(QE.i,QE.rx,QE.ry,o);const ok=!/다시 시도/.test(fake.textContent);fake.remove();if(ok)qeClose();else{btn.disabled=false;btn.textContent="✏️ 다시 시도";st.textContent="잠깐 문제가 있었어요. 다시 눌러 주세요"}}
+document.addEventListener("mousedown",ev=>{const b=$("#qe");if(b&&!b.contains(ev.target)&&ev.target.id!=="cv")qeClose()});
 /* ===== 사진 넣고 바로 만들기 ===== */
 const qf=document.createElement("input");qf.type="file";qf.accept="image/*";qf.multiple=true;qf.hidden=true;document.body.appendChild(qf);
 let qCat="jewel",qFiles=[];
@@ -776,18 +805,7 @@ $("#qsGo").onclick=()=>{$("#qs").classList.remove("on");startMake($("#qsName").v
 const EDL={brand:"브랜드",hook:"첫 문장 (**강조**)",sub:"한 줄 설명",kw:"키워드 (한 줄에 하나)",en:"영어 문장",name:"상품 이름",story:"상품 이야기",say:"고객 속마음 (한 줄에 하나)",pts:"특징 (제목 | 설명)",spec:"규격 (항목 | 값)",use:"사용법 (한 줄에 하나)",ship:"배송 · 교환"},EDA=["kw","say","use"];
 function edClose(){$("#ed").classList.remove("on")}
 $("#cv").addEventListener("click",e=>{const cv=$("#cv"),rc=cv.getBoundingClientRect(),yy=(e.clientY-rc.top)/rc.height*cv.height;const rg=(cv._rg||[]).filter(r=>yy>=r.y0&&yy<r.y1).pop();if(!rg)return;
- const ed=$("#ed");if(rg.sec!=null){const q=S.sec[rg.sec];const rx=(e.clientX-rc.left)/rc.width,ry=(yy-rg.y0)/(rg.y1-rg.y0);ed.dataset.sec=rg.sec;ed.dataset.img="";ed._spot={rx,ry,photo:null};
-  $("#edB").innerHTML=`<div class="spotpv"><canvas id="spotC"></canvas><small>📍 누른 곳 (${rg.sec+1}번째 장)</small></div>
-   <div class="fg"><label>지금 글자 <small id="spotSt">읽는 중…</small></label><textarea id="spFrom" rows="2" placeholder="누른 곳의 글자"></textarea></div>
-   <div class="fg"><label>이렇게 바꾸기</label><textarea id="spTo" rows="2" placeholder="바꿀 글자를 적어 주세요"></textarea></div>
-   <div class="fg"><label>바라는 점 <small>예) 이 사진 배경을 더 밝게, 이 사람 빼기</small></label><textarea id="spReq" rows="2"></textarea></div>
-   <button type="button" class="btn gh" id="spPhoto" style="justify-content:center">🖼 이 자리 사진을 내 사진으로 바꾸기</button>
-   <button type="button" class="btn pr" id="edFix" style="justify-content:center">✏️ 누른 부분만 고치기 (약 15초)</button>
-   <button type="button" class="btn gh" id="edRe" style="justify-content:center">🔄 이 장 통째로 새로 그리기</button>${(q._hist&&q._hist.length)?`<button type="button" class="btn gh" id="edUndo" style="justify-content:center">↩ 이전 그림으로 되돌리기</button>`:""}
-   <small class="mu2">💡 나머지는 그대로 두고, 누른 곳만 고쳐요. 다른 곳을 고치려면 미리보기에서 그 곳을 다시 눌러 주세요.</small>`;
-  ed.classList.add("on");
-  {const c=$("#spotC"),W=c.width=320,H=c.height=150,sc=W/q.img.width,cy=ry*q.img.height,sy=Math.max(0,Math.min(q.img.height-H/sc,cy-H/sc/2));const g=c.getContext("2d");g.drawImage(q.img,0,sy,q.img.width,H/sc,0,0,W,H);g.strokeStyle="#FF1E1E";g.lineWidth=3;g.beginPath();g.arc(rx*W,(cy-sy)*sc,22,0,7);g.stroke()}
-  readSpot(rg.sec,rx,ry).then(r=>{if(ed._spot.rx!==rx)return;const st=$("#spotSt");if(r.kind==="photo"){st.textContent="사진이에요 · 아래 버튼으로 바꾸거나 바라는 점을 적어 주세요"}else{st.textContent="";$("#spFrom").value=r.text||"";if(!$("#spTo").value)$("#spTo").value=r.text||""}});return}
+ const ed=$("#ed");if(rg.sec!=null){quickEdit(rg.sec,(e.clientX-rc.left)/rc.width,(yy-rg.y0)/(rg.y1-rg.y0),e.clientX,e.clientY);return}
  ed.dataset.sec="";let h="";for(const k of rg.keys){const v=EDA.includes(k)?(S[k]||(k==="say"?lines(S.who):[])).join("\n"):(S[k]||"");h+=`<div class="fg"><label>${EDL[k]}</label><textarea data-k="${k}" rows="${Math.min(6,Math.max(2,String(v).split("\n").length+1))}">${v.replace(/</g,"&lt;")}</textarea></div>`}
  if(rg.img!=null)h+=`<button type="button" class="btn pr" id="edRe" style="justify-content:center">🔄 이 사진 다시 그리기</button><button type="button" class="btn gh" id="edUp" style="justify-content:center">⬆ 내 사진으로 바꾸기</button>`;
  $("#edB").innerHTML=h;ed.dataset.img=rg.img??"";ed.classList.add("on");const t=ed.querySelector("textarea");if(t)t.focus()});
