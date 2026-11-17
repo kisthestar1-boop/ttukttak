@@ -315,7 +315,7 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
  <div class="qp" id="qsPics"></div>
  <div class="fg"><label>상품 이름</label><input type="text" id="qsName" placeholder="예) 데일리 큐빅 실버 목걸이"></div>
  <div class="fg"><label>카테고리</label><div class="chips" id="qsCats"></div></div>
- <label class="ai"><input type="checkbox" id="qsAI"> <span><b>✨ AI로 만들기</b> · 사진을 보고 문구를 쓰고, 상품을 살린 장면 사진 4장을 새로 그려요 <small id="qsAIst"></small></span></label>
+ <label class="ai"><input type="checkbox" id="qsAI"> <span><b>✨ AI로 만들기</b> · 사진을 보고 문구를 쓰고, 상품을 살린 장면 사진 8장을 새로 그려요 <small id="qsAIst"></small></span></label>
  <details class="aik"><summary>AI 연결 설정</summary><div class="fg" style="margin-top:8px"><label>Gemini API 키 <small>이 기기에만 저장돼요</small></label><input type="password" id="qsKey" placeholder="AI Studio에서 받은 키" autocomplete="off"><small class="mu2">베타 시험용이에요. 정식 출시 때는 키 없이 크레딧으로 써요. 장면 사진 1장에 약 100원 내외의 사용료가 키 주인에게 붙어요.</small></div></details>
  <button type="button" class="btn pr" id="qsGo" style="justify-content:center">✦ 상세페이지 만들기</button>
  <small class="mu2">문구는 카테고리에 맞춰 먼저 채워 드려요. 만든 뒤 아래에서 마음껏 고칠 수 있어요.</small>
@@ -504,8 +504,12 @@ lb.onclick=e=>{if(e.target===lb)lb.classList.remove("on")};
 /* ===== AI (Gemini) — 베타: 사용자의 키로 브라우저에서 직접 호출 ===== */
 const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 const TXT_MODELS=["gemini-3.1-flash","gemini-3-flash","gemini-2.5-flash"],IMG_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image"];
-async function gem(models,body,key){let last;for(const m of models){const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body)});
+const PROXY="https://script.google.com/macros/s/AKfycbz09Pualc3dVyOYhjRIBLY1lVpeZMpi8YMoUFlBcqWjJ30gKJagm0HAhio3rFaIf_E/exec";
+async function gem(models,body,key){const op=models===IMG_MODELS?"scene":"copy";
+ if(PROXY&&!PROXY.startsWith("__")&&!key){const r=await fetch(PROXY,{method:"POST",body:JSON.stringify({op,body})});const j=await r.json();if(j.error)throw new Error(j.error);return j}
+ let last;for(const m of models){const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body)});
  if(r.status===404){last="모델 없음 "+m;continue}const j=await r.json();if(!r.ok)throw new Error(j.error?.message||("오류 "+r.status));return j}throw new Error(last||"모델을 찾지 못했어요")}
+const AI_ON=()=>(PROXY&&!PROXY.startsWith("__"))||!!(($("#qsKey")||{}).value||"").trim();
 function b64(file,max=1024){return new Promise(res=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.9).split(",")[1])};im.src=u})}
 const SCENES={jewel:["worn by a woman, close-up of neckline/ear/wrist, soft natural light, minimal neutral outfit, face cropped out","on a velvet jewelry tray beside a small gift box, warm studio light","macro close-up showing the material and sparkle, shallow depth of field","flat lay on linen with dried flowers and a coffee cup, top view"],
  beauty:["on a bathroom vanity shelf with soft morning light and green leaves","held in a hand with clean manicure, light pink background","macro texture shot with water droplets and fresh botanical ingredients","flat lay with towel and skincare props, top view, airy"],
@@ -516,7 +520,7 @@ const SCENES={jewel:["worn by a woman, close-up of neckline/ear/wrist, soft natu
 async function aiCopy(key,file,name,cat){const data=await b64(file,768);
  const prompt=`너는 한국 쿠팡·네이버 스마트스토어 상위 판매 상세페이지 카피라이터야. 사진 속 상품과 상품명 "${name}" (카테고리: ${CAT[cat].n})을 보고 상세페이지 문구를 써.
 규칙: 쉬운 한국어, 해요체. 사진에서 확인되지 않는 수치·성분·인증·후기·판매량은 절대 지어내지 마. 모르는 상품 정보 값은 "(확인 필요)"로 둬.
-JSON만 출력: {"sub":"첫 화면 아래 한 줄 설명 20자 이내","story":"상품 이야기 2~3문장(사진에서 보이는 사실 + 쓰는 장면), 90자 이내","brand":"영문 대문자 브랜드 느낌 2단어 이하(모르면 빈칸)","hook":"첫 화면 2줄(줄바꿈 \\n), 가장 강한 단어 하나를 **로 감싸기, 줄당 12자 이내","who":["고객이 겪는 상황·고민 3개, 각각 '~한 분'으로 끝나게"],"say":["위 3개를 고객 속마음 말풍선으로, '~해요/~어요' 말투, 18자 이내"],"points":[["특징 제목 8자 이내","설명 한 문장 30자 이내"],["",""],["",""]],"spec":[["항목","값 또는 (확인 필요)"]],"ship":"배송·교환 안내 한 줄(일반적인 문구)","scenes":["이 상품에 맞는 상세페이지용 사진 장면 8개를 영어로. 순서: 1 사용/착용 장면(얼굴은 가림), 2 라이프스타일 공간 연출, 3 소재·질감 매크로, 4 손에 든 크기감, 5 다른 각도 디테일, 6 선물·포장 연출, 7 플랫레이 탑뷰, 8 감성 무드컷. 각 장면은 배경·소품·빛을 구체적으로 한 문장"]}`;
+JSON만 출력: {"tpl":"상품 분위기에 맞는 틀 하나: clean(깔끔·화이트) / warm(감성·베이지) / bold(고급·다크)","col":"포인트 색 번호 0(골드)/1(로즈)/2(그린)/3(바이올렛) 중 상품 색과 어울리는 것","sub":"첫 화면 아래 한 줄 설명 20자 이내","story":"상품 이야기 2~3문장(사진에서 보이는 사실 + 쓰는 장면), 90자 이내","brand":"영문 대문자 브랜드 느낌 2단어 이하(모르면 빈칸)","hook":"첫 화면 2줄(줄바꿈 \\n), 가장 강한 단어 하나를 **로 감싸기, 줄당 12자 이내","who":["고객이 겪는 상황·고민 3개, 각각 '~한 분'으로 끝나게"],"say":["위 3개를 고객 속마음 말풍선으로, '~해요/~어요' 말투, 18자 이내"],"points":[["특징 제목 8자 이내","설명 한 문장 30자 이내"],["",""],["",""]],"spec":[["항목","값 또는 (확인 필요)"]],"ship":"배송·교환 안내 한 줄(일반적인 문구)","scenes":["이 상품에 맞는 상세페이지용 사진 장면 8개를 영어로. 순서: 1 사용/착용 장면(얼굴은 가림), 2 라이프스타일 공간 연출, 3 소재·질감 매크로, 4 손에 든 크기감, 5 다른 각도 디테일, 6 선물·포장 연출, 7 플랫레이 탑뷰, 8 감성 무드컷. 각 장면은 배경·소품·빛을 구체적으로 한 문장"]}`;
  const j=await gem(TXT_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.8}},key);
  const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"{}";return JSON.parse(t.replace(/^```json|```$/g,"").trim())}
 async function aiScene(key,file,name,scene){const data=await b64(file,1024);
@@ -545,12 +549,12 @@ function openQS(fs){qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);
  $("#qs").classList.add("on");setTimeout(()=>$("#qsName").focus(),50)}
 $("#qsCats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;qCat=b.dataset.c;[...$("#qsCats").children].forEach(x=>x.classList.toggle("on",x===b))};
 $(".qx").onclick=()=>$("#qs").classList.remove("on");$("#qs").onclick=e=>{if(e.target.id==="qs")$("#qs").classList.remove("on")};
-$("#qsKey").value=LS.get("dd_key")||"";$("#qsAI").checked=!!LS.get("dd_key");
+$("#qsKey").value=LS.get("dd_key")||"";$("#qsAI").checked=AI_ON();if(PROXY&&!PROXY.startsWith("__")){$(".aik").style.display="none";$(".ai").style.display="none"}
 $("#qsKey").addEventListener("input",e=>{LS.set("dd_key",e.target.value.trim());$("#qsAI").checked=!!e.target.value.trim()});
-async function runAI(nm,cat){const key=($("#qsKey").value||"").trim();if(!key){$("#qs details").open=true;$("#qsKey").focus();$("#qsAIst").textContent="먼저 아래 AI 연결 설정에 키를 넣어 주세요";return false}
+async function runAI(nm,cat){const key=($("#qsKey").value||"").trim();if(!key&&!AI_ON()){$("#qs details").open=true;$("#qsKey").focus();$("#qsAIst").textContent="먼저 아래 AI 연결 설정에 키를 넣어 주세요";return false}
  const file=qFiles[0];const steps=[["사진 보고 문구 쓰기","on"],["장면 사진 1",""],["장면 사진 2",""],["장면 사진 3",""],["장면 사진 4",""],["상세페이지 그리기",""]];
  $("#qs").classList.remove("on");$("#prog").classList.add("on");pgSet(steps);
- let cpScenes=null;try{const cp=await aiCopy(key,file,S.name,cat);cpScenes=cp.scenes;S.sub=cp.sub||"";S.story=cp.story||"";S.brand=cp.brand||"";S.hook=cp.hook||S.hook;if(Array.isArray(cp.who))S.who=cp.who.join("\n");if(Array.isArray(cp.say))S.say=cp.say;
+ let cpScenes=null;try{const cp=await aiCopy(key,file,S.name,cat);cpScenes=cp.scenes;S.sub=cp.sub||"";if(TPL[cp.tpl])S.tpl=cp.tpl;if([0,1,2,3].includes(+cp.col))S.col=+cp.col;S.story=cp.story||"";S.brand=cp.brand||"";S.hook=cp.hook||S.hook;if(Array.isArray(cp.who))S.who=cp.who.join("\n");if(Array.isArray(cp.say))S.say=cp.say;
   if(Array.isArray(cp.points))S.pts=cp.points.filter(p=>p&&p[0]).map(p=>p[0]+" | "+(p[1]||"")).join("\n");
   if(Array.isArray(cp.spec)&&cp.spec.length)S.spec=cp.spec.map(p=>p[0]+" | "+p[1]).join("\n");if(cp.ship)S.ship=cp.ship;steps[0][1]="ok";fill();draw()}catch(e){steps[0]=["문구: "+e.message+" (기본 문구로 진행)","er"]}
  let sc=(Array.isArray(cpScenes)&&cpScenes.length>=4)?cpScenes.slice(0,8):SCENES[cat]||SCENES.etc;if(sc.length<8)sc=sc.concat((SCENES[cat]||SCENES.etc)).slice(0,8);
