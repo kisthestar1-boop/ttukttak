@@ -125,6 +125,30 @@ input:focus,textarea:focus,select:focus{outline:2px solid color-mix(in srgb,var(
 .btn.sm{padding:9px 14px;font-size:.84rem}
 .law{font-size:.8rem;border-radius:12px;padding:10px 12px;display:none;flex-direction:column;gap:4px}.law.on{display:flex}.law.warn{background:#FFF4CC;color:#5A4300}.law.good{background:#E6F6EC;color:#1E5E3A}.law b{font-size:.84rem}.law mark{background:#FFD95A;border-radius:3px;padding:0 3px;color:#3A2A00}
 .ok{font-size:.78rem;color:#2D7F52;font-weight:700;min-height:1.2em}
+
+/* ===== 작업 창(새 창) ===== */
+.side3{display:none}
+body.studio nav,body.studio header,body.studio section:not(#make),body.studio .end,body.studio footer{display:none!important}
+body.studio #make{padding:0;background:#F4F3F8;min-height:100vh}
+body.studio #make>.in{max-width:none;padding:0}
+body.studio #make .eb,body.studio #make h2,body.studio #make .lead{display:none}
+body.studio .sbar{display:flex}
+.sbar{display:none;align-items:center;gap:12px;height:56px;padding:0 18px;background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}
+.sbar .sp{flex:1}.sbar small{color:var(--mu)}
+body.studio .mk{grid-template-columns:360px minmax(0,1fr) 230px;gap:0;align-items:stretch;min-height:calc(100vh - 56px)}
+body.studio .form{border-radius:0;border:0;border-right:1px solid var(--ln);max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px}
+body.studio .out{border-radius:0;border:0;top:56px;max-height:calc(100vh - 56px);background:#F4F3F8}
+body.studio .pv{height:calc(100vh - 200px)}
+body.studio .side3{display:flex;flex-direction:column;gap:8px;padding:16px;background:#fff;border-left:1px solid var(--ln);position:sticky;top:56px;max-height:calc(100vh - 56px);overflow:auto}
+.side3 b{font-size:.9rem;margin-bottom:4px}
+.qa{text-align:left;border:1px solid var(--ln);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:.84rem;font-weight:700}
+.qa:hover{border-color:var(--acc)}
+.start{position:fixed;inset:56px 0 0 0;z-index:8;background:rgba(244,243,248,.96);display:none;align-items:center;justify-content:center;padding:16px}
+body.studio.empty .start{display:flex}
+.start .box{width:min(560px,100%);background:#fff;border:2px dashed #CFC9F5;border-radius:26px;padding:46px 24px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;cursor:pointer}
+.start .box:hover{border-color:var(--acc)}
+.start .ic{font-size:2.6rem}.start b{font-size:1.25rem}.start small{color:var(--mu)}
+@media (max-width:900px){body.studio .mk{grid-template-columns:1fr}body.studio .form,body.studio .out,body.studio .side3{position:static;max-height:none}}
 /* price & faq */
 .price{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:760px){.price{grid-template-columns:1fr}}
@@ -215,7 +239,9 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
  <p class="src">학습 자료: <a href="https://inside.ampm.co.kr/insight/13535" target="_blank" rel="noopener">AMPM 인사이트 · 잘 팔리는 페이지의 구조</a> · <a href="https://windly.cc/blog/coupang-product-detail-page-tips" target="_blank" rel="noopener">쿠팡 상세페이지 팁(모바일 구매 비중·첫 화면 후킹)</a> · <a href="https://baejji.com/ko" target="_blank" rel="noopener">AI 상세페이지 서비스 사례</a></p>
 </div></section>
 
-<section id="make"><div class="in">
+<section id="make"><div class="sbar"><a class="logo" href="./" target="_blank"><i>✦</i>찰칵상세</a><small>작업 창</small><span class="sp"></span><small>사진은 이 기기에서만 처리돼요</small></div>
+<div class="start" id="start"><div class="box" id="startBox"><div class="ic">📸</div><b>상품 사진을 올려 주세요</b><small>여기를 누르거나 사진을 끌어다 놓으세요 · 1~6장</small><span class="btn pr" style="margin-top:6px">사진 고르기</span></div></div>
+<div class="in">
  <div class="eb">Make</div>
  <h2>지금 바로 만들어 보세요</h2>
  <p class="lead">왼쪽 칸을 채우면 오른쪽에 완성본이 그려져요. 처음엔 목걸이 예시가 채워져 있어요.</p>
@@ -245,6 +271,17 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
    <div class="pv"><canvas id="cv"></canvas></div>
    <div class="ok" id="ok"></div>
   </div>
+  <aside class="side3" id="side3">
+   <b>✦ 빠르게 고치기</b>
+   <button type="button" class="qa" data-a="hook">✍️ 첫 문장 다른 걸로</button>
+   <button type="button" class="qa" data-a="who">💬 고객 고민 다른 걸로</button>
+   <button type="button" class="qa" data-a="pts">⭐ 특징 문구 다른 걸로</button>
+   <button type="button" class="qa" data-a="tpl">🎨 스타일 바꾸기</button>
+   <button type="button" class="qa" data-a="col">🖌 포인트 색 바꾸기</button>
+   <button type="button" class="qa" data-a="ai">✨ AI로 다시 만들기</button>
+   <button type="button" class="qa" data-a="new">📸 다른 상품 사진 올리기</button>
+   <small class="mu2">고친 내용은 가운데에 바로 그려져요. 저장은 위의 ⬇ JPG 저장.</small>
+  </aside>
  </div>
 </div></section>
 
@@ -491,11 +528,21 @@ function pgSet(list){$("#pgs").innerHTML=list.map(([t,st])=>`<li class="${st}"><
 /* ===== 사진 넣고 바로 만들기 ===== */
 const qf=document.createElement("input");qf.type="file";qf.accept="image/*";qf.multiple=true;qf.hidden=true;document.body.appendChild(qf);
 let qCat="jewel",qFiles=[];
-document.querySelectorAll(".go").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();qf.click()}));
-qf.onchange=()=>{qFiles=[...qf.files].filter(f=>f.type.startsWith("image/")).slice(0,6);qf.value="";if(!qFiles.length)return;
+const STUDIO=location.hash==="#studio";
+document.querySelectorAll(".go").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();if(STUDIO){qf.click();return}const w=window.open(location.href.split("#")[0]+"#studio","_blank");if(!w)qf.click()}));
+if(STUDIO){document.body.classList.add("studio","empty");document.title="작업 창 · 찰칵상세";$("#startBox").onclick=()=>qf.click();
+ const st=$("#start");["dragover","dragenter"].forEach(t=>st.addEventListener(t,e=>{e.preventDefault()}));st.addEventListener("drop",e=>{e.preventDefault();openQS([...e.dataTransfer.files])})}
+$("#side3").onclick=e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a;
+ if(a==="hook"||a==="who"||a==="pts"){const arr=CAT[S.cat||"etc"][a];sIdx[a]=((sIdx[a]??-1)+1)%arr.length;S[a]=arr[sIdx[a]];if(a==="who")S.say=null;fill();draw()}
+ else if(a==="tpl"){const ks=Object.keys(TPL);S.tpl=ks[(ks.indexOf(S.tpl)+1)%ks.length];tpls();draw()}
+ else if(a==="col"){S.col=((S.col||0)+1)%COLS.length;cols();draw()}
+ else if(a==="ai"){if(!qFiles.length){qf.click();return}$("#qsAI").checked=true;runAI(S.name,S.cat).then(()=>{})}
+ else if(a==="new")qf.click()};
+qf.onchange=()=>{openQS([...qf.files]);qf.value=""};
+function openQS(fs){qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);if(!qFiles.length)return;
  $("#qsPics").innerHTML=qFiles.map(f=>`<img src="${URL.createObjectURL(f)}" alt="">`).join("");$("#qsName").value="";
  $("#qsCats").innerHTML=Object.entries(CAT).map(([k,v])=>`<button type="button" class="chip ${qCat===k?"on":""}" data-c="${k}">${v.n}</button>`).join("");
- $("#qs").classList.add("on");setTimeout(()=>$("#qsName").focus(),50)};
+ $("#qs").classList.add("on");setTimeout(()=>$("#qsName").focus(),50)}
 $("#qsCats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;qCat=b.dataset.c;[...$("#qsCats").children].forEach(x=>x.classList.toggle("on",x===b))};
 $(".qx").onclick=()=>$("#qs").classList.remove("on");$("#qs").onclick=e=>{if(e.target.id==="qs")$("#qs").classList.remove("on")};
 $("#qsKey").value=LS.get("dd_key")||"";$("#qsAI").checked=!!LS.get("dd_key");
@@ -520,7 +567,7 @@ $("#qsGo").onclick=async()=>{const nm=$("#qsName").value.trim()||"우리 상품"
  S={cat:qCat,brand:"",name:nm,hook:hk,who:C.who[0],pts:C.pts[0],spec:"상품명 | "+nm+"\n소재 | (적어 주세요)\n크기 | (적어 주세요)\n구성 | (적어 주세요)",ship:"배송·교환 안내를 적어 주세요",tpl:qCat==="food"?"bold":(qCat==="beauty"||qCat==="fashion")?"clean":"warm",col:{jewel:0,beauty:1,food:2,living:3,fashion:3,etc:3}[qCat]};
  fill();thumbs();draw();
  if($("#qsAI").checked){const ok=await runAI(nm,qCat);if(!ok)return}
- $("#qs").classList.remove("on");$("#ok").textContent="✓ 만들었어요! 왼쪽 칸을 고치면 바로 바뀌어요";
+ $("#qs").classList.remove("on");document.body.classList.remove("empty");$("#ok").textContent="✓ 만들었어요! 왼쪽 칸을 고치거나 오른쪽 버튼으로 바로 바꿔 보세요";
  document.querySelector("#make").scrollIntoView({behavior:"smooth"});const o=document.querySelector(".out");o.classList.add("made");setTimeout(()=>o.classList.remove("made"),2500)};
 $("#qsName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#qsGo").click()});
 
