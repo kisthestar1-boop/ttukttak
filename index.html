@@ -30,7 +30,7 @@ nav .btn{margin-left:auto;padding:9px 15px;font-size:.85rem}
 @media (max-width:760px){nav .lk{display:none}}
 /* hero */
 .hero{position:relative;overflow:hidden;background:var(--bg);text-align:center;padding:84px 0 40px}
-.hero .side{position:absolute;top:40px;width:200px;display:flex;flex-direction:column;gap:16px;opacity:.55;pointer-events:none}
+.hero .side{position:absolute;top:40px;bottom:0;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent 92%);mask-image:linear-gradient(#000 55%,transparent 92%);width:200px;display:flex;flex-direction:column;gap:16px;opacity:.55;pointer-events:none}
 .hero .side.l{left:max(0px,calc(50% - 760px))}.hero .side.r{right:max(0px,calc(50% - 760px))}
 .hero .side img{width:100%;height:300px;object-fit:cover;object-position:top;border-radius:16px;box-shadow:0 10px 30px rgba(30,20,60,.12)}
 .hero .side.r{top:120px}
@@ -45,15 +45,16 @@ nav .btn{margin-left:auto;padding:9px 15px;font-size:.85rem}
 .hero .btn.gh{border-radius:999px}
 .facts{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:22px;font-size:.84rem;color:var(--mu)}
 .facts span{display:flex;gap:6px;align-items:center}
-.demo{position:relative;z-index:2;max-width:980px;margin:46px auto 0;border:1px solid var(--ln);border-radius:20px;background:#fff;box-shadow:0 30px 70px rgba(40,30,90,.14);overflow:hidden;text-align:left}
+.demo{position:relative;z-index:2;max-width:980px;margin:46px auto 0;border:1px solid var(--ln);border-radius:20px;background:#fff;box-shadow:0 30px 70px rgba(40,30,90,.14);overflow:hidden;text-align:left}.hero{overflow:hidden!important;position:relative}.demo .arr{display:none}
 .demo .tb{height:40px;border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:6px;padding:0 14px;font-size:.74rem;color:var(--mu)}
 .demo .tb i{width:10px;height:10px;border-radius:50%;background:#E5E3EC}
-.demo .bd{display:grid;grid-template-columns:220px 1fr 220px;height:420px}
+.demo .bd{display:grid;grid-template-columns:220px 1fr 220px;height:520px}
 .demo .pn{padding:16px;border-right:1px solid var(--ln);font-size:.78rem;color:var(--mu);display:flex;flex-direction:column;gap:10px}
 .demo .pn b{color:var(--ink);font-size:.82rem}.demo .pn .f{background:#F6F5FA;border-radius:10px;padding:8px 10px}
 .demo .pn img{width:100%;border-radius:10px;aspect-ratio:1;object-fit:cover}
-.demo .cv{background:#F3F2F8;display:flex;justify-content:center;overflow:hidden}
-.demo .cv img{width:300px;height:auto;align-self:flex-start;margin-top:16px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.demo .cv{background:#F3F2F8;display:flex;justify-content:center;overflow:visible;position:relative}
+.demo .scr{width:340px;height:100%;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.14)}.demo .scr img{width:100%;height:auto;display:block;animation:ds 120s linear infinite alternate}@keyframes ds{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 520px))}}@media (prefers-reduced-motion:reduce){.demo .scr img{animation:none}}
+.demo .tag{align-self:flex-start;font-size:.66rem;font-weight:900;letter-spacing:.12em;color:var(--mu);background:#EFEDF5;border-radius:99px;padding:3px 9px}.demo .tag.af{position:absolute;left:14px;top:14px;z-index:2;color:#fff;background:linear-gradient(90deg,var(--p1),var(--p3))}.demo .arr{position:absolute;left:-17px;top:46%;z-index:3;width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--ln);display:grid;place-items:center;font-weight:900;color:var(--p2);box-shadow:0 6px 16px rgba(0,0,0,.1)}.demo .pn small{color:var(--mu)}
 .demo .rt{border-right:0;border-left:1px solid var(--ln)}
 .demo .chat{background:#F6F5FA;border-radius:12px 12px 12px 4px;padding:8px 10px;color:var(--ink)}
 .demo .chat.me{background:var(--acc);color:#fff;border-radius:12px 12px 4px 12px;align-self:flex-end}
@@ -68,7 +69,7 @@ h2{font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.25;letter-spacing:-.03em;m
 @media (max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}}
 .gc{background:var(--card);border:1px solid var(--ln);border-radius:18px;overflow:hidden;cursor:zoom-in;text-align:left;padding:0;color:var(--ink)}
 .gc .th{height:360px;overflow:hidden;background:#f3f0f7}
-.gc .th img{width:100%;height:auto;transition:transform 6s ease}.gc:hover .th img{transform:translateY(calc(-100% + 360px))}
+.gc .th img{width:100%;height:auto;transition:transform .8s ease}.gc:hover .th img{transform:translateY(calc(-100% + 360px));transition:transform 45s linear}
 .gc .cap{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.86rem}
 .gc .cap b{font-weight:800}.gc .cap span{font-size:.72rem;color:var(--mu);background:var(--bg);border-radius:99px;padding:2px 9px}
 .note{font-size:.78rem;color:var(--mu);margin-top:14px}
@@ -78,7 +79,12 @@ h2{font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.25;letter-spacing:-.03em;m
 .st .n{font-weight:900;font-size:.85rem;color:var(--acc)}
 .st h3{margin:0;font-size:1.2rem;letter-spacing:-.02em}
 .st p{margin:0;color:var(--mu);font-size:.92rem}
-.st .ill{height:120px;border-radius:14px;background:linear-gradient(140deg,#FFE3EE,#EBDDFB);display:grid;place-items:center;font-size:2.4rem;gap:6px}
+.st .ill{height:180px;border-radius:16px;background:linear-gradient(140deg,#FFE3EE,#EBDDFB);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px}
+.st .ill .chip{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:99px;padding:4px 10px;font-size:.72rem;font-weight:800;color:#3A2E5C;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.i1 .ph{width:118px;height:150px;border-radius:14px;background:#fff;padding:6px;box-shadow:0 10px 24px rgba(60,30,90,.18);display:flex;flex-direction:column;gap:5px;transform:rotate(-4deg)}.i1 .ph img{width:100%;height:118px;object-fit:cover;border-radius:9px}.i1 .ph span{font-size:.64rem;font-weight:800;color:#6B5E8C;text-align:center}
+.i1 .up{background:linear-gradient(90deg,var(--p1),var(--p3));color:#fff;font-weight:900;font-size:.8rem;border-radius:99px;padding:8px 14px;box-shadow:0 8px 18px rgba(123,108,255,.35)}
+.i2 img{width:62%;height:100%;object-fit:cover;object-position:top;box-shadow:0 10px 24px rgba(60,30,90,.18);margin-top:26px;border-radius:8px 8px 0 0}
+.i3 img{width:26%;height:128px;object-fit:cover;border-radius:8px;box-shadow:0 8px 18px rgba(60,30,90,.16);margin-top:-14px}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) .st .ill{background:linear-gradient(140deg,#3A2440,#2B2350)}}
 .why{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:w}
 @media (max-width:900px){.why{grid-template-columns:1fr 1fr}}
@@ -204,13 +210,13 @@ body.studio .prog{inset:auto 20px 20px auto;background:none;padding:0}body.studi
  <div class="in">
   <span class="badge">✦ 가입 없이 바로 · 지금은 베타 무료</span>
   <h1>사진 한 장이면,<br><em>상세페이지 완성</em></h1>
-  <p class="sub">상품 사진 <b>한 장</b>만 올리세요. AI가 페이지를 기획하고 섹션 12장을 통째로 디자인해, 쿠팡·스마트스토어에 바로 올리는 상세페이지를 약 2분 만에 완성해요.</p>
+  <p class="sub">상품 사진 <b>한 장</b>만 올리세요. 찰칵상세가 페이지를 기획하고 섹션 12장을 통째로 디자인해, 쿠팡·스마트스토어에 바로 올리는 상세페이지를 약 2분 만에 완성해요.</p>
   <div class="cta"><a class="btn pr go" href="#make">📸 사진 넣고 바로 만들기 →</a><a class="btn gh" href="#ex">결과물 보기</a></div>
   <div class="facts"><span>📸 사진 1장이면 끝</span><span>⏱ 약 2분</span><span>🎨 섹션 12장 AI 디자인</span><span>✏️ 눌러서 바로 고치기</span><span>🛒 쇼핑몰 9곳 규격</span></div>
   <div class="demo" aria-label="만들기 화면 미리보기"><div class="tb"><i></i><i></i><i></i><span style="margin-left:8px">찰칵상세 · 작업 화면</span></div>
-   <div class="bd"><div class="pn"><b>상품 정보</b><img id="dmPic" alt=""><div class="f">상품명 · <span id="dmName"></span></div><div class="f">입력 · 사진 1장</div><div class="f">✨ AI 기획 → 섹션 12장 디자인</div></div>
-   <div class="cv"><img id="phImg" alt="자동으로 만든 상세페이지 예시"></div>
-   <div class="pn rt"><b>눌러서 고치기</b><div class="chat me">3번째 장 배경을 더 밝게</div><div class="chat">3번째 장만 다시 그렸어요 ✓</div><div class="chat me">쿠팡용 섹션별로 저장</div><div class="chat">780px 폭으로 섹션별 저장했어요 ✓</div><small style="margin-top:auto">섹션을 누르면 그 장만 고쳐서 다시 그려요</small></div></div></div>
+   <div class="bd"><div class="pn"><span class="tag">BEFORE</span><b>📷 올린 사진 1장</b><img id="dmPic" alt=""><small>휴대폰으로 찍은 상품 사진이면 충분해요</small><div class="f">✍️ 적은 것 · 없음</div></div>
+   <div class="cv"><span class="tag af">AFTER · 2분 뒤</span><span class="arr">→</span><div class="scr"><img id="phImg" alt="자동으로 만든 상세페이지 예시"></div></div>
+   <div class="pn rt"><b>✏️ 찰칵상세에게 부탁하기</b><div class="chat me">3번째 장 배경을 더 밝게</div><div class="chat">3번째 장만 다시 그렸어요 ✓</div><div class="chat me">쿠팡용 섹션별로 저장</div><div class="chat">780px 폭으로 섹션별 저장했어요 ✓</div><small style="margin-top:auto">섹션을 누르면 그 장만 고쳐서 다시 그려요</small></div></div></div>
  </div>
 </header>
 
@@ -225,18 +231,18 @@ body.studio .prog{inset:auto 20px 20px auto;background:none;padding:0}body.studi
 <section id="how" style="padding-top:20px"><div class="in">
  <div class="eb">How it works</div>
  <h2>사진 올리고, 기다리고, 저장</h2>
- <p class="lead">적을 칸이 없어요. 상품 이름·카테고리·문구·규격까지 AI가 사진을 보고 알아서 채워요.</p>
+ <p class="lead">적을 칸이 없어요. 상품 이름·카테고리·문구·규격까지 찰칵상세가 사진을 보고 알아서 채워요.</p>
  <div class="steps">
-  <div class="st"><div class="ill">📸✍️</div><div class="n">01 · 올리기</div><h3>상품 사진 한 장</h3><p>흰 배경에 상품이 크게 나온 사진이면 가장 좋아요. 휴대폰으로 찍은 사진도 괜찮아요.</p></div>
-  <div class="st"><div class="ill">🎨👀</div><div class="n">02 · 약 2분</div><h3>AI가 기획하고 디자인</h3><p>잘 팔리는 페이지 순서대로 섹션 12장을 기획하고, 상품을 그대로 살린 착용·연출 사진과 한글 디자인을 한 장씩 그려요.</p></div>
-  <div class="st"><div class="ill">⬇️🛒</div><div class="n">03 · 고치고 저장</div><h3>눌러서 고치고, 규격대로 저장</h3><p>마음에 안 드는 장은 눌러서 글을 고치거나 "배경 더 밝게"처럼 요청해 다시 그려요. 쿠팡·스마트스토어 등 9곳 폭에 맞춰 통으로 또는 섹션별로 저장해요.</p></div>
+  <div class="st"><div class="ill i1"><div class="ph"><img data-raw="1" alt=""><span>📷 사진 1장</span></div><div class="up">⬆ 올리기</div></div><div class="n">01 · 올리기</div><h3>상품 사진 한 장</h3><p>흰 배경에 상품이 크게 나온 사진이면 가장 좋아요. 휴대폰으로 찍은 사진도 괜찮아요.</p></div>
+  <div class="st"><div class="ill i2"><img src="ex/serum.jpg" alt=""><span class="chip">✨ 찰칵상세가 디자인 중… 7/12</span></div><div class="n">02 · 약 2분</div><h3>찰칵상세가 기획하고 디자인</h3><p>잘 팔리는 페이지 순서대로 섹션 12장을 기획하고, 상품을 그대로 살린 착용·연출 사진과 한글 디자인을 한 장씩 그려요.</p></div>
+  <div class="st"><div class="ill i3"><img src="ex/coffee.jpg" alt="" style="object-position:0 18%"><img src="ex/coffee.jpg" alt="" style="object-position:0 40%"><img src="ex/coffee.jpg" alt="" style="object-position:0 62%"><span class="chip">⬇ 쿠팡 780px · 섹션별 저장</span></div><div class="n">03 · 고치고 저장</div><h3>눌러서 고치고, 규격대로 저장</h3><p>마음에 안 드는 장은 눌러서 글을 고치거나 "배경 더 밝게"처럼 요청해 다시 그려요. 쿠팡·스마트스토어 등 9곳 폭에 맞춰 통으로 또는 섹션별로 저장해요.</p></div>
  </div>
 </div></section>
 
 <section id="why" style="padding-top:20px"><div class="in">
  <div class="eb">Why it sells</div>
  <h2>잘 팔리는 상세페이지 순서를<br>그대로 담았어요</h2>
- <p class="lead">상세페이지는 꾸미기가 아니라 <span class="hl">설득하는 순서</span>예요. 판매 상위 페이지들이 공통으로 쓰는 흐름을 학습해, AI가 이 순서대로 섹션을 기획해요.</p>
+ <p class="lead">상세페이지는 꾸미기가 아니라 <span class="hl">설득하는 순서</span>예요. 판매 상위 페이지들이 공통으로 쓰는 흐름을 학습해, 찰칵상세가 이 순서대로 섹션을 기획해요.</p>
  <div class="why">
   <div class="wy"><b>첫 3초 후킹</b><small>첫 화면에 짧은 한두 줄 + 큰 상품 사진. 상품 이름보다 "나한테 왜 필요한지"가 먼저.</small></div>
   <div class="wy"><b>이런 분께</b><small>누가, 어떤 상황에서 쓰는지 3가지로 공감시키기.</small></div>
@@ -311,8 +317,8 @@ body.studio .prog{inset:auto 20px 20px auto;background:none;padding:0}body.studi
 
 <section id="faq" style="padding-top:20px"><div class="in" style="max-width:820px">
  <div class="eb">FAQ</div><h2>자주 묻는 질문</h2>
- <details><summary>사진이 1장뿐이어도 되나요?</summary><p>네, 한 장이면 충분해요. AI가 그 사진 속 상품을 그대로 살려 착용·연출·디테일 사진을 새로 그려요. 상품이 크고 선명하게 나온 사진일수록 결과가 좋아요.</p></details>
- <details><summary>올린 사진은 어디에 저장되나요?</summary><p>AI가 장면 사진과 문구를 만드는 동안에만 쓰고, 따로 저장하지 않아요. 완성된 상세페이지는 내 기기에 JPG로 저장돼요.</p></details>
+ <details><summary>사진이 1장뿐이어도 되나요?</summary><p>네, 한 장이면 충분해요. 찰칵상세가 그 사진 속 상품을 그대로 살려 착용·연출·디테일 사진을 새로 그려요. 상품이 크고 선명하게 나온 사진일수록 결과가 좋아요.</p></details>
+ <details><summary>올린 사진은 어디에 저장되나요?</summary><p>찰칵상세가 장면 사진과 문구를 만드는 동안에만 쓰고, 따로 저장하지 않아요. 완성된 상세페이지는 내 기기에 JPG로 저장돼요.</p></details>
  <details><summary>쿠팡·스마트스토어에 바로 올릴 수 있나요?</summary><p>세로로 긴 JPG로 저장되니 상세 설명에 이미지로 올리면 돼요. 마켓마다 권장 크기와 용량이 바뀔 수 있으니 올리기 전에 판매자 센터 안내를 한 번 확인해 주세요. 길면 "나눠 저장"을 쓰세요.</p></details>
  <details><summary>후기나 인증 문구도 넣어 주나요?</summary><p>아니요. 지어낸 후기·별점·수치, 사진으로 확인할 수 없는 인증·효능·소재 주장은 넣지 않아요. 상품 정보표는 흔히 쓰는 규격으로 채워 드리니, 실제 값과 다르면 눌러서 고쳐 주세요.</p></details>
  <details><summary>상업적으로 써도 되나요?</summary><p>네, 만든 상세페이지는 판매에 쓰셔도 돼요. 다만 AI가 그린 연출 사진이 실제 상품과 다르게 보이지 않는지 올리기 전에 꼭 확인해 주세요. 페이지 맨 아래에 AI 연출 안내 문구가 자동으로 들어가요.</p></details>
@@ -331,7 +337,7 @@ body.studio .prog{inset:auto 20px 20px auto;background:none;padding:0}body.studi
  <small class="mu2">문구는 카테고리에 맞춰 먼저 채워 드려요. 만든 뒤 아래에서 마음껏 고칠 수 있어요.</small>
 </div></div>
 <div class="qs" id="th"><div class="qb" style="width:min(860px,100%)"><div class="qh"><b>📣 썸네일 · 광고 이미지</b><button type="button" class="qx" onclick="$('#th').classList.remove('on')" aria-label="닫기">✕</button></div><small class="mu2">쇼핑 검색에서 눈길을 끄는 건 첫 사진이에요. 대표 이미지는 흰 배경이 쿠팡·네이버 기준에 가장 안전해요.</small><div id="thG" class="thg"></div></div></div>
-<div class="ed" id="ed"><div class="qh"><b>✏️ 이 부분 고치기</b><button type="button" class="qx" id="edX" aria-label="닫기">✕</button></div><div id="edB"></div><small class="mu2">고치는 대로 바로 그려져요</small></div>
+<div class="ed" id="ed"><div class="qh"><b>✏️ 찰칵상세에게 부탁하기</b><button type="button" class="qx" id="edX" aria-label="닫기">✕</button></div><div id="edB"></div><small class="mu2">고치는 대로 바로 그려져요</small></div>
 <div class="prog" id="prog"><div class="pgb"><b>📸 찰칵상세가 상세페이지를 만드는 중이에요</b><small class="mu2">약 2분 걸려요. 완성된 장부터 뒤에 바로 보여요. 창을 닫지 말아 주세요.</small><div class="pbar"><i id="pbarI"></i></div><ul class="pgs" id="pgs"></ul></div></div>
 <div class="lb" id="lb"><button aria-label="닫기" onclick="lb.classList.remove('on')">✕</button><img id="lbImg" alt="상세페이지 크게 보기"></div>
 
@@ -596,11 +602,12 @@ $("#save").onclick=()=>{const W=+$("#wsel").value,sp=+$("#split").value;const cv
  $("#ok").textContent=`✓ ${W}px · ${parts.length}장 저장했어요`};
 /* ===== 예시 갤러리 + 휴대폰 화면 ===== */
 const lb=$("#lb");
+document.querySelectorAll("[data-raw]").forEach(i=>{i.src=EX[0].img});
 const FONTS_OK=Promise.all(["400","500","700","800","900"].map(w=>document.fonts.load(w+" 20px Pretendard")).concat([document.fonts.load('italic 500 20px "Playfair Display"'),document.fonts.load('800 20px "Nanum Myeongjo"'),document.fonts.load('900 20px "Noto Sans KR"')])).catch(()=>{});
 (async()=>{await document.fonts.ready;await FONTS_OK;const ims=await Promise.all(EX.map(e=>load(e.img)));
  const gal=$("#gal");EX.forEach((e,i)=>{let url=e.page;if(!url){const cv=document.createElement("canvas");render(cv,e,ims[i]?[ims[i]]:[],860);url=cv.toDataURL("image/jpeg",.82)}
   const b=document.createElement("button");b.className="gc";b.innerHTML=`<div class="th"><img src="${url}" alt="${e.name} 상세페이지 예시"></div><div class="cap"><b>${e.name}</b><span>${CAT[e.cat].n} · ${TPL[e.tpl].n}</span></div>`;
-  b.onclick=()=>{$("#lbImg").src=url;lb.classList.add("on")};gal.appendChild(b);if(i===0){$("#phImg").src=url;$("#dmName").textContent=e.name;$("#dmPic").src=e.img}
+  b.onclick=()=>{$("#lbImg").src=url;lb.classList.add("on")};gal.appendChild(b);if(i===0){$("#phImg").src=url;($("#dmName")||{}).textContent=e.name;$("#dmPic").src=e.img}
   const sd=document.createElement("img");sd.src=url;sd.alt="";(i%2?$("#sideR"):$("#sideL")).appendChild(sd);const sd2=sd.cloneNode();sd2.style.objectPosition="center 40%";(i%2?$("#sideL"):$("#sideR")).appendChild(sd2)});
  IM=ims[0]?[ims[0]]:[];SRC=[EX[0].img];fill();thumbs();draw()})();
 lb.onclick=e=>{if(e.target===lb)lb.classList.remove("on")};
