@@ -458,10 +458,10 @@ function render(cv,d,imgs,W=860){
 
 function renderAny(cv,d,imgs,W){return d.sec&&d.sec.some(x=>x.img)?renderPosters(cv,d,W):render(cv,d,imgs,W)}
 /* ===== 섹션 포스터 방식 (쿠팡 상위 페이지처럼 섹션을 통째로 그리기) ===== */
-const SEC_PLAN="1 첫인상: 후킹 제목 + 상품을 쓰거나 착용한 메인 사진 + 아래 활용 장면 4개 원형 사진, 2 디자인 소개: 상품 클로즈업 + 특징 4개 원형 확대컷과 짧은 설명, 3 포인트1: 큰 연출 사진 + 아래 아이콘 4개 장점, 4 포인트2: 다른 장면의 큰 사진 + 비교·활용 사진 4개, 5 포인트3: 라이프스타일 사진 + 아이콘 3~4개, 6 디테일: 부위별 확대 사진 3~4개와 설명선, 7 선물·포장: 선물 상자 연출 + 아이콘 3개, 8 사용·관리법: 단계별 사진이나 아이콘 3~4개";
+const SEC_PLAN="1 첫인상: 위에 후킹 제목, 그 아래 화면의 70%를 채우는 아주 큰 메인 사진(상품을 쓰거나 착용한 감성 장면), 맨 아래 작은 원형 사진 4개, 2 디자인 소개: 상품 클로즈업 + 특징 4개 원형 확대컷과 짧은 설명, 3 포인트1: 큰 연출 사진 + 아래 아이콘 4개 장점, 4 포인트2: 다른 장면의 큰 사진 + 비교·활용 사진 4개, 5 포인트3: 라이프스타일 사진 + 아이콘 3~4개, 6 디테일: 부위별 확대 사진 3~4개와 설명선, 7 선물·포장: 선물 상자 연출 + 아이콘 3개, 8 사용·관리법: 단계별 사진이나 아이콘 3~4개";
 async function aiPlan(key,file,name){const data=await b64(file,768);
  const prompt=`너는 쿠팡·네이버 스마트스토어 상위 1% 상세페이지를 만드는 아트디렉터이자 카피라이터야. 사진 속 상품${name?` (판매자가 적은 이름: "${name}")`:""}으로 섹션 8장짜리 상세페이지를 기획해.
-규칙: 쉬운 한국어. 후기·별점·판매량·인증·효능 수치·가격은 절대 넣지 마. 과장(최고·1위·완벽)·의약품 오인 표현 금지. 한글은 짧게(이미지 안에 그대로 그려짐).
+규칙: 쉬운 한국어. 후기·별점·판매량·인증·효능 수치·가격은 절대 넣지 마. 사진으로 확인할 수 없는 품질·안전 주장(순은/금 함량, 도금 종류, 무니켈, 알레르기 안심, 변색 방지, 방수, 유기농, 원산지, 인증 등)도 섹션 글에 넣지 마 — 대신 디자인·분위기·쓰는 장면·스타일링·선물로 매력을 써. 과장(최고·1위·완벽)·의약품 오인 표현 금지. 한글은 짧게(이미지 안에 그대로 그려짐).
 섹션 순서: ${SEC_PLAN}.
 JSON만 출력:
 {"name":"상품 이름 18자 이내","cat":"jewel/beauty/food/living/fashion/etc","brand":"영문 대문자 2단어 이하","hook":"대표 문구 2줄(\\n), 줄당 11자 이내",
@@ -476,6 +476,7 @@ function secPrompt(sec,i,n,name,palette,styled,extra){
  const L=String(sec.h||"").split("\n").map(x=>`"${x.trim()}"`).join(" / ");const it=(sec.items||[]).map(x=>Array.isArray(x)?`"${x[0]}"${x[1]?` with caption "${x[1]}"`:""}`:`"${x}"`).join(", ");
  return `Design ONE complete section (${i+1} of ${n}) of a premium Korean e-commerce product detail page, the quality of top-selling Coupang and Naver pages. Vertical 2:3 poster.
 Product: ${name} — the product in the FIRST reference image. Reproduce it EXACTLY: same shape, color, material, proportions and details. Do not redesign it.${styled?" The SECOND reference image is section 1 of this same page: match its background color, typography, margins, icon style and photo grading exactly so all sections look like one continuous design.":""}
+Show the product used correctly and realistically for what it is (e.g. a necklace is worn around the neck, never on a wrist).${i===0?" This is the FIRST section: the main photo must be very large and immersive, about 70% of the height.":""}
 Design system: ${palette}. Elegant Korean serif headline, small clean Korean sans-serif body text, thin line icons, generous margins, luxury minimal magazine layout, professional commercial photography.
 Layout, top to bottom:
 1) small italic English script line: "${sec.en||""}"
