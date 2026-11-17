@@ -4,7 +4,8 @@
 <title>찰칵상세 · 사진 한 장으로 상세페이지</title>
 <meta name="description" content="상품 사진 한 장과 특징 몇 줄이면 쿠팡·스마트스토어용 상세페이지가 바로 완성돼요.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Myeongjo:wght@700;800&family=Playfair+Display:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{--bg:#FFFFFF;--ink:#16141F;--mu:#6B6878;--ln:#ECEAF2;--card:#fff;--p1:#5AA9FF;--p2:#7B6CFF;--p3:#A855F7;--acc:#6D5BFF;--y:#FFF1A8;--g:#D8F5E2}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#15111F;--ink:#F1ECFA;--mu:#A69DB8;--ln:#2E2742;--card:#1E1830;--y:#5A4E14;--g:#1E4830}}
@@ -139,6 +140,9 @@ body.studio .mk{grid-template-columns:360px minmax(0,1fr) 230px;gap:0;align-item
 body.studio .form{border-radius:0;border:0;border-right:1px solid var(--ln);max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px}
 body.studio .out{border-radius:0;border:0;top:56px;max-height:calc(100vh - 56px);background:#F4F3F8}
 body.studio .pv{height:calc(100vh - 200px)}
+body.studio:not(.edit) #f{display:none}body.studio:not(.edit) .mk{grid-template-columns:1fr 240px}body.studio .pv canvas{max-width:540px}
+.pv canvas{cursor:pointer}
+.ed{position:fixed;right:20px;top:90px;width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 120px);overflow:auto;background:var(--card,#fff);border:1px solid var(--ln);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.18);padding:16px;display:none;flex-direction:column;gap:10px;z-index:60}.ed.on{display:flex}.ed #edB{display:flex;flex-direction:column;gap:10px}
 body.studio .side3{display:flex;flex-direction:column;gap:8px;padding:16px;background:#fff;border-left:1px solid var(--ln);position:sticky;top:56px;max-height:calc(100vh - 56px);overflow:auto}
 .side3 b{font-size:.9rem;margin-bottom:4px}
 .qa{text-align:left;border:1px solid var(--ln);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:.84rem;font-weight:700}
@@ -239,7 +243,7 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
  <p class="src">학습 자료: <a href="https://inside.ampm.co.kr/insight/13535" target="_blank" rel="noopener">AMPM 인사이트 · 잘 팔리는 페이지의 구조</a> · <a href="https://windly.cc/blog/coupang-product-detail-page-tips" target="_blank" rel="noopener">쿠팡 상세페이지 팁(모바일 구매 비중·첫 화면 후킹)</a> · <a href="https://baejji.com/ko" target="_blank" rel="noopener">AI 상세페이지 서비스 사례</a></p>
 </div></section>
 
-<section id="make"><div class="sbar"><a class="logo" href="./" target="_blank"><i>✦</i>찰칵상세</a><small>작업 창</small><span class="sp"></span><small>사진은 이 기기에서만 처리돼요</small></div>
+<section id="make"><div class="sbar"><a class="logo" href="./" target="_blank"><i>✦</i>찰칵상세</a><small>작업 창</small><span class="sp"></span><small>사진 한 장만 올리면 끝 · 저장하지 않아요</small></div>
 <div class="start" id="start"><div class="box" id="startBox"><div class="ic">📸</div><b>상품 사진을 올려 주세요</b><small>여기를 누르거나 사진을 끌어다 놓으세요 · 1~6장</small><span class="btn pr" style="margin-top:6px">사진 고르기</span></div></div>
 <div class="in">
  <div class="eb">Make</div>
@@ -278,9 +282,10 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
    <button type="button" class="qa" data-a="pts">⭐ 특징 문구 다른 걸로</button>
    <button type="button" class="qa" data-a="tpl">🎨 스타일 바꾸기</button>
    <button type="button" class="qa" data-a="col">🖌 포인트 색 바꾸기</button>
-   <button type="button" class="qa" data-a="ai">✨ AI로 다시 만들기</button>
+   <button type="button" class="qa" data-a="ai">✨ AI로 전부 다시 만들기</button>
+   <button type="button" class="qa" data-a="form">✏️ 모든 문구 한 번에 고치기</button>
    <button type="button" class="qa" data-a="new">📸 다른 상품 사진 올리기</button>
-   <small class="mu2">고친 내용은 가운데에 바로 그려져요. 저장은 위의 ⬇ JPG 저장.</small>
+   <small class="mu2">💡 미리보기에서 고치고 싶은 곳을 누르면 그 부분 글·사진을 바로 바꿀 수 있어요.</small>
   </aside>
  </div>
 </div></section>
@@ -291,7 +296,7 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
  <p class="lead">혼자 만들기 어려우시면 맡기셔도 돼요.</p>
  <div class="price">
   <div class="pc hot"><span class="pb">지금 바로</span><h3>직접 만들기</h3><div class="pp">무료 <small style="font-size:.9rem;color:var(--mu)">베타</small></div>
-   <ul><li>가입 없이 바로 사용</li><li>스타일 3종 · 포인트 색 4종</li><li>쇼핑몰 9곳 규격 · 나눠 저장</li><li>사진은 서버로 보내지 않고 내 기기에서만 그려요</li></ul>
+   <ul><li>가입 없이 바로 사용</li><li>스타일 3종 · 포인트 색 4종</li><li>쇼핑몰 9곳 규격 · 나눠 저장</li><li>사진 한 장 → AI 장면 사진 9장 + 문구 자동</li><li>미리보기를 눌러 바로 고치기</li></ul>
    <a class="btn pr go" href="#make" style="align-self:flex-start">📸 사진 넣고 만들기</a></div>
   <div class="pc"><h3>맡기기</h3><div class="pp">문의</div>
    <ul><li>상품 사진 보정·배경 정리</li><li>상위 판매 페이지 분석 후 문구 작성</li><li>여러 상품 한 번에 제작</li></ul>
@@ -302,7 +307,7 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
 <section id="faq" style="padding-top:20px"><div class="in" style="max-width:820px">
  <div class="eb">FAQ</div><h2>자주 묻는 질문</h2>
  <details><summary>사진이 1장뿐이어도 되나요?</summary><p>네. 사진이 모자라면 대표 사진을 확대한 디테일 컷을 자동으로 만들어 빈칸을 채워요. 그래도 실제로 찍은 사진이 많을수록 좋아요.</p></details>
- <details><summary>올린 사진은 어디에 저장되나요?</summary><p>어디에도 보내지 않아요. 지금 보고 계신 브라우저 안에서만 그림을 그려 JPG로 저장해요.</p></details>
+ <details><summary>올린 사진은 어디에 저장되나요?</summary><p>AI가 장면 사진과 문구를 만드는 동안에만 쓰고, 따로 저장하지 않아요. 완성된 상세페이지는 내 기기에 JPG로 저장돼요.</p></details>
  <details><summary>쿠팡·스마트스토어에 바로 올릴 수 있나요?</summary><p>세로로 긴 JPG로 저장되니 상세 설명에 이미지로 올리면 돼요. 마켓마다 권장 크기와 용량이 바뀔 수 있으니 올리기 전에 판매자 센터 안내를 한 번 확인해 주세요. 길면 "나눠 저장"을 쓰세요.</p></details>
  <details><summary>후기나 인증 문구도 넣어 주나요?</summary><p>지어낸 후기·수치는 넣지 않아요. 실제로 받은 후기나 시험 성적이 있을 때만 특징 칸에 사실대로 적어 주세요.</p></details>
  <details><summary>상업적으로 써도 되나요?</summary><p>직접 찍은 사진과 직접 쓴 문구로 만든 결과물은 자유롭게 판매에 쓰셔도 돼요. 예시 페이지의 AI 사진은 설명용이라 판매에는 쓰지 말아 주세요.</p></details>
@@ -320,6 +325,7 @@ footer{padding:40px 0 60px;color:var(--mu);font-size:.8rem;text-align:center}
  <button type="button" class="btn pr" id="qsGo" style="justify-content:center">✦ 상세페이지 만들기</button>
  <small class="mu2">문구는 카테고리에 맞춰 먼저 채워 드려요. 만든 뒤 아래에서 마음껏 고칠 수 있어요.</small>
 </div></div>
+<div class="ed" id="ed"><div class="qh"><b>✏️ 이 부분 고치기</b><button type="button" class="qx" id="edX" aria-label="닫기">✕</button></div><div id="edB"></div><small class="mu2">고치는 대로 바로 그려져요</small></div>
 <div class="prog" id="prog"><div class="pgb"><b>✨ AI가 상세페이지를 만드는 중이에요</b><small class="mu2">사진 장면은 1장에 10~20초쯤 걸려요. 창을 닫지 말아 주세요.</small><ul class="pgs" id="pgs"></ul></div></div>
 <div class="lb" id="lb"><button aria-label="닫기" onclick="lb.classList.remove('on')">✕</button><img id="lbImg" alt="상세페이지 크게 보기"></div>
 
@@ -359,88 +365,94 @@ function focusOf(img){if(img._f)return img._f;try{const n=64,cv=document.createE
 function cover(c,img,x,y,w,h,zoom=1,dx=0,dy=0,r=0){if(!img)return;const _ai=img._ai;c.save();if(r){rr(c,x,y,w,h,r);c.clip()}else{c.beginPath();c.rect(x,y,w,h);c.clip()}
  const s=Math.max(w/img.width,h/img.height)*zoom,iw=img.width*s,ih=img.height*s;const [px,py]=zoom>1.01?focusOf(img):[.5,.5];
  let ox=x+w/2-(px+dx)*iw,oy=y+h/2-(py+dy)*ih;ox=Math.min(x,Math.max(x+w-iw,ox));oy=Math.min(y,Math.max(y+h-ih,oy));c.drawImage(img,ox,oy,iw,ih);
- if(_ai&&w>120){const fs=Math.max(11,w*.022);c.font=`600 ${fs}px "Noto Sans KR",sans-serif`;const t="AI 연출 이미지",tw=c.measureText(t).width+fs;c.fillStyle="rgba(0,0,0,.45)";c.fillRect(x+w-tw-fs*.6,y+h-fs*2.2,tw,fs*1.6);c.fillStyle="#fff";c.textAlign="left";c.textBaseline="top";c.fillText(t,x+w-tw-fs*.1,y+h-fs*1.95)}
+ if(_ai&&!img._own&&w>120){const fs=Math.max(11,w*.022);c.font=`600 ${fs}px "Noto Sans KR",sans-serif`;const t="AI 연출 이미지",tw=c.measureText(t).width+fs;c.fillStyle="rgba(0,0,0,.45)";c.fillRect(x+w-tw-fs*.6,y+h-fs*2.2,tw,fs*1.6);c.fillStyle="#fff";c.textAlign="left";c.textBaseline="top";c.fillText(t,x+w-tw-fs*.1,y+h-fs*1.95)}
  c.restore()}
 function lines(s){return String(s||"").split("\n").map(t=>t.trim()).filter(Boolean)}
 function pairs(s){return lines(s).map(l=>{const i=l.indexOf("|");return i<0?[l,""]:[l.slice(0,i).trim(),l.slice(i+1).trim()]})}
 function render(cv,d,imgs,W=860){
- const T=TPL[d.tpl]||TPL.clean,A=COLS[d.col]||COLS[0],k=W/860,P=60*k,IW=W-2*P;
- const c=cv.getContext("2d");cv.width=W;cv.height=16000*k;
+ const T=TPL[d.tpl]||TPL.clean,A=COLS[d.col]||COLS[0],k=W/860,P=64*k,IW=W-2*P,dark=d.tpl==="bold";
+ const c=cv.getContext("2d");cv.width=W;cv.height=19000*k;
  c.fillStyle=T.bg;c.fillRect(0,0,cv.width,cv.height);c.textBaseline="top";
- const F=(sz,wt="500 ",fam='"Noto Sans KR",sans-serif')=>{c.font=wt+(sz*k)+"px "+fam};
+ const SANS='"Pretendard","Noto Sans KR",sans-serif',EN='"Playfair Display",serif';
+ const F=(sz,wt="500 ",fam=SANS)=>{c.font=wt+(sz*k)+"px "+fam};
  const txt=(t,x,y,align="left",col=T.ink)=>{c.fillStyle=col;c.textAlign=align;c.fillText(t,x,y)};
- const pic=i=>imgs.length?imgs[i%imgs.length]:null;
- if(d.focus&&imgs[0])imgs[0]._f=d.focus;
- const crop=[[1,0,0],[1.5,0,0],[2,.03,-.03],[1.3,-.1,.06],[2.2,0,0],[1.7,.08,-.05],[1.4,-.05,-.08],[2.1,.02,.03],[1.8,-.04,.04],[1.25,.06,.02]];
- const shot=i=>{const n=imgs.length;if(i<n)return[pic(i),1,0,0];const cc=crop[i%crop.length];return[pic(i%Math.max(1,n)),cc[0],cc[1],cc[2]]};
  const plain=t=>String(t||"").replace(/\*\*/g,"");
- // **강조** 를 포인트 색으로 (한 줄)
- const rich=(t,x,y,align,base=T.ink)=>{const segs=String(t).split(/(\*\*[^*]+\*\*)/).filter(Boolean).map(z=>z.startsWith("**")?[z.slice(2,-2),A]:[z,base]);
+ if(d.focus&&imgs[0])imgs[0]._f=d.focus;
+ /* 사진 역할: AI 장면 순서대로, 없으면 원본을 다르게 잘라 쓰기 */
+ const orig=imgs.find(x=>x&&!x._ai)||imgs[0]||null,ai=imgs.filter(x=>x&&x._ai),user=imgs.filter(x=>x&&!x._ai);
+ const crop=[[1,0,0],[1.6,.02,-.02],[2.1,0,0],[1.35,-.08,.05],[1.8,.06,-.04],[1.45,-.04,-.07],[2.3,.02,.03],[1.25,.05,.02]];
+ const aiPos=[];ai.forEach((x,j)=>{aiPos[x._r??j]=x});const pool=ai.length?aiPos:user;const role=i=>[pool[i]||(i===0?orig:null),1,0,0];
+ const rich=(t,x,y,align,base=T.ink,hl=A)=>{const segs=String(t).split(/(\*\*[^*]+\*\*)/).filter(Boolean).map(z=>z.startsWith("**")?[z.slice(2,-2),hl]:[z,base]);
   const tw=segs.reduce((m,[q])=>m+c.measureText(q).width,0);let cx=align==="center"?x-tw/2:x;c.textAlign="left";for(const [q,col] of segs){c.fillStyle=col;c.fillText(q,cx,y);cx+=c.measureText(q).width}};
- // 여러 줄 강조 글 (줄바꿈 유지, 넘치면 감싸기)
- const richBlock=(t,x,y,maxW,lh,align)=>{for(const raw of String(t||"").split("\n")){const pl=plain(raw);const wl=wrap(c,pl,maxW);if(wl.length===1){rich(raw,x,y,align)}else{for(const w of wl){txt(w,x,y,align)}}y+=lh*wl.length}return y};
- const eyebrow=(t,x,y,align="center")=>{F(18,"800 ");c.save();c.letterSpacing=(5*k)+"px";txt(t,x,y,align,A);c.restore()};
- const para=(t,x,y,maxW,align="left",col=T.mu,sz=26,lh=42)=>{F(sz,"400 ");for(const l of wrap(c,t,maxW)){txt(l,x,y,align,col);y+=lh*k}return y};
- const aiImgs=imgs.filter(x=>x&&x._ai);let sIdx=1;const nextShot=()=>shot(sIdx++);
- let y=86*k;
- /* A. 히어로 */
- const heroH=(d.tpl==="warm"?1.5:1.42)*W;const hg=c.createLinearGradient(0,0,0,heroH);hg.addColorStop(0,T.bg2);hg.addColorStop(1,T.bg);c.fillStyle=hg;c.fillRect(0,0,W,heroH);
- eyebrow((d.brand||"").toUpperCase(),W/2,y);y+=50*k;
- F(60,T.hf,T.hfam);y=richBlock(d.hook,W/2,y,IW,80*k,"center")+4*k;
- F(25,"500 ");txt(d.sub||d.name||"",W/2,y,"center",T.mu);y+=66*k;
- if(d.tpl==="warm"){const aw=IW-40*k,ax=(W-aw)/2,ah=heroH-y-46*k;c.save();c.beginPath();c.moveTo(ax,y+aw/2);c.arc(ax+aw/2,y+aw/2,aw/2,Math.PI,0);c.lineTo(ax+aw,y+ah);c.lineTo(ax,y+ah);c.closePath();c.clip();cover(c,pic(0),ax,y,aw,ah,1,0,0);c.restore()}
- else cover(c,pic(0),0,y,W,heroH-y,1,0,0);
- y=heroH;
- /* B. 이야기 */
- if(d.story){y+=110*k;eyebrow("STORY",P,y,"left");y+=40*k;F(44,T.hf,T.hfam);for(const l of wrap(c,d.name||"",IW)){txt(l,P,y);y+=60*k}y+=18*k;
-  y=para(d.story,P,y,IW)+44*k;const [im,z,fx,fy]=nextShot();cover(c,im,P,y,IW,IW*.82,z,fx,fy,24*k);y+=IW*.82}
- /* C. 고객 고민 말풍선 */
- y+=110*k;eyebrow("CONSUMER CONCERNS",W/2,y);y+=40*k;F(42,T.hf,T.hfam);txt("이런 고민, 해 보셨나요?",W/2,y,"center");y+=92*k;
- lines(d.who).slice(0,3).forEach((l,i)=>{const q=l.replace(/(분|사람)$/,"").trim();const say=(d.say&&d.say[i])?"“"+String(d.say[i]).replace(/^["“]|["”]$/g,"")+"”":"“"+q.replace(/싶은$/,"싶어요").replace(/중인$/,"중이에요").replace(/좋아하는$/,"좋아해요").replace(/찾는$/,"찾고 있어요").replace(/필요한$/,"필요해요").replace(/는$/,"는 편이에요")+"”";
-  F(27,"500 ");const wl=wrap(c,say,IW*.66);const bw=Math.max(...wl.map(w=>c.measureText(w).width))+64*k,bh=(wl.length*40+44)*k;const left=i%2===0;const bx=left?P:W-P-bw;
-  c.fillStyle=T.bg2;rr(c,bx,y,bw,bh,26*k);c.fill();c.beginPath();if(left){c.moveTo(bx+34*k,y+bh-2);c.lineTo(bx+20*k,y+bh+22*k);c.lineTo(bx+62*k,y+bh-2)}else{c.moveTo(bx+bw-34*k,y+bh-2);c.lineTo(bx+bw-20*k,y+bh+22*k);c.lineTo(bx+bw-62*k,y+bh-2)}c.fill();
-  let ty=y+22*k;for(const w of wl){txt(w,bx+32*k,ty,"left",T.ink);ty+=40*k}y+=bh+44*k});
- y+=6*k;F(30,"800 ");txt("그래서 준비했어요",W/2,y,"center",A);y+=42*k;c.fillStyle=A;c.beginPath();c.moveTo(W/2-14*k,y);c.lineTo(W/2+14*k,y);c.lineTo(W/2,y+18*k);c.fill();y+=18*k;
- /* D. 포인트 — 세 가지 다른 배치 */
- const pts=pairs(d.pts).slice(0,4);
- pts.forEach(([t,s2],i)=>{const kind=i%3;y+=110*k;
-  if(kind===0){eyebrow("POINT 0"+(i+1),P,y,"left");y+=44*k;F(46,T.hf,T.hfam);for(const l of wrap(c,t,IW)){txt(l,P,y);y+=62*k}y+=14*k;
-   F(26,"400 ");const dl=wrap(c,s2,IW);dl.forEach((l,j)=>{if(j===0){const w=c.measureText(l).width;c.fillStyle=A+"33";c.fillRect(P-4*k,y+22*k,w+8*k,16*k)}txt(l,P,y,"left",j===0?T.ink:T.mu);y+=42*k});y+=40*k;
-   const [im,z,fx,fy]=nextShot();cover(c,im,P,y,IW,IW*.78,z,fx,fy,24*k);y+=IW*.78}
-  else if(kind===1){y-=40*k;const [im,z,fx,fy]=nextShot();const fh=W*1.05;cover(c,im,0,y,W,fh,z,fx,fy);const og=c.createLinearGradient(0,y+fh*.42,0,y+fh);og.addColorStop(0,"rgba(0,0,0,0)");og.addColorStop(1,"rgba(0,0,0,.74)");c.fillStyle=og;c.fillRect(0,y,W,fh);
-   F(26,"400 ");const dl=wrap(c,s2,IW);F(46,T.hf,T.hfam);const tl=wrap(c,t,IW);let ty=y+fh-60*k-dl.length*40*k-tl.length*62*k-60*k;
-   F(20,"800 ");c.save();c.letterSpacing=(4*k)+"px";txt("POINT 0"+(i+1),P,ty,"left","rgba(255,255,255,.85)");c.restore();ty+=46*k;
-   F(46,T.hf,T.hfam);for(const l of tl){txt(l,P,ty,"left","#fff");ty+=62*k}ty+=8*k;F(26,"400 ");for(const l of dl){txt(l,P,ty,"left","rgba(255,255,255,.9)");ty+=40*k}y+=fh}
-  else{eyebrow("POINT 0"+(i+1),W/2,y);y+=44*k;F(46,T.hf,T.hfam);for(const l of wrap(c,t,IW)){txt(l,W/2,y,"center");y+=62*k}y+=12*k;y=para(s2,W/2,y,IW-40*k,"center")+40*k;
-   const [im,z,fx,fy]=nextShot();cover(c,im,P,y,IW,IW*.72,z,fx,fy,22*k);y+=IW*.72+14*k;const cw=(IW-14*k)/2;
-   for(let j=0;j<2;j++){const [a,b,e,f]=nextShot();cover(c,a,P+j*(cw+14*k),y,cw,cw,b*1.1,e,f,18*k)}y+=cw}});
- /* E. 숫자로 보기 (상품 정보 중 짧은 값 3개) */
- const sp=pairs(d.spec);const nums=sp.filter(([a,b])=>b&&!/확인|적어/.test(b)&&b.length<=12).slice(0,3);
- if(nums.length>=2){y+=100*k;const cw=IW/nums.length;c.fillStyle=T.bg2;rr(c,P,y,IW,170*k,22*k);c.fill();
-  nums.forEach(([a,b],j)=>{const cx=P+cw*j+cw/2;let fs=36;F(fs,"800 ");while(c.measureText(b).width>cw-28*k&&fs>18){fs-=2;F(fs,"800 ")}txt(b,cx,y+44*k+(36-fs)*k*.5,"center",A);F(22,"500 ");txt(a,cx,y+104*k,"center",T.mu);if(j){c.fillStyle=T.ln;c.fillRect(P+cw*j,y+40*k,2*k,90*k)}});y+=170*k}
- /* F. 한눈에 보기 (아이콘 2×2) */
- if(pts.length>=3){y+=110*k;eyebrow("AT A GLANCE",W/2,y);y+=40*k;F(42,T.hf,T.hfam);txt("한눈에 보기",W/2,y,"center");y+=90*k;
-  const ncol=pts.length===3?3:2,gw=(IW-16*k*(ncol-1))/ncol,gh=(ncol===3?250:230)*k,icons=["✦","◎","♡","✓"];pts.slice(0,4).forEach(([t,s2],j)=>{const gx=P+(j%ncol)*(gw+16*k),gy=y+Math.floor(j/ncol)*(gh+16*k);
-   c.strokeStyle=T.ln;c.lineWidth=2*k;rr(c,gx,gy,gw,gh,22*k);c.stroke();c.fillStyle=A+"22";c.beginPath();c.arc(gx+gw/2,gy+58*k,30*k,0,7);c.fill();
-   F(28,"700 ");txt(icons[j],gx+gw/2,gy+42*k,"center",A);let tf=25;F(tf,"800 ");while(c.measureText(t).width>gw-24*k&&tf>16){tf-=1;F(tf,"800 ")}txt(t,gx+gw/2,gy+110*k,"center");F(20,"400 ");let ty=gy+150*k;for(const l of wrap(c,s2,gw-32*k).slice(0,3)){txt(l,gx+gw/2,ty,"center",T.mu);ty+=30*k}});
-  y+=Math.ceil(Math.min(4,pts.length)/ncol)*(gh+16*k)-16*k}
- /* G. 가까이 보기 */
- y+=110*k;eyebrow("DETAIL",W/2,y);y+=40*k;F(42,T.hf,T.hfam);txt("가까이 보기",W/2,y,"center");y+=86*k;
- const g=14*k,cw=(IW-g)/2;for(let i=0;i<4;i++){const [im,z,fx,fy]=nextShot();cover(c,im,P+(i%2)*(cw+g),y+Math.floor(i/2)*(cw+g),cw,cw,z*1.1,fx,fy,18*k)}y+=cw*2+g;
- /* H. 상품 정보 */
- if(sp.length){y+=110*k;eyebrow("INFORMATION",W/2,y);y+=40*k;F(42,T.hf,T.hfam);txt("상품 정보",W/2,y,"center");y+=80*k;
-  c.fillStyle=A;c.fillRect(P,y,IW,3*k);y+=3*k;
-  for(const [a,b] of sp){F(26,"400 ");const bl=wrap(c,b,IW-230*k);const rh=Math.max(78*k,(bl.length*38+40)*k);c.fillStyle=T.bg2;c.fillRect(P,y,200*k,rh);
-   F(25,"700 ");txt(a,P+26*k,y+(rh-34*k)/2);F(26,"400 ");let ty=y+(rh-bl.length*38*k)/2;for(const l of bl){txt(l,P+230*k,ty,"left",T.ink);ty+=38*k}
-   y+=rh;c.fillStyle=T.ln;c.fillRect(P,y,IW,2*k);y+=2*k}}
- /* I. 배송·안내 */
- const sh=lines(d.ship);if(sh.length){y+=70*k;F(25,"400 ");const all=sh.flatMap(l=>wrap(c,"· "+l,IW-80*k));const bh=(all.length*40+110)*k;c.strokeStyle=T.ln;c.lineWidth=2*k;rr(c,P,y,IW,bh,22*k);c.stroke();
-  F(26,"800 ");txt("배송 · 교환 안내",P+40*k,y+36*k);let ty=y+86*k;F(25,"400 ");for(const l of all){txt(l,P+40*k,ty,"left",T.mu);ty+=40*k}y+=bh}
- /* J. 마무리 */
- y+=100*k;const eh=440*k;const lastAI=aiImgs[aiImgs.length-1];cover(c,lastAI||pic(0),0,y,W,eh,lastAI?1:1.25,0,0);c.fillStyle="rgba(0,0,0,.45)";c.fillRect(0,y,W,eh);
- F(54,T.hf,T.hfam);const el=wrap(c,plain(d.hook).replace(/\n/g," "),IW);let ty=y+eh/2-el.length*36*k-30*k;for(const l of el){txt(l,W/2,ty,"center","#fff");ty+=72*k}
- F(24,"700 ");c.fillStyle=A;const bw=300*k;rr(c,W/2-bw/2,ty+20*k,bw,64*k,32*k);c.fill();txt("지금 만나보세요",W/2,ty+38*k,"center","#fff");y+=eh;
- F(18,"500 ");txt(d.brand||"",W/2,y+40*k,"center",T.mu);y+=100*k;
+ const richBlock=(t,x,y,maxW,lh,align,base=T.ink,hl=A)=>{for(const raw of String(t||"").split("\n")){const wl=wrap(c,plain(raw),maxW);if(wl.length===1)rich(raw,x,y,align,base,hl);else for(const w of wl)txt(w,x,y,align,base);y+=lh*wl.length}return y};
+ const eyebrow=(t,x,y,align="center",col=A)=>{F(17,"700 ");c.save();c.letterSpacing=(6*k)+"px";txt(t,x+(align==="center"?3*k:0),y,align,col);c.restore()};
+ const para=(t,x,y,maxW,align="left",col=T.mu,sz=27,lh=46)=>{F(sz,"400 ");for(const l of wrap(c,t,maxW)){txt(l,x,y,align,col);y+=lh*k}return y};
+ const head=(en,ko,y,align="center",x=W/2)=>{eyebrow(en,x,y,align);y+=42*k;F(46,T.hf,T.hfam);for(const l of wrap(c,ko,IW)){txt(l,x,y,align);y+=64*k}return y};
+ const full=(r,y,h)=>{const [im,z,fx,fy]=r;if(!im)return y;cover(c,im,0,y,W,h,z,fx,fy);return y+h};
+ const pts=pairs(d.pts).slice(0,4),sp=pairs(d.spec).filter(([a,b])=>a&&b&&!/확인 필요|적어 주세요/.test(b));
+ let y=0;const RG=[];cv._rg=RG;const reg=(y0,y1,keys,img)=>RG.push({y0,y1,keys,img});
+ /* A. 히어로: 글 위 + 큰 장면 사진 */
+ {const tg=c.createLinearGradient(0,0,0,560*k);tg.addColorStop(0,T.bg2);tg.addColorStop(1,T.bg);c.fillStyle=tg;c.fillRect(0,0,W,560*k);
+  y=104*k;if(d.brand)eyebrow(String(d.brand).toUpperCase(),W/2,y);y+=56*k;
+  F(66,T.hf,T.hfam);y=richBlock(d.hook,W/2,y,IW,88*k,"center")+10*k;
+  F(26,"500 ");for(const l of wrap(c,d.sub||d.name||"",IW))  {txt(l,W/2,y,"center",T.mu);y+=40*k}y+=56*k;
+  reg(0,y,["brand","hook","sub"]);const y0=y;y=full(role(0),y,W*1.18);reg(y0,y,[],0)}
+ /* 키워드 띠 */
+ {const kw=(Array.isArray(d.kw)&&d.kw.length?d.kw:pts.map(p=>p[0])).slice(0,3);if(kw.length){const bh=118*k;c.fillStyle=dark?T.bg2:A;c.fillRect(0,y,W,bh);const cw=W/kw.length;
+  kw.forEach((t,j)=>{let fs=27;F(fs,"700 ");while(c.measureText("✓ "+t).width>cw-30*k&&fs>17){fs--;F(fs,"700 ")}txt("✓ "+t,cw*j+cw/2,y+(bh-fs*k)/2,"center","#fff");if(j){c.fillStyle="rgba(255,255,255,.35)";c.fillRect(cw*j,y+36*k,2*k,bh-72*k)}});reg(y,y+bh,["kw"]);y+=bh}}
+ /* B. 무드 + 이야기 */
+ {const yb=y;y+=130*k;const en=d.en||(d.brand?"Made for every day":"Everyday, a little special");F(50,"italic 500 ",EN);for(const l of wrap(c,en,IW)){txt(l,W/2,y,"center",A);y+=64*k}y+=26*k;
+  F(40,T.hf,T.hfam);for(const l of wrap(c,d.name||"",IW)){txt(l,W/2,y,"center");y+=58*k}y+=22*k;
+  if(d.story)y=para(d.story,W/2,y,IW-40*k,"center")+20*k;y+=60*k;reg(yb,y,["en","name","story"]);const y0=y;y=full(role(2),y,W*1.12);reg(y0,y,[],2)}
+ /* C. 고객 고민 */
+ {const yc=y;y+=130*k;y=head("CONSUMER CONCERNS","이런 고민, 해 보셨나요?",y)+50*k;
+  lines(d.who).slice(0,3).forEach((l,i)=>{const q=l.replace(/(분|사람)$/,"").trim();const say=(d.say&&d.say[i])?"“"+String(d.say[i]).replace(/^["“]|["”]$/g,"")+"”":"“"+q.replace(/싶은$/,"싶어요").replace(/중인$/,"중이에요").replace(/좋아하는$/,"좋아해요").replace(/찾는$/,"찾고 있어요").replace(/필요한$/,"필요해요").replace(/는$/,"는 편이에요")+"”";
+   F(29,"500 ");const wl=wrap(c,say,IW*.7);const bw=Math.max(...wl.map(w=>c.measureText(w).width))+72*k,bh=(wl.length*44+50)*k;const left=i%2===0;const bx=left?P:W-P-bw;
+   c.save();c.shadowColor="rgba(0,0,0,.06)";c.shadowBlur=24*k;c.shadowOffsetY=8*k;c.fillStyle=dark?T.bg2:"#fff";rr(c,bx,y,bw,bh,30*k);c.fill();c.restore();
+   c.fillStyle=dark?T.bg2:"#fff";c.beginPath();if(left){c.moveTo(bx+36*k,y+bh-2);c.lineTo(bx+22*k,y+bh+24*k);c.lineTo(bx+66*k,y+bh-2)}else{c.moveTo(bx+bw-36*k,y+bh-2);c.lineTo(bx+bw-22*k,y+bh+24*k);c.lineTo(bx+bw-66*k,y+bh-2)}c.fill();
+   let ty=y+25*k;for(const w of wl){txt(w,bx+36*k,ty,"left",T.ink);ty+=44*k}y+=bh+46*k});
+  y+=24*k;F(34,"800 ");txt("그래서 준비했어요",W/2,y,"center",A);y+=52*k;c.strokeStyle=A;c.lineWidth=3*k;c.beginPath();c.moveTo(W/2-16*k,y);c.lineTo(W/2,y+16*k);c.lineTo(W/2+16*k,y);c.stroke();y+=16*k;reg(yc,y,["say"])}
+ /* D. 포인트: 큰 번호 + 세 가지 배치 */
+ const pr=[1,3,4,5];
+ pts.forEach(([t,s2],i)=>{const ri=pr[i]||i+1,r=role(ri),kind=r[0]?i%3:0,no="0"+(i+1),yp=y;y+=140*k;
+  if(kind===0){F(120,"italic 500 ",EN);txt(no,P,y,"left",A);y+=150*k;eyebrow("POINT "+no,P,y,"left",T.mu);y+=40*k;F(52,T.hf,T.hfam);for(const l of wrap(c,t,IW)){txt(l,P,y);y+=70*k}y+=14*k;
+   y=para(s2,P,y,IW)+54*k;reg(yp,y,["pts"]);const y0=y;y=full(r,y,W*1.1);reg(y0,y,["pts"],ri)}
+  else if(kind===1){const fh=W*1.3;full(r,y,fh);const og=c.createLinearGradient(0,y+fh*.45,0,y+fh);og.addColorStop(0,"rgba(0,0,0,0)");og.addColorStop(1,"rgba(0,0,0,.78)");c.fillStyle=og;c.fillRect(0,y,W,fh);
+   F(27,"400 ");const dl=wrap(c,s2,IW);F(52,T.hf,T.hfam);const tl=wrap(c,t,IW);let ty=y+fh-70*k-dl.length*44*k-tl.length*70*k-30*k-130*k;
+   F(96,"italic 500 ",EN);txt(no,P,ty,"left","rgba(255,255,255,.95)");ty+=126*k;F(52,T.hf,T.hfam);for(const l of tl){txt(l,P,ty,"left","#fff");ty+=70*k}ty+=12*k;F(27,"400 ");for(const l of dl){txt(l,P,ty,"left","rgba(255,255,255,.88)");ty+=44*k}reg(yp,y,["pts"]);reg(y,y+fh,["pts"],ri);y+=fh}
+  else{F(120,"italic 500 ",EN);txt(no,W/2,y,"center",A);y+=150*k;eyebrow("POINT "+no,W/2,y,"center",T.mu);y+=40*k;F(52,T.hf,T.hfam);for(const l of wrap(c,t,IW)){txt(l,W/2,y,"center");y+=70*k}y+=12*k;y=para(s2,W/2,y,IW-40*k,"center")+54*k;
+   reg(yp,y,["pts"]);const [im,z,fx,fy]=r;cover(c,im,P,y,IW,IW*1.12,z,fx,fy,28*k);reg(y,y+IW*1.12,["pts"],ri);y+=IW*1.12}});
+ /* E. 숫자로 보기 */
+ const nums=sp.filter(([a,b])=>b.length<=12&&a!=="상품명").slice(0,3);
+ if(nums.length>=2){y+=130*k;const cw=IW/nums.length,bh=190*k;c.fillStyle=T.bg2;rr(c,P,y,IW,bh,26*k);c.fill();
+  nums.forEach(([a,b],j)=>{const cx=P+cw*j+cw/2;let fs=40;F(fs,"800 ");while(c.measureText(b).width>cw-30*k&&fs>18){fs-=2;F(fs,"800 ")}txt(b,cx,y+52*k+(40-fs)*k*.5,"center",A);F(23,"500 ");txt(a,cx,y+118*k,"center",T.mu);if(j){c.fillStyle=T.ln;c.fillRect(P+cw*j,y+46*k,2*k,98*k)}});reg(y-130*k,y+bh,["spec"]);y+=bh}
+ /* F. 실제 상품 사진 (신뢰) */
+ if(orig&&ai.length){y+=140*k;y=head("REAL PRODUCT","실제 상품 그대로예요",y)+18*k;y=para("위 연출 사진은 AI로 만들었어요. 받으실 상품은 아래 실제 사진과 같아요.",W/2,y,IW-40*k,"center",T.mu,24,38)+44*k;
+  const s=IW;c.fillStyle=T.bg2;rr(c,P,y,s,s,28*k);c.fill();c.save();rr(c,P,y,s,s,28*k);c.clip();const sc=Math.min(s*.9/orig.width,s*.9/orig.height);c.drawImage(orig,P+(s-orig.width*sc)/2,y+(s-orig.height*sc)/2,orig.width*sc,orig.height*sc);c.restore();
+  F(20,"700 ");const tg="실제 사진",tw=c.measureText(tg).width+36*k;c.fillStyle=A;rr(c,P+24*k,y+24*k,tw,46*k,23*k);c.fill();txt(tg,P+24*k+tw/2,y+36*k,"center","#fff");y+=s}
+ /* G. 이렇게 써요 */
+ const use=(Array.isArray(d.use)?d.use:[]).filter(Boolean).slice(0,3);
+ if(use.length>=2){const yu=y;y+=140*k;y=head("HOW TO USE","이렇게 써요",y)+40*k;
+  use.forEach((u,j)=>{F(27,"500 ");const wl=wrap(c,u,IW-150*k);const bh=Math.max(120,wl.length*42+64)*k;c.fillStyle=dark?T.bg2:"#fff";c.strokeStyle=T.ln;c.lineWidth=2*k;rr(c,P,y,IW,bh,24*k);c.fill();c.stroke();
+   c.fillStyle=A;c.beginPath();c.arc(P+64*k,y+bh/2,32*k,0,7);c.fill();F(30,"italic 600 ",EN);txt(String(j+1),P+64*k,y+bh/2-19*k,"center","#fff");
+   F(27,"500 ");let ty=y+(bh-wl.length*42*k)/2;for(const l of wl){txt(l,P+124*k,ty,"left",T.ink);ty+=42*k}y+=bh+16*k});y-=16*k;reg(yu,y,["use"])}
+ /* H. 가까이 보기: 서로 다른 두 장 */
+ {const [a]=role(6),[b]=role(7);if(a||b){y+=140*k;y=head("DETAIL","가까이 보기",y)+40*k;const g=14*k,two=a&&b,cw=two?(IW-g)/2:IW,ch=two?cw*1.4:IW*1.1;
+  if(a){cover(c,a,P,y,cw,ch,1,0,0,24*k);reg(y,y+ch,[],6)}if(b){const bx=two?P+cw+g:P;cover(c,b,bx,y,cw,ch,1,0,0,24*k);if(!a)reg(y,y+ch,[],7)}y+=ch}}
+ /* I. 상품 정보 */
+ if(sp.length){const yi=y;y+=140*k;y=head("INFORMATION","상품 정보",y)+30*k;c.fillStyle=T.ink;c.fillRect(P,y,IW,3*k);y+=3*k;
+  for(const [a,b] of sp){F(26,"400 ");const bl=wrap(c,b,IW-240*k);const rh=Math.max(84*k,(bl.length*40+44)*k);c.fillStyle=T.bg2;c.fillRect(P,y,210*k,rh);
+   F(25,"700 ");txt(a,P+28*k,y+(rh-34*k)/2);F(26,"400 ");let ty=y+(rh-bl.length*40*k)/2;for(const l of bl){txt(l,P+240*k,ty,"left",T.ink);ty+=40*k}
+   y+=rh;c.fillStyle=T.ln;c.fillRect(P,y,IW,2*k);y+=2*k}reg(yi,y,["spec"])}
+ /* J. 배송·안내 */
+ const sh=lines(d.ship);if(sh.length){y+=80*k;F(25,"400 ");const all=sh.flatMap(l=>wrap(c,"· "+l,IW-84*k));const bh=(all.length*40+116)*k;c.fillStyle=T.bg2;rr(c,P,y,IW,bh,24*k);c.fill();
+  F(27,"800 ");txt("배송 · 교환 안내",P+42*k,y+38*k);let ty=y+92*k;F(25,"400 ");for(const l of all){txt(l,P+42*k,ty,"left",T.mu);ty+=40*k}reg(y,y+bh,["ship"]);y+=bh}
+ /* K. 마무리 */
+ {y+=130*k;const eh=W*1.05;const r=role(8)[0]?role(8):[null];if(r[0])full(r,y,eh);else{c.fillStyle=dark?T.bg2:A;c.fillRect(0,y,W,eh)}const og=c.createLinearGradient(0,y,0,y+eh);og.addColorStop(0,"rgba(0,0,0,.15)");og.addColorStop(1,"rgba(0,0,0,.62)");c.fillStyle=og;c.fillRect(0,y,W,eh);
+  if(d.brand){c.save();c.letterSpacing=(6*k)+"px";F(18,"700 ");txt(String(d.brand).toUpperCase(),W/2+3*k,y+eh-380*k,"center","rgba(255,255,255,.85)");c.restore()}
+  F(58,T.hf,T.hfam);let ty=y+eh-320*k;const hl=String(d.hook||"").split("\n");ty-=Math.max(0,hl.length-2)*80*k;ty=richBlock(d.hook,W/2,ty,IW,80*k,"center","#fff","#FFE3A3");
+  F(25,"700 ");const bw=320*k;c.fillStyle="#fff";rr(c,W/2-bw/2,ty+34*k,bw,70*k,35*k);c.fill();txt("지금 만나보세요",W/2,ty+54*k,"center","#111");reg(y,y+eh,["hook"],8);y+=eh}
+ y+=0;
  const out=document.createElement("canvas");out.width=W;out.height=Math.ceil(y);out.getContext("2d").drawImage(cv,0,0);cv.width=W;cv.height=out.height;cv.getContext("2d").drawImage(out,0,0);return cv.height}
 
 
@@ -494,7 +506,8 @@ $("#save").onclick=()=>{const W=+$("#wsel").value,sp=+$("#split").value;const cv
  $("#ok").textContent=`✓ ${W}px · ${parts.length}장 저장했어요`};
 /* ===== 예시 갤러리 + 휴대폰 화면 ===== */
 const lb=$("#lb");
-(async()=>{await document.fonts.ready;const ims=await Promise.all(EX.map(e=>load(e.img)));
+const FONTS_OK=Promise.all(["400","500","700","800","900"].map(w=>document.fonts.load(w+" 20px Pretendard")).concat([document.fonts.load('italic 500 20px "Playfair Display"'),document.fonts.load('800 20px "Nanum Myeongjo"'),document.fonts.load('900 20px "Noto Sans KR"')])).catch(()=>{});
+(async()=>{await document.fonts.ready;await FONTS_OK;const ims=await Promise.all(EX.map(e=>load(e.img)));
  const gal=$("#gal");EX.forEach((e,i)=>{const cv=document.createElement("canvas");render(cv,e,ims[i]?[ims[i]]:[],860);const url=cv.toDataURL("image/jpeg",.82);
   const b=document.createElement("button");b.className="gc";b.innerHTML=`<div class="th"><img src="${url}" alt="${e.name} 상세페이지 예시"></div><div class="cap"><b>${e.name}</b><span>${CAT[e.cat].n} · ${TPL[e.tpl].n}</span></div>`;
   b.onclick=()=>{$("#lbImg").src=url;lb.classList.add("on")};gal.appendChild(b);if(i===0){$("#phImg").src=url;$("#dmName").textContent=e.name;$("#dmPic").src=e.img}
@@ -518,14 +531,20 @@ const SCENES={jewel:["worn by a woman, close-up of neckline/ear/wrist, soft natu
  fashion:["worn by a model in a clean city street, face cropped out","styled flat lay outfit with accessories, top view","close-up of fabric texture and stitching","hanging on a minimal rack in a bright studio"],
  etc:["in use in a bright everyday home scene","on a clean table with soft daylight and simple props","close-up detail of key part","flat lay with related props, top view"]};
 async function aiCopy(key,file,name,cat){const data=await b64(file,768);
- const prompt=`너는 한국 쿠팡·네이버 스마트스토어 상위 판매 상세페이지 카피라이터야. 사진 속 상품과 상품명 "${name}" (카테고리: ${CAT[cat].n})을 보고 상세페이지 문구를 써.
-규칙: 쉬운 한국어, 해요체. 사진에서 확인되지 않는 수치·성분·인증·후기·판매량은 절대 지어내지 마. 모르는 상품 정보 값은 "(확인 필요)"로 둬.
-JSON만 출력: {"tpl":"상품 분위기에 맞는 틀 하나: clean(깔끔·화이트) / warm(감성·베이지) / bold(고급·다크)","col":"포인트 색 번호 0(골드)/1(로즈)/2(그린)/3(바이올렛) 중 상품 색과 어울리는 것","sub":"첫 화면 아래 한 줄 설명 20자 이내","story":"상품 이야기 2~3문장(사진에서 보이는 사실 + 쓰는 장면), 90자 이내","brand":"영문 대문자 브랜드 느낌 2단어 이하(모르면 빈칸)","hook":"첫 화면 2줄(줄바꿈 \\n), 가장 강한 단어 하나를 **로 감싸기, 줄당 12자 이내","who":["고객이 겪는 상황·고민 3개, 각각 '~한 분'으로 끝나게"],"say":["위 3개를 고객 속마음 말풍선으로, '~해요/~어요' 말투, 18자 이내"],"points":[["특징 제목 8자 이내","설명 한 문장 30자 이내"],["",""],["",""]],"spec":[["항목","값 또는 (확인 필요)"]],"ship":"배송·교환 안내 한 줄(일반적인 문구)","scenes":["이 상품에 맞는 상세페이지용 사진 장면 8개를 영어로. 순서: 1 사용/착용 장면(얼굴은 가림), 2 라이프스타일 공간 연출, 3 소재·질감 매크로, 4 손에 든 크기감, 5 다른 각도 디테일, 6 선물·포장 연출, 7 플랫레이 탑뷰, 8 감성 무드컷. 각 장면은 배경·소품·빛을 구체적으로 한 문장"]}`;
+ const prompt=`너는 한국 쿠팡·네이버 스마트스토어 상위 판매 상세페이지 카피라이터이자 아트디렉터야. 사진 속 상품${name?` (판매자가 적은 이름: "${name}")`:""}을 보고 상세페이지 내용을 만들어.
+규칙: 쉬운 한국어, 해요체. 후기·판매량·인증·효능 수치는 절대 지어내지 마. 과장(최고·1위·완벽)·의약품 오인 표현 금지.
+JSON만 출력:
+{"name":"상품 이름 18자 이내 (판매자 이름이 있으면 그대로)","cat":"jewel/beauty/food/living/fashion/etc 중 하나","tpl":"clean(깔끔·화이트) / warm(감성·베이지) / bold(고급·다크) 중 상품 분위기에 맞는 것","col":"포인트 색 0(골드)/1(로즈)/2(그린)/3(바이올렛) 중 상품과 어울리는 번호",
+"brand":"영문 대문자 브랜드 느낌 2단어 이하","hook":"첫 화면 2줄(줄바꿈 \\n), 가장 강한 단어 하나를 **로 감싸기, 줄당 11자 이내","sub":"한 줄 설명 22자 이내","kw":["핵심 키워드 3개, 각 7자 이내"],"en":"감성 영어 문장 6단어 이내","story":"상품 이야기 2~3문장, 쓰는 장면이 그려지게, 90자 이내",
+"who":["이런 분께 3개, '~한 분'"],"say":["위 3개를 고객 속마음 말풍선으로, 18자 이내"],"points":[["특징 제목 9자 이내","설명 한 문장 32자 이내"],["",""],["",""],["",""]],
+"spec":[["항목","값"]],"use":["사용·관리 방법 3단계, 각 24자 이내"],
+"scenes":["상세페이지용 사진 장면 9개를 영어로, 이 순서: 1 hero: 상품이 주인공인 고급 광고 컷, 2 상품을 실제로 쓰거나 착용한 장면(얼굴은 화면 밖), 3 라이프스타일 공간 연출, 4 소재·질감 매크로, 5 손에 든 크기감, 6 다른 각도 디테일, 7 선물·포장 연출, 8 플랫레이 탑뷰, 9 마무리용 분위기 컷(넓은 공간, 감성적 빛). 각 장면마다 배경·소품·조명·색감을 구체적으로 한 문장. 상품과 어울리는 하나의 통일된 색감 톤 유지"]}
+spec은 이런 종류 상품에서 흔히 쓰는 표준 규격으로 4~6줄 채워(예: 소재, 크기, 용량, 구성, 원산지, 보관). 사진에서 보이는 건 그대로, 안 보이는 건 이 종류에서 가장 일반적인 값으로.`;
  const j=await gem(TXT_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.8}},key);
  const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"{}";return JSON.parse(t.replace(/^```json|```$/g,"").trim())}
 async function aiScene(key,file,name,scene){const data=await b64(file,1024);
- const prompt=`Professional Korean e-commerce product photo of "${name}". Use the product in the reference image EXACTLY as it is — same shape, color, material, size and details; do not redesign it, do not add or remove parts. Scene: ${scene}. Photorealistic, premium, soft natural light, clean composition with some empty space. No text, no logos, no watermarks. Square image.`;
- const j=await gem(IMG_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseModalities:["IMAGE"]}},key);
+ const prompt=`High-end commercial product photograph for a premium Korean online store detail page, product: "${name}". Use the product in the reference image EXACTLY as it is — identical shape, color, material, proportions, details and any printed marks; do not redesign, simplify, add or remove parts. Scene: ${scene}. Shot by a professional photographer on a medium-format camera, 85mm lens, soft diffused light with gentle natural shadows, refined color grading, magazine editorial quality, product in sharp focus and clearly the hero, uncluttered composition. Photorealistic. No text, no letters, no logos, no watermarks, no borders.`;
+ const j=await gem(IMG_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:"3:4"}}},key);
  const p=j.candidates?.[0]?.content?.parts?.find(p=>p.inline_data||p.inlineData);const d=p&&(p.inline_data||p.inlineData);if(!d)throw new Error("그림을 받지 못했어요");
  return load(`data:${d.mime_type||d.mimeType||"image/png"};base64,${d.data}`)}
 function pgSet(list){$("#pgs").innerHTML=list.map(([t,st])=>`<li class="${st}"><i>${st==="ok"?"✓":st==="on"?'<span class="spin"></span>':st==="er"?"!":"·"}</i>${t}</li>`).join("")}
@@ -535,14 +554,15 @@ let qCat="jewel",qFiles=[];
 const STUDIO=location.hash==="#studio";
 document.querySelectorAll(".go").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();if(STUDIO){qf.click();return}const w=window.open(location.href.split("#")[0]+"#studio","_blank");if(!w)qf.click()}));
 if(STUDIO){document.body.classList.add("studio","empty");document.title="작업 창 · 찰칵상세";$("#startBox").onclick=()=>qf.click();
- const st=$("#start");["dragover","dragenter"].forEach(t=>st.addEventListener(t,e=>{e.preventDefault()}));st.addEventListener("drop",e=>{e.preventDefault();openQS([...e.dataTransfer.files])})}
+ const st=$("#start");["dragover","dragenter"].forEach(t=>st.addEventListener(t,e=>{e.preventDefault()}));st.addEventListener("drop",e=>{e.preventDefault();qFiles=[...e.dataTransfer.files].filter(f=>f.type.startsWith("image/")).slice(0,6);if(qFiles.length)startMake("","etc")})}
 $("#side3").onclick=e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a;
  if(a==="hook"||a==="who"||a==="pts"){const arr=CAT[S.cat||"etc"][a];sIdx[a]=((sIdx[a]??-1)+1)%arr.length;S[a]=arr[sIdx[a]];if(a==="who")S.say=null;fill();draw()}
  else if(a==="tpl"){const ks=Object.keys(TPL);S.tpl=ks[(ks.indexOf(S.tpl)+1)%ks.length];tpls();draw()}
  else if(a==="col"){S.col=((S.col||0)+1)%COLS.length;cols();draw()}
- else if(a==="ai"){if(!qFiles.length){qf.click();return}$("#qsAI").checked=true;runAI(S.name,S.cat).then(()=>{})}
+ else if(a==="ai"){if(!qFiles.length){qf.click();return}runAI("",S.cat).then(()=>draw())}
+ else if(a==="form")document.body.classList.toggle("edit");
  else if(a==="new")qf.click()};
-qf.onchange=()=>{openQS([...qf.files]);qf.value=""};
+qf.onchange=()=>{const fs=[...qf.files];qf.value="";qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);if(!qFiles.length)return;if(AI_ON())startMake("","etc");else openQS(qFiles)};
 function openQS(fs){qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);if(!qFiles.length)return;
  $("#qsPics").innerHTML=qFiles.map(f=>`<img src="${URL.createObjectURL(f)}" alt="">`).join("");$("#qsName").value="";
  $("#qsCats").innerHTML=Object.entries(CAT).map(([k,v])=>`<button type="button" class="chip ${qCat===k?"on":""}" data-c="${k}">${v.n}</button>`).join("");
@@ -551,28 +571,45 @@ $("#qsCats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;qCat=
 $(".qx").onclick=()=>$("#qs").classList.remove("on");$("#qs").onclick=e=>{if(e.target.id==="qs")$("#qs").classList.remove("on")};
 $("#qsKey").value=LS.get("dd_key")||"";$("#qsAI").checked=AI_ON();if(PROXY&&!PROXY.startsWith("__")){$(".aik").style.display="none";$(".ai").style.display="none"}
 $("#qsKey").addEventListener("input",e=>{LS.set("dd_key",e.target.value.trim());$("#qsAI").checked=!!e.target.value.trim()});
-async function runAI(nm,cat){const key=($("#qsKey").value||"").trim();if(!key&&!AI_ON()){$("#qs details").open=true;$("#qsKey").focus();$("#qsAIst").textContent="먼저 아래 AI 연결 설정에 키를 넣어 주세요";return false}
- const file=qFiles[0];const steps=[["사진 보고 문구 쓰기","on"],["장면 사진 1",""],["장면 사진 2",""],["장면 사진 3",""],["장면 사진 4",""],["상세페이지 그리기",""]];
+const GEN=["hero advertising shot: the product alone as the clear hero on a refined surface with a soft tonal backdrop, elegant shadow","the product being used or worn naturally by a person, face out of frame, bright lifestyle setting","the product styled in a beautiful lived-in interior with natural window light","extreme macro close-up showing material, texture and finish","the product held in a hand to show its real size, clean background","a different angle showing side and back details on a neutral surface","gift presentation: the product with an elegant box, ribbon and tissue paper","flat lay top view with a few harmonious props on a textured surface","atmospheric closing mood shot with wide empty space, warm cinematic light"];
+const CATSPEC={jewel:"소재 | 925 실버\n체인 길이 | 40~45cm (길이 조절)\n구성 | 본품 1개 + 선물 상자\n관리 | 물·향수가 닿지 않게 보관",beauty:"용량 | 30ml\n사용법 | 세안 후 적당량을 펴 발라요\n보관 | 직사광선을 피해 서늘한 곳\n사용기한 | 제조일로부터 24개월",food:"중량 | 200g\n원산지 | 제품 별도 표기\n보관 | 직사광선을 피해 서늘한 곳\n소비기한 | 제품 별도 표기",living:"소재 | 도자기\n크기 | 지름 약 8cm · 높이 약 9.5cm\n용량 | 약 300ml\n관리 | 중성세제로 부드럽게 세척",fashion:"소재 | 면 100%\n사이즈 | FREE (55~77)\n세탁 | 찬물 단독 손세탁 권장\n원산지 | 제품 별도 표기",etc:"구성 | 본품 1개\n크기 | 제품 별도 표기\n소재 | 제품 별도 표기\n관리 | 마른 천으로 닦아 주세요"};
+const SHIP="결제 후 1~3일 안에 보내 드려요 (주말·공휴일 제외)\n받으신 날부터 7일 안에 교환·반품을 신청할 수 있어요\n단순 변심 반품은 왕복 배송비가 들어요";
+let AIS=[],UIM=[],SCN=[];
+function syncIM(){IM=[...UIM,...AIS.filter(Boolean)];SRC=IM.map(x=>x.src);thumbs()}
+async function runAI(nm,cat){const key=($("#qsKey").value||"").trim();if(!key&&!AI_ON()){openQS(qFiles);return false}
+ const file=qFiles[0];const steps=[["사진 보고 상품 파악 · 문구 쓰기","on"]];
  $("#qs").classList.remove("on");$("#prog").classList.add("on");pgSet(steps);
- let cpScenes=null;try{const cp=await aiCopy(key,file,S.name,cat);cpScenes=cp.scenes;S.sub=cp.sub||"";if(TPL[cp.tpl])S.tpl=cp.tpl;if([0,1,2,3].includes(+cp.col))S.col=+cp.col;S.story=cp.story||"";S.brand=cp.brand||"";S.hook=cp.hook||S.hook;if(Array.isArray(cp.who))S.who=cp.who.join("\n");if(Array.isArray(cp.say))S.say=cp.say;
+ let cpScenes=null;try{const cp=await aiCopy(key,file,nm,cat);cpScenes=cp.scenes;if(cp.cat&&CAT[cp.cat])S.cat=cp.cat;if(!nm&&cp.name)S.name=cp.name;S.sub=cp.sub||"";if(TPL[cp.tpl])S.tpl=cp.tpl;if([0,1,2,3].includes(+cp.col))S.col=+cp.col;S.story=cp.story||"";S.brand=cp.brand||"";S.hook=cp.hook||S.hook;S.en=cp.en||"";
+  if(Array.isArray(cp.kw))S.kw=cp.kw.filter(Boolean).slice(0,3);if(Array.isArray(cp.use))S.use=cp.use.filter(Boolean);if(Array.isArray(cp.who))S.who=cp.who.join("\n");if(Array.isArray(cp.say))S.say=cp.say;
   if(Array.isArray(cp.points))S.pts=cp.points.filter(p=>p&&p[0]).map(p=>p[0]+" | "+(p[1]||"")).join("\n");
-  if(Array.isArray(cp.spec)&&cp.spec.length)S.spec=cp.spec.map(p=>p[0]+" | "+p[1]).join("\n");if(cp.ship)S.ship=cp.ship;steps[0][1]="ok";fill();draw()}catch(e){steps[0]=["문구: "+e.message+" (기본 문구로 진행)","er"]}
- let sc=(Array.isArray(cpScenes)&&cpScenes.length>=4)?cpScenes.slice(0,8):SCENES[cat]||SCENES.etc;if(sc.length<8)sc=sc.concat((SCENES[cat]||SCENES.etc)).slice(0,8);
- steps.splice(1,4,...sc.map((_,i)=>["장면 사진 "+(i+1),""]));pgSet(steps);
- const got=new Array(sc.length);let stop=false,next=0;
- const worker=async()=>{while(!stop&&next<sc.length){const i=next++;steps[i+1][1]="on";pgSet(steps);
-  try{const im=await aiScene(key,file,S.name,sc[i]);im._ai=1;got[i]=im;IM=[IM[0],...got.filter(Boolean)].concat(IM.slice(1).filter(x=>!x._ai));SRC=IM.map(x=>x.src);thumbs();draw();steps[i+1][1]="ok"}
-  catch(e){steps[i+1]=["장면 "+(i+1)+": "+e.message,"er"];if(/API key|PERMISSION|401|403|quota/i.test(e.message))stop=true}pgSet(steps)}};
- await Promise.all([worker(),worker()]);
+  if(Array.isArray(cp.spec)&&cp.spec.length)S.spec=cp.spec.filter(p=>p&&p[0]).map(p=>p[0]+" | "+p[1]).join("\n");steps[0][1]="ok";fill();draw()}catch(e){steps[0]=["문구는 기본 문구로 채웠어요","er"];S.spec=CATSPEC[S.cat]||CATSPEC.etc}
+ SCN=(Array.isArray(cpScenes)&&cpScenes.length>=6?cpScenes.slice(0,9):[]);for(let i=SCN.length;i<9;i++)SCN.push(GEN[i]);
+ SCN.forEach((_,i)=>steps.push(["장면 사진 "+(i+1),""]));steps.push(["상세페이지 그리기",""]);pgSet(steps);
+ AIS=new Array(9);let stop=false,next=0;
+ const worker=async()=>{while(!stop&&next<SCN.length){const i=next++;steps[i+1][1]="on";pgSet(steps);
+  for(let t=0;t<2;t++){try{const im=await aiScene(key,file,S.name,SCN[i]);im._ai=1;im._r=i;AIS[i]=im;syncIM();draw();steps[i+1][1]="ok";break}
+  catch(e){if(/API key|PERMISSION|401|403|quota|한도/i.test(e.message)){stop=true;steps[i+1]=["장면 "+(i+1)+": "+e.message,"er"];break}if(t)steps[i+1]=["장면 "+(i+1)+": 다시 시도 실패","er"]}}pgSet(steps)}};
+ await Promise.all([worker(),worker(),worker()]);
  const L2=steps.length-1;steps[L2][1]="ok";pgSet(steps);setTimeout(()=>$("#prog").classList.remove("on"),900);return true}
-$("#qsGo").onclick=async()=>{const nm=$("#qsName").value.trim()||"우리 상품";const C=CAT[qCat];
- SRC=[];IM=[];for(const f of qFiles){const u=URL.createObjectURL(f);const im=await load(u);if(im){SRC.push(u);IM.push(im)}}
- const h0=C.hook[0];const hk=h0.includes(",")?h0.replace(/, ?/,",\n"):h0.replace(/^(.{5,11}?) /,"$1\n");
- S={cat:qCat,brand:"",name:nm,hook:hk,who:C.who[0],pts:C.pts[0],spec:"상품명 | "+nm+"\n소재 | (적어 주세요)\n크기 | (적어 주세요)\n구성 | (적어 주세요)",ship:"배송·교환 안내를 적어 주세요",tpl:qCat==="food"?"bold":(qCat==="beauty"||qCat==="fashion")?"clean":"warm",col:{jewel:0,beauty:1,food:2,living:3,fashion:3,etc:3}[qCat]};
- fill();thumbs();draw();
- if($("#qsAI").checked){const ok=await runAI(nm,qCat);if(!ok)return}
- $("#qs").classList.remove("on");document.body.classList.remove("empty");$("#ok").textContent="✓ 만들었어요! 왼쪽 칸을 고치거나 오른쪽 버튼으로 바로 바꿔 보세요";
- document.querySelector("#make").scrollIntoView({behavior:"smooth"});const o=document.querySelector(".out");o.classList.add("made");setTimeout(()=>o.classList.remove("made"),2500)};
+/* 한 장만 다시 그리기 */
+async function regen(ri){if(!qFiles[0]){alert("상품 사진이 필요해요");return}const key=($("#qsKey").value||"").trim();const b=$("#edRe");if(b){b.disabled=true;b.textContent="그리는 중… (10~20초)"}
+ try{const sc=(SCN[ri]||GEN[ri]||GEN[0])+", alternative composition, different styling";const im=await aiScene(key,qFiles[0],S.name,sc);im._ai=1;im._r=ri;AIS[ri]=im;syncIM();draw();edClose()}
+ catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
+async function startMake(nm,cat){S={cat,brand:"",name:nm||"우리 상품",hook:CAT[cat].hook[0].replace(/^(.{5,11}?) /,"$1\n"),who:CAT[cat].who[0],pts:CAT[cat].pts[0],spec:CATSPEC[cat],ship:SHIP,tpl:"warm",col:0,kw:null,en:"",use:null,say:null};
+ UIM=[];AIS=[];for(const f of qFiles){const im=await load(URL.createObjectURL(f));if(im)UIM.push(im)}syncIM();fill();draw();
+ if(AI_ON()){const ok=await runAI(nm,cat);if(!ok)return}
+ document.body.classList.remove("empty");$("#ok").textContent="✓ 완성! 미리보기에서 고치고 싶은 곳을 누르면 바로 고칠 수 있어요";draw()}
+$("#qsGo").onclick=()=>{$("#qs").classList.remove("on");startMake($("#qsName").value.trim(),qCat)};
+/* 미리보기 눌러서 고치기 */
+const EDL={brand:"브랜드",hook:"첫 문장 (**강조**)",sub:"한 줄 설명",kw:"키워드 (한 줄에 하나)",en:"영어 문장",name:"상품 이름",story:"상품 이야기",say:"고객 속마음 (한 줄에 하나)",pts:"특징 (제목 | 설명)",spec:"규격 (항목 | 값)",use:"사용법 (한 줄에 하나)",ship:"배송 · 교환"},EDA=["kw","say","use"];
+function edClose(){$("#ed").classList.remove("on")}
+$("#cv").addEventListener("click",e=>{const cv=$("#cv"),rc=cv.getBoundingClientRect(),yy=(e.clientY-rc.top)/rc.height*cv.height;const rg=(cv._rg||[]).filter(r=>yy>=r.y0&&yy<r.y1).pop();if(!rg)return;
+ const ed=$("#ed");let h="";for(const k of rg.keys){const v=EDA.includes(k)?(S[k]||(k==="say"?lines(S.who):[])).join("\n"):(S[k]||"");h+=`<div class="fg"><label>${EDL[k]}</label><textarea data-k="${k}" rows="${Math.min(6,Math.max(2,String(v).split("\n").length+1))}">${v.replace(/</g,"&lt;")}</textarea></div>`}
+ if(rg.img!=null)h+=`<button type="button" class="btn pr" id="edRe" style="justify-content:center">🔄 이 사진 다시 그리기</button><button type="button" class="btn gh" id="edUp" style="justify-content:center">⬆ 내 사진으로 바꾸기</button>`;
+ $("#edB").innerHTML=h;ed.dataset.img=rg.img??"";ed.classList.add("on");const t=ed.querySelector("textarea");if(t)t.focus()});
+$("#edB").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const v=e.target.value;S[k]=EDA.includes(k)?v.split("\n").map(x=>x.trim()).filter(Boolean):v;draw()});
+$("#edB").addEventListener("click",e=>{const ri=+$("#ed").dataset.img;if(e.target.id==="edRe")regen(ri);if(e.target.id==="edUp"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=async()=>{const im=await load(URL.createObjectURL(f.files[0]));if(!im)return;im._ai=1;im._own=1;im._r=ri;AIS[ri]=im;syncIM();draw();edClose()};f.click()}});
+$("#edX").onclick=edClose;
 $("#qsName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#qsGo").click()});
 
 </script>
