@@ -456,6 +456,80 @@ function render(cv,d,imgs,W=860){
  const out=document.createElement("canvas");out.width=W;out.height=Math.ceil(y);out.getContext("2d").drawImage(cv,0,0);cv.width=W;cv.height=out.height;cv.getContext("2d").drawImage(out,0,0);return cv.height}
 
 
+function renderAny(cv,d,imgs,W){return d.sec&&d.sec.some(x=>x.img)?renderPosters(cv,d,W):render(cv,d,imgs,W)}
+/* ===== 섹션 포스터 방식 (쿠팡 상위 페이지처럼 섹션을 통째로 그리기) ===== */
+const SEC_PLAN="1 첫인상: 후킹 제목 + 상품을 쓰거나 착용한 메인 사진 + 아래 활용 장면 4개 원형 사진, 2 디자인 소개: 상품 클로즈업 + 특징 4개 원형 확대컷과 짧은 설명, 3 포인트1: 큰 연출 사진 + 아래 아이콘 4개 장점, 4 포인트2: 다른 장면의 큰 사진 + 비교·활용 사진 4개, 5 포인트3: 라이프스타일 사진 + 아이콘 3~4개, 6 디테일: 부위별 확대 사진 3~4개와 설명선, 7 선물·포장: 선물 상자 연출 + 아이콘 3개, 8 사용·관리법: 단계별 사진이나 아이콘 3~4개";
+async function aiPlan(key,file,name){const data=await b64(file,768);
+ const prompt=`너는 쿠팡·네이버 스마트스토어 상위 1% 상세페이지를 만드는 아트디렉터이자 카피라이터야. 사진 속 상품${name?` (판매자가 적은 이름: "${name}")`:""}으로 섹션 8장짜리 상세페이지를 기획해.
+규칙: 쉬운 한국어. 후기·별점·판매량·인증·효능 수치·가격은 절대 넣지 마. 과장(최고·1위·완벽)·의약품 오인 표현 금지. 한글은 짧게(이미지 안에 그대로 그려짐).
+섹션 순서: ${SEC_PLAN}.
+JSON만 출력:
+{"name":"상품 이름 18자 이내","cat":"jewel/beauty/food/living/fashion/etc","brand":"영문 대문자 2단어 이하","hook":"대표 문구 2줄(\\n), 줄당 11자 이내",
+"palette":"English: one consistent design system for all sections — background color (hex), accent color (hex), mood, photo lighting; chosen to flatter this product",
+"tone":"warm/clean/bold","spec":[["항목","값"]],
+"sections":[{"en":"짧은 영어 필기체 문구 5단어 이내","h":"한국어 큰 제목 2줄(\\n), 줄당 11자 이내","b":"한국어 설명 한 줄 26자 이내","photo":"English: the main photo of this section in detail (scene, model or props, angle, light). People: face cropped or out of frame","layout":"English: how the small items are shown (e.g. 4 circle close-up photos / 4 thin line icons / 3 numbered steps)","items":[["한국어 라벨 6자 이내","한국어 설명 14자 이내"]]}]}
+spec은 이 종류 상품에서 흔히 쓰는 표준 규격 5~7줄(소재·크기·용량·구성·원산지·관리 등). 사진에서 보이는 건 그대로, 안 보이는 건 가장 일반적인 값.
+sections는 정확히 8개, items는 섹션마다 3~4개.`;
+ const j=await gem(TXT_MODELS,{contents:[{parts:[{inline_data:{mime_type:"image/jpeg",data}},{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.85}},key);
+ const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"{}";const o=JSON.parse(t.replace(/^```json|```$/g,"").trim());if(!Array.isArray(o.sections)||o.sections.length<4)throw new Error("기획이 비었어요");return o}
+function secPrompt(sec,i,n,name,palette,styled,extra){
+ const L=String(sec.h||"").split("\n").map(x=>`"${x.trim()}"`).join(" / ");const it=(sec.items||[]).map(x=>Array.isArray(x)?`"${x[0]}"${x[1]?` with caption "${x[1]}"`:""}`:`"${x}"`).join(", ");
+ return `Design ONE complete section (${i+1} of ${n}) of a premium Korean e-commerce product detail page, the quality of top-selling Coupang and Naver pages. Vertical 2:3 poster.
+Product: ${name} — the product in the FIRST reference image. Reproduce it EXACTLY: same shape, color, material, proportions and details. Do not redesign it.${styled?" The SECOND reference image is section 1 of this same page: match its background color, typography, margins, icon style and photo grading exactly so all sections look like one continuous design.":""}
+Design system: ${palette}. Elegant Korean serif headline, small clean Korean sans-serif body text, thin line icons, generous margins, luxury minimal magazine layout, professional commercial photography.
+Layout, top to bottom:
+1) small italic English script line: "${sec.en||""}"
+2) big Korean headline: ${L}
+3) one short Korean body line: "${sec.b||""}"
+4) main photo: ${sec.photo||"the product beautifully styled"}
+5) ${sec.layout||"small items row"}: ${it}
+${extra?"Extra request: "+extra+"\n":""}Render every Korean text exactly as given — crisp, correctly spelled, nothing else written. No prices, no reviews, no star ratings, no logos, no watermark.`}
+async function aiPoster(key,file,styleImg,prompt){const data=await b64(file,1024);const parts=[{inline_data:{mime_type:"image/jpeg",data}}];
+ if(styleImg){const c=document.createElement("canvas");const s=768/styleImg.height;c.width=styleImg.width*s;c.height=768;c.getContext("2d").drawImage(styleImg,0,0,c.width,c.height);parts.push({inline_data:{mime_type:"image/jpeg",data:c.toDataURL("image/jpeg",.85).split(",")[1]}})}
+ parts.push({text:prompt});
+ const j=await gem(IMG_MODELS,{contents:[{parts}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:"2:3"}}},key);
+ const p=j.candidates?.[0]?.content?.parts?.find(p=>p.inline_data||p.inlineData);const d=p&&(p.inline_data||p.inlineData);if(!d)throw new Error("그림을 받지 못했어요");
+ return load(`data:${d.mime_type||d.mimeType||"image/png"};base64,${d.data}`)}
+/* 포스터들을 이어 붙이고, 마지막에 상품 정보 · 배송 안내를 깔끔하게 */
+function renderPosters(cv,d,W=860){const k=W/860,T=TPL[d.tpl]||TPL.warm,A=COLS[d.col]||COLS[0],P=64*k,IW=W-2*P;const c=cv.getContext("2d");
+ const secs=d.sec.filter(s=>s.img);let H=0;for(const s of secs)H+=Math.round(W*s.img.height/s.img.width);cv.width=W;cv.height=H+3200*k;
+ const bg=d.bgc||T.bg;c.fillStyle=bg;c.fillRect(0,0,W,cv.height);c.textBaseline="top";const RG=[];cv._rg=RG;let y=0;
+ d.sec.forEach((s,i)=>{if(!s.img)return;const h=Math.round(W*s.img.height/s.img.width);c.drawImage(s.img,0,y,W,h);RG.push({y0:y,y1:y+h,sec:i});y+=h});
+ const SANS='"Pretendard","Noto Sans KR",sans-serif',F=(sz,wt="500 ",fam=SANS)=>{c.font=wt+(sz*k)+"px "+fam},txt=(t,x,yy,al="left",col=T.ink)=>{c.fillStyle=col;c.textAlign=al;c.fillText(t,x,yy)};
+ const ink=d.ink||T.ink,mu=d.mu||T.mu,acc=d.acc||A;const y0=y;
+ /* 상품 정보 */
+ const sp=pairs(d.spec);if(sp.length){y+=120*k;c.save();c.letterSpacing=(6*k)+"px";F(17,"700 ");txt("PRODUCT INFORMATION",W/2+3*k,y,"center",acc);c.restore();y+=44*k;
+  F(52,"800 ",'"Nanum Myeongjo",serif');txt("제품 상세 정보",W/2,y,"center",ink);y+=78*k;F(24,"400 ");txt("받아 보시기 전에 꼭 확인해 주세요",W/2,y,"center",mu);y+=70*k;
+  const rows=sp.map(([a,b])=>{F(26,"400 ");return[a,wrap(c,b,IW-300*k)]});const ch=rows.reduce((m,[,bl])=>m+Math.max(96,bl.length*40+56)*k,0)+20*k;
+  c.save();c.shadowColor="rgba(60,40,20,.08)";c.shadowBlur=30*k;c.shadowOffsetY=10*k;c.fillStyle="#fff";rr(c,P,y,IW,ch,28*k);c.fill();c.restore();let ry=y+10*k;
+  rows.forEach(([a,bl],j)=>{const rh=Math.max(96,bl.length*40+56)*k;c.fillStyle=acc+"1F";c.beginPath();c.arc(P+62*k,ry+rh/2,26*k,0,7);c.fill();F(20,"800 ");txt(String(j+1).padStart(2,"0"),P+62*k,ry+rh/2-11*k,"center",acc);
+   F(25,"700 ");txt(a,P+112*k,ry+rh/2-15*k,"left",ink);F(26,"400 ");let ty=ry+(rh-bl.length*40*k)/2;for(const l of bl){txt(l,P+280*k,ty,"left",ink);ty+=40*k}
+   if(j<rows.length-1){c.fillStyle="rgba(0,0,0,.06)";c.fillRect(P+36*k,ry+rh-1*k,IW-72*k,2*k)}ry+=rh});y+=ch}
+ /* 배송 안내 */
+ const sh=lines(d.ship);if(sh.length){y+=40*k;F(25,"400 ");const all=sh.flatMap(l=>wrap(c,l,IW-140*k));const bh=(all.length*42+120)*k;c.fillStyle="#fff";c.strokeStyle=acc+"55";c.lineWidth=2*k;rr(c,P,y,IW,bh,28*k);c.fill();c.stroke();
+  c.fillStyle=acc;c.beginPath();c.arc(P+62*k,y+60*k,24*k,0,7);c.fill();F(24,"800 ");txt("✓",P+62*k,y+47*k,"center","#fff");F(28,"800 ");txt("배송 · 교환 안내",P+104*k,y+44*k,"left",ink);
+  let ty=y+100*k;F(25,"400 ");for(const l of all){txt("· "+l,P+104*k,ty,"left",mu);ty+=42*k}y+=bh}
+ y+=50*k;F(19,"400 ");txt("이 페이지의 연출 이미지는 AI로 제작되었으며, 실제 상품과 색감·크기가 조금 다를 수 있어요.",W/2,y,"center",mu);y+=90*k;
+ RG.push({y0,y1:y,keys:["spec","ship"]});
+ const out=document.createElement("canvas");out.width=W;out.height=Math.ceil(y);out.getContext("2d").drawImage(cv,0,0);cv.width=W;cv.height=out.height;cv.getContext("2d").drawImage(out,0,0);return cv.height}
+/* 포스터 섹션 배경색 읽기 (정보 영역 색을 맞추려고) */
+function edgeColor(img){try{const c=document.createElement("canvas");c.width=c.height=8;const g=c.getContext("2d");g.drawImage(img,0,0,img.width,img.height*.06,0,0,8,8);const d=g.getImageData(0,0,8,8).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;r/=n;gg/=n;b/=n;return["#"+[r,gg,b].map(v=>Math.round(v).toString(16).padStart(2,"0")).join(""),(r*.3+gg*.59+b*.11)]}catch(e){return null}}
+async function runPoster(nm,cat){const key=($("#qsKey").value||"").trim();const file=qFiles[0];
+ const steps=[["사진 보고 상품 파악 · 페이지 기획","on"]];$("#qs").classList.remove("on");$("#prog").classList.add("on");pgSet(steps);
+ let plan=null;for(let t=0;t<2&&!plan;t++){try{plan=await aiPlan(key,file,nm)}catch(e){if(t)steps[0]=["기획 실패: "+e.message,"er"]}}
+ if(!plan){pgSet(steps);await new Promise(r=>setTimeout(r,1200));return runAI(nm,cat)}
+ steps[0][1]="ok";if(plan.cat&&CAT[plan.cat])S.cat=plan.cat;if(!nm&&plan.name)S.name=plan.name;S.brand=plan.brand||"";if(plan.hook)S.hook=plan.hook;if(TPL[plan.tone])S.tpl=plan.tone;S.palette=plan.palette||"warm ivory background, champagne gold accents";
+ if(Array.isArray(plan.spec)&&plan.spec.length)S.spec=plan.spec.filter(p=>p&&p[0]).map(p=>p[0]+" | "+p[1]).join("\n");
+ S.sec=plan.sections.slice(0,8).map(s=>({en:s.en||"",h:s.h||"",b:s.b||"",photo:s.photo||"",layout:s.layout||"",items:(s.items||[]).slice(0,4),img:null}));
+ S.sec.forEach((s,i)=>steps.push([(i?"섹션 "+(i+1):"섹션 1 · 전체 디자인 정하기"),""]));steps.push(["상세페이지 이어 붙이기",""]);pgSet(steps);
+ const one=async(i,style)=>{steps[i+1][1]="on";pgSet(steps);for(let t=0;t<2;t++){try{const im=await aiPoster(key,file,style,secPrompt(S.sec[i],i,S.sec.length,S.name,S.palette,!!style,S.sec[i].extra));S.sec[i].img=im;steps[i+1][1]="ok";if(!i){const e=edgeColor(im);if(e){S.bgc=e[0];if(e[1]<110){S.ink="#F4F1EA";S.mu="#B9B3C4"}else{S.ink=null;S.mu=null}}}draw();break}
+  catch(e){if(/API key|PERMISSION|401|403|quota|한도/i.test(e.message)){steps[i+1]=["섹션 "+(i+1)+": "+e.message,"er"];pgSet(steps);throw e}if(t)steps[i+1]=["섹션 "+(i+1)+": 다시 시도 실패","er"]}}pgSet(steps)};
+ try{await one(0,null);const style=S.sec[0].img;let next=1;const w=async()=>{while(next<S.sec.length){const i=next++;await one(i,style)}};await Promise.all([w(),w(),w()])}catch(e){}
+ const L2=steps.length-1;steps[L2][1]="ok";pgSet(steps);draw();setTimeout(()=>$("#prog").classList.remove("on"),900);return true}
+async function regenSec(i,extra){const b=$("#edRe");if(b){b.disabled=true;b.textContent="그리는 중… (10~20초)"}
+ try{const style=i?S.sec[0].img:(S.sec[1]&&S.sec[1].img);const im=await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,secPrompt(S.sec[i],i,S.sec.length,S.name,S.palette,!!style,extra));S.sec[i].img=im;draw();edClose()}
+ catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
+
 /* ===== 광고 표현 검사 (과장·의약품 오인·근거 없는 수치) ===== */
 const LAW=[[/최고|최상|최초|1위|넘버원|유일|완벽|무조건|100\s?%|모든 사람/,"과장 표현 — 객관적 근거(시험 성적·출처)가 없으면 빼는 게 안전해요"],
  [/치료|완치|예방|처방|질병|아토피|염증|통증 완화|혈압|혈당|면역력/,"의약품처럼 보이는 표현 — 일반 상품·화장품·식품에는 쓰면 안 돼요"],
@@ -484,7 +558,7 @@ function chips(){$("#cats").innerHTML=Object.entries(CAT).map(([k,v])=>`<button 
 function tpls(){$("#tpls").innerHTML=Object.entries(TPL).map(([k,v])=>`<button type="button" class="tp ${S.tpl===k?"on":""}" data-t="${k}"><i style="background:${v.sw}"></i>${v.n}</button>`).join("")}
 function cols(){$("#cols").innerHTML=COLS.map((c,i)=>`<button type="button" class="${S.col===i?"on":""}" data-k="${i}" style="background:${c}" aria-label="색 ${i+1}"></button>`).join("")}
 function thumbs(){$("#thumbs").innerHTML=SRC.map((s,i)=>`<div class="t"><img src="${s}" alt="">${i===0?"<em>대표</em>":""}<button type="button" data-x="${i}" aria-label="지우기">✕</button></div>`).join("")}
-let rT;function draw(){clearTimeout(rT);rT=setTimeout(()=>{const h=render($("#cv"),S,IM,860);$("#sz").textContent=`860 × ${h}px`;lawCheck()},60)}
+let rT;function draw(){clearTimeout(rT);rT=setTimeout(()=>{const h=renderAny($("#cv"),S,IM,860);$("#sz").textContent=`860 × ${h}px`;lawCheck()},60)}
 $("#f").addEventListener("input",e=>{if(ids.includes(e.target.id)){S[e.target.id]=e.target.value;if(e.target.id==="who")S.say=null;draw()}});
 $("#cats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;S.cat=b.dataset.c;chips()};
 $("#tpls").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;S.tpl=b.dataset.t;tpls();draw()};
@@ -499,7 +573,7 @@ $("#file").onchange=e=>{addFiles(e.target.files);e.target.value=""};
 ["dragleave","drop"].forEach(t=>$("#drop").addEventListener(t,e=>{e.preventDefault();$("#drop").classList.remove("on")}));
 $("#drop").addEventListener("drop",e=>addFiles(e.dataTransfer.files));
 $("#thumbs").onclick=e=>{const b=e.target.closest("[data-x]");if(!b)return;const i=+b.dataset.x;SRC.splice(i,1);IM.splice(i,1);thumbs();draw()};
-$("#save").onclick=()=>{const W=+$("#wsel").value,sp=+$("#split").value;const cv=document.createElement("canvas");const H=render(cv,S,IM,W);
+$("#save").onclick=()=>{const W=+$("#wsel").value,sp=+$("#split").value;const cv=document.createElement("canvas");const H=renderAny(cv,S,IM,W);
  const base=(S.name||"상세페이지").replace(/[\\/:*?"<>|\s]+/g,"_");const parts=[];if(!sp)parts.push([0,H]);else for(let y=0;y<H;y+=sp)parts.push([y,Math.min(sp,H-y)]);
  parts.forEach(([y,h],i)=>{const o=document.createElement("canvas");o.width=W;o.height=h;o.getContext("2d").drawImage(cv,0,y,W,h,0,0,W,h);
   setTimeout(()=>o.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=base+(parts.length>1?`_${String(i+1).padStart(2,"0")}`:"")+".jpg";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)},"image/jpeg",.9),i*350)});
@@ -559,7 +633,7 @@ $("#side3").onclick=e=>{const b=e.target.closest("[data-a]");if(!b)return;const 
  if(a==="hook"||a==="who"||a==="pts"){const arr=CAT[S.cat||"etc"][a];sIdx[a]=((sIdx[a]??-1)+1)%arr.length;S[a]=arr[sIdx[a]];if(a==="who")S.say=null;fill();draw()}
  else if(a==="tpl"){const ks=Object.keys(TPL);S.tpl=ks[(ks.indexOf(S.tpl)+1)%ks.length];tpls();draw()}
  else if(a==="col"){S.col=((S.col||0)+1)%COLS.length;cols();draw()}
- else if(a==="ai"){if(!qFiles.length){qf.click();return}runAI("",S.cat).then(()=>draw())}
+ else if(a==="ai"){if(!qFiles.length){qf.click();return}runPoster("",S.cat).then(()=>draw())}
  else if(a==="form")document.body.classList.toggle("edit");
  else if(a==="new")qf.click()};
 qf.onchange=()=>{const fs=[...qf.files];qf.value="";qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);if(!qFiles.length)return;if(AI_ON())startMake("","etc");else openQS(qFiles)};
@@ -595,20 +669,22 @@ async function runAI(nm,cat){const key=($("#qsKey").value||"").trim();if(!key&&!
 async function regen(ri){if(!qFiles[0]){alert("상품 사진이 필요해요");return}const key=($("#qsKey").value||"").trim();const b=$("#edRe");if(b){b.disabled=true;b.textContent="그리는 중… (10~20초)"}
  try{const sc=(SCN[ri]||GEN[ri]||GEN[0])+", alternative composition, different styling";const im=await aiScene(key,qFiles[0],S.name,sc);im._ai=1;im._r=ri;AIS[ri]=im;syncIM();draw();edClose()}
  catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
-async function startMake(nm,cat){S={cat,brand:"",name:nm||"우리 상품",hook:CAT[cat].hook[0].replace(/^(.{5,11}?) /,"$1\n"),who:CAT[cat].who[0],pts:CAT[cat].pts[0],spec:CATSPEC[cat],ship:SHIP,tpl:"warm",col:0,kw:null,en:"",use:null,say:null};
+async function startMake(nm,cat){S={sec:null,cat,brand:"",name:nm||"우리 상품",hook:CAT[cat].hook[0].replace(/^(.{5,11}?) /,"$1\n"),who:CAT[cat].who[0],pts:CAT[cat].pts[0],spec:CATSPEC[cat],ship:SHIP,tpl:"warm",col:0,kw:null,en:"",use:null,say:null};
  UIM=[];AIS=[];for(const f of qFiles){const im=await load(URL.createObjectURL(f));if(im)UIM.push(im)}syncIM();fill();draw();
- if(AI_ON()){const ok=await runAI(nm,cat);if(!ok)return}
+ if(AI_ON()){const ok=await runPoster(nm,cat);if(!ok)return}
  document.body.classList.remove("empty");$("#ok").textContent="✓ 완성! 미리보기에서 고치고 싶은 곳을 누르면 바로 고칠 수 있어요";draw()}
 $("#qsGo").onclick=()=>{$("#qs").classList.remove("on");startMake($("#qsName").value.trim(),qCat)};
 /* 미리보기 눌러서 고치기 */
 const EDL={brand:"브랜드",hook:"첫 문장 (**강조**)",sub:"한 줄 설명",kw:"키워드 (한 줄에 하나)",en:"영어 문장",name:"상품 이름",story:"상품 이야기",say:"고객 속마음 (한 줄에 하나)",pts:"특징 (제목 | 설명)",spec:"규격 (항목 | 값)",use:"사용법 (한 줄에 하나)",ship:"배송 · 교환"},EDA=["kw","say","use"];
 function edClose(){$("#ed").classList.remove("on")}
 $("#cv").addEventListener("click",e=>{const cv=$("#cv"),rc=cv.getBoundingClientRect(),yy=(e.clientY-rc.top)/rc.height*cv.height;const rg=(cv._rg||[]).filter(r=>yy>=r.y0&&yy<r.y1).pop();if(!rg)return;
- const ed=$("#ed");let h="";for(const k of rg.keys){const v=EDA.includes(k)?(S[k]||(k==="say"?lines(S.who):[])).join("\n"):(S[k]||"");h+=`<div class="fg"><label>${EDL[k]}</label><textarea data-k="${k}" rows="${Math.min(6,Math.max(2,String(v).split("\n").length+1))}">${v.replace(/</g,"&lt;")}</textarea></div>`}
+ const ed=$("#ed");if(rg.sec!=null){const q=S.sec[rg.sec];ed.dataset.sec=rg.sec;ed.dataset.img="";
+  $("#edB").innerHTML=`<div class="fg"><label>큰 제목</label><textarea data-s="h" rows="2">${q.h}</textarea></div><div class="fg"><label>설명 한 줄</label><textarea data-s="b" rows="2">${q.b}</textarea></div><div class="fg"><label>작은 항목 (라벨 | 설명)</label><textarea data-s="items" rows="4">${(q.items||[]).map(x=>Array.isArray(x)?x.join(" | "):x).join("\n")}</textarea></div><div class="fg"><label>바라는 점 <small>예) 배경을 더 밝게, 모델 없이</small></label><textarea data-s="extra" rows="2">${q.extra||""}</textarea></div><button type="button" class="btn pr" id="edRe" style="justify-content:center">🔄 이 장 다시 그리기 (약 15초)</button>`;ed.classList.add("on");return}
+ ed.dataset.sec="";let h="";for(const k of rg.keys){const v=EDA.includes(k)?(S[k]||(k==="say"?lines(S.who):[])).join("\n"):(S[k]||"");h+=`<div class="fg"><label>${EDL[k]}</label><textarea data-k="${k}" rows="${Math.min(6,Math.max(2,String(v).split("\n").length+1))}">${v.replace(/</g,"&lt;")}</textarea></div>`}
  if(rg.img!=null)h+=`<button type="button" class="btn pr" id="edRe" style="justify-content:center">🔄 이 사진 다시 그리기</button><button type="button" class="btn gh" id="edUp" style="justify-content:center">⬆ 내 사진으로 바꾸기</button>`;
  $("#edB").innerHTML=h;ed.dataset.img=rg.img??"";ed.classList.add("on");const t=ed.querySelector("textarea");if(t)t.focus()});
-$("#edB").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const v=e.target.value;S[k]=EDA.includes(k)?v.split("\n").map(x=>x.trim()).filter(Boolean):v;draw()});
-$("#edB").addEventListener("click",e=>{const ri=+$("#ed").dataset.img;if(e.target.id==="edRe")regen(ri);if(e.target.id==="edUp"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=async()=>{const im=await load(URL.createObjectURL(f.files[0]));if(!im)return;im._ai=1;im._own=1;im._r=ri;AIS[ri]=im;syncIM();draw();edClose()};f.click()}});
+$("#edB").addEventListener("input",e=>{const sk=e.target.dataset.s;if(sk){const q=S.sec[+$("#ed").dataset.sec];q[sk]=sk==="items"?e.target.value.split("\n").map(x=>x.trim()).filter(Boolean).map(x=>x.split("|").map(z=>z.trim())):e.target.value;return}const k=e.target.dataset.k;if(!k)return;const v=e.target.value;S[k]=EDA.includes(k)?v.split("\n").map(x=>x.trim()).filter(Boolean):v;draw()});
+$("#edB").addEventListener("click",e=>{const sc=$("#ed").dataset.sec;if(sc!==""&&e.target.id==="edRe"){regenSec(+sc,S.sec[+sc].extra);return}const ri=+$("#ed").dataset.img;if(e.target.id==="edRe")regen(ri);if(e.target.id==="edUp"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=async()=>{const im=await load(URL.createObjectURL(f.files[0]));if(!im)return;im._ai=1;im._own=1;im._r=ri;AIS[ri]=im;syncIM();draw();edClose()};f.click()}});
 $("#edX").onclick=edClose;
 $("#qsName").addEventListener("keydown",e=>{if(e.key==="Enter")$("#qsGo").click()});
 
