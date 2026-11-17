@@ -516,7 +516,7 @@ function renderPosters(cv,d,W=860){const k=W/860,T=TPL[d.tpl]||TPL.warm,A=COLS[d
 function edgeColor(img){try{const c=document.createElement("canvas");c.width=c.height=8;const g=c.getContext("2d");g.drawImage(img,0,0,img.width,img.height*.06,0,0,8,8);const d=g.getImageData(0,0,8,8).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const n=d.length/4;r/=n;gg/=n;b/=n;return["#"+[r,gg,b].map(v=>Math.round(v).toString(16).padStart(2,"0")).join(""),(r*.3+gg*.59+b*.11)]}catch(e){return null}}
 async function runPoster(nm,cat){const key=($("#qsKey").value||"").trim();const file=qFiles[0];
  const steps=[["사진 보고 상품 파악 · 페이지 기획","on"]];$("#qs").classList.remove("on");$("#prog").classList.add("on");pgSet(steps);
- let plan=null;for(let t=0;t<2&&!plan;t++){try{plan=await aiPlan(key,file,nm)}catch(e){if(t)steps[0]=["기획 실패: "+e.message,"er"]}}
+ let plan=null;for(let t=0;t<3&&!plan;t++){try{plan=await aiPlan(key,file,nm)}catch(e){window.__planErr=e.message;if(t===2)steps[0]=["기획 실패: "+e.message,"er"];else await new Promise(r=>setTimeout(r,2500))}}
  if(!plan){pgSet(steps);await new Promise(r=>setTimeout(r,1200));return runAI(nm,cat)}
  steps[0][1]="ok";if(plan.cat&&CAT[plan.cat])S.cat=plan.cat;if(!nm&&plan.name)S.name=plan.name;S.brand=plan.brand||"";if(plan.hook)S.hook=plan.hook;if(TPL[plan.tone])S.tpl=plan.tone;S.palette=plan.palette||"warm ivory background, champagne gold accents";
  if(Array.isArray(plan.spec)&&plan.spec.length)S.spec=plan.spec.filter(p=>p&&p[0]).map(p=>p[0]+" | "+p[1]).join("\n");
@@ -593,7 +593,7 @@ const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:
 const TXT_MODELS=["gemini-3.1-flash","gemini-3-flash","gemini-2.5-flash"],IMG_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image"];
 const PROXY="https://script.google.com/macros/s/AKfycbz09Pualc3dVyOYhjRIBLY1lVpeZMpi8YMoUFlBcqWjJ30gKJagm0HAhio3rFaIf_E/exec";
 async function gem(models,body,key){const op=models===IMG_MODELS?"scene":"copy";
- if(PROXY&&!PROXY.startsWith("__")&&!key){const r=await fetch(PROXY,{method:"POST",body:JSON.stringify({op,body})});const j=await r.json();if(j.error)throw new Error(j.error);return j}
+ if(PROXY&&!PROXY.startsWith("__")){const r=await fetch(PROXY,{method:"POST",body:JSON.stringify({op,body})});const j=await r.json();if(j.error)throw new Error(j.error);return j}
  let last;for(const m of models){const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body)});
  if(r.status===404){last="모델 없음 "+m;continue}const j=await r.json();if(!r.ok)throw new Error(j.error?.message||("오류 "+r.status));return j}throw new Error(last||"모델을 찾지 못했어요")}
 const AI_ON=()=>(PROXY&&!PROXY.startsWith("__"))||!!(($("#qsKey")||{}).value||"").trim();
@@ -643,7 +643,8 @@ function openQS(fs){qFiles=fs.filter(f=>f.type.startsWith("image/")).slice(0,6);
  $("#qs").classList.add("on");setTimeout(()=>$("#qsName").focus(),50)}
 $("#qsCats").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;qCat=b.dataset.c;[...$("#qsCats").children].forEach(x=>x.classList.toggle("on",x===b))};
 $(".qx").onclick=()=>$("#qs").classList.remove("on");$("#qs").onclick=e=>{if(e.target.id==="qs")$("#qs").classList.remove("on")};
-$("#qsKey").value=LS.get("dd_key")||"";$("#qsAI").checked=AI_ON();if(PROXY&&!PROXY.startsWith("__")){$(".aik").style.display="none";$(".ai").style.display="none"}
+if(PROXY&&!PROXY.startsWith("__"))try{localStorage.removeItem("dd_key")}catch(e){}
+$("#qsKey").value=PROXY&&!PROXY.startsWith("__")?"":(LS.get("dd_key")||"");$("#qsAI").checked=AI_ON();if(PROXY&&!PROXY.startsWith("__")){$(".aik").style.display="none";$(".ai").style.display="none"}
 $("#qsKey").addEventListener("input",e=>{LS.set("dd_key",e.target.value.trim());$("#qsAI").checked=!!e.target.value.trim()});
 const GEN=["hero advertising shot: the product alone as the clear hero on a refined surface with a soft tonal backdrop, elegant shadow","the product being used or worn naturally by a person, face out of frame, bright lifestyle setting","the product styled in a beautiful lived-in interior with natural window light","extreme macro close-up showing material, texture and finish","the product held in a hand to show its real size, clean background","a different angle showing side and back details on a neutral surface","gift presentation: the product with an elegant box, ribbon and tissue paper","flat lay top view with a few harmonious props on a textured surface","atmospheric closing mood shot with wide empty space, warm cinematic light"];
 const CATSPEC={jewel:"소재 | 925 실버\n체인 길이 | 40~45cm (길이 조절)\n구성 | 본품 1개 + 선물 상자\n관리 | 물·향수가 닿지 않게 보관",beauty:"용량 | 30ml\n사용법 | 세안 후 적당량을 펴 발라요\n보관 | 직사광선을 피해 서늘한 곳\n사용기한 | 제조일로부터 24개월",food:"중량 | 200g\n원산지 | 제품 별도 표기\n보관 | 직사광선을 피해 서늘한 곳\n소비기한 | 제품 별도 표기",living:"소재 | 도자기\n크기 | 지름 약 8cm · 높이 약 9.5cm\n용량 | 약 300ml\n관리 | 중성세제로 부드럽게 세척",fashion:"소재 | 면 100%\n사이즈 | FREE (55~77)\n세탁 | 찬물 단독 손세탁 권장\n원산지 | 제품 별도 표기",etc:"구성 | 본품 1개\n크기 | 제품 별도 표기\n소재 | 제품 별도 표기\n관리 | 마른 천으로 닦아 주세요"};
