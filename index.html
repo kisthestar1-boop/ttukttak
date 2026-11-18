@@ -590,7 +590,7 @@ function renderGallery(cv,d,W=860){const k=W/860,P=44*k,IW=W-2*P;const c=cv.getC
   const all=care.map(l=>{F(21,"400 ");return wrap(c,l,IW-120*k)});const bh=all.reduce((m,b)=>m+b.length*36*k+18*k,0)+60*k;c.fillStyle=bg2;rr(c,P,y,IW,bh,20*k);c.fill();let ty=y+34*k;
   for(const bl of all){c.fillStyle=acc;c.beginPath();c.arc(P+44*k,ty+12*k,5*k,0,7);c.fill();F(21,"400 ");for(const l of bl){txt(l,P+66*k,ty,"left",ink);ty+=36*k}ty+=18*k}y+=bh+20*k;RG.push({y0:yy,y1:y,keys:["care"]})}
  const sh=lines(d.ship);if(sh.length){const yy=y;y+=30*k;F(24,"700 ");txt("배송 · 교환 안내",P,y,"left",ink);y+=48*k;F(20,"400 ");for(const l of sh)for(const w of wrap(c,l,IW-20*k)){txt("· "+w,P,y,"left",mu);y+=34*k}y+=20*k;RG.push({y0:yy,y1:y,keys:["ship"]})}
- y+=30*k;F(17,"400 ");txt("이 페이지의 연출 이미지는 AI로 제작되었으며, 실제 상품과 색감·크기가 조금 다를 수 있어요.",W/2,y,"center",mu);y+=80*k;
+ y+=60*k;
  const out=document.createElement("canvas");out.width=W;out.height=Math.ceil(y);out.getContext("2d").drawImage(cv,0,0);cv.width=W;cv.height=out.height;cv.getContext("2d").drawImage(out,0,0);return cv.height}
 async function runGallery(nm,cat){const key=($("#qsKey").value||"").trim();const file=qFiles[0];
  const steps=[["고객님 상품을 꼼꼼히 살펴보고 촬영 계획을 세우는 중","on"]];$("#qs").classList.remove("on");$("#prog").classList.add("on");pgSet(steps);
@@ -628,7 +628,7 @@ function renderPosters(cv,d,W=860){const k=W/860,T=TPL[d.tpl]||TPL.warm,A=COLS[d
  const sh=lines(d.ship);if(sh.length){y+=40*k;F(25,"400 ");const all=sh.flatMap(l=>wrap(c,l,IW-140*k));const bh=(all.length*42+120)*k;c.fillStyle="#fff";c.strokeStyle=acc+"55";c.lineWidth=2*k;rr(c,P,y,IW,bh,28*k);c.fill();c.stroke();
   c.fillStyle=acc;c.beginPath();c.arc(P+62*k,y+60*k,24*k,0,7);c.fill();F(24,"800 ");txt("✓",P+62*k,y+47*k,"center","#fff");F(28,"800 ");txt("배송 · 교환 안내",P+104*k,y+44*k,"left",ink);
   let ty=y+100*k;F(25,"400 ");for(const l of all){txt("· "+l,P+104*k,ty,"left",mu);ty+=42*k}y+=bh}
- y+=50*k;F(19,"400 ");txt("이 페이지의 연출 이미지는 AI로 제작되었으며, 실제 상품과 색감·크기가 조금 다를 수 있어요.",W/2,y,"center",mu);y+=90*k;
+ y+=70*k;
  RG.push({y0,y1:y,keys:["spec","ship"]});
  const out=document.createElement("canvas");out.width=W;out.height=Math.ceil(y);out.getContext("2d").drawImage(cv,0,0);cv.width=W;cv.height=out.height;cv.getContext("2d").drawImage(out,0,0);return cv.height}
 /* 포스터 섹션 배경색 읽기 (정보 영역 색을 맞추려고) */
@@ -678,7 +678,7 @@ async function editSpot(i,rx,ry,o){const q=S.sec[i];const b=$("#edFix");if(b){b.
  catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
 function undoSec(i){const q=S.sec[i];if(q._hist&&q._hist.length){q.img=q._hist.pop();draw();edClose()}}
 async function regenSec(i,extra){const b=$("#edRe");if(b){b.disabled=true;b.textContent="그리는 중… (10~20초)"}
- try{const style=i?S.sec[0].img:(S.sec[1]&&S.sec[1].img);const im=await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,secPrompt(S.sec[i],i,S.sec.length,S.name,S.palette,!!style,extra),true);(S.sec[i]._hist=S.sec[i]._hist||[]).push(S.sec[i].img);S.sec[i].img=im;snap(S.sec[i]);draw();edClose()}
+ try{const style=i?S.sec[0].img:(S.sec[1]&&S.sec[1].img);const im=S.gal?await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,photoPrompt(S.sec[i],S.name,!!style,extra),true,S.sec[i].img&&S.sec[i].img.width>=S.sec[i].img.height*0.95?"1:1":"4:5"):await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,secPrompt(S.sec[i],i,S.sec.length,S.name,S.palette,!!style,extra),true);(S.sec[i]._hist=S.sec[i]._hist||[]).push(S.sec[i].img);S.sec[i].img=im;snap(S.sec[i]);draw();edClose()}
  catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
 
 /* ===== 광고 표현 검사 (과장·의약품 오인·근거 없는 수치) ===== */
@@ -792,6 +792,23 @@ const CATS=[["fashion","패션"],["appliance","가전"],["pet","반려동물"],[
 
 /* ===== 엑셀처럼 바로 고치기: 누른 자리 옆에 작은 칸 ===== */
 let QE=null;
+/* 갤러리형 사진: 가볍게 — 누르면 페이지 옆에 작은 카드 */
+function photoEdit(i,cy){qeClose();const q=S.sec[i];const cv=$("#cv"),rc=cv.getBoundingClientRect();QE={i,photo:1};
+ const b=document.createElement("div");b.id="qe";b.className="qe";b.style.width="260px";
+ b.innerHTML=`<div class="qe-h"><span id="qeSt">📷 이 사진을 바꿀까요?</span><button type="button" data-p="x" aria-label="닫기">✕</button></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+   <button type="button" class="btn gh sm" data-p="re">🔄 다른 장면</button><button type="button" class="btn gh sm" data-p="up">⬆ 내 사진으로</button>
+   <button type="button" class="btn gh sm" data-p="br">☀ 더 밝게</button><button type="button" class="btn gh sm" data-p="cl">🔍 더 가까이</button>
+   ${(q._hist&&q._hist.length)?`<button type="button" class="btn gh sm" data-p="un" style="grid-column:1/-1">↩ 이전 사진으로</button>`:""}</div>
+  <details style="margin-top:6px"><summary style="cursor:pointer;font-size:.78rem;color:var(--mu)">✍️ 원하는 모습 직접 적기</summary><input id="qeIn" placeholder="예) 배경을 대리석으로, 니트 대신 셔츠" style="width:100%;margin-top:6px;padding:8px 10px;border:1px solid var(--ln);border-radius:10px;font:inherit;font-size:.82rem"></details>
+  <small class="qe-f">다시 찍기 2크레딧(베타 무료) · 내 사진은 무료</small>`;
+ document.body.appendChild(b);const W=260,H=b.offsetHeight||200;let x=rc.right+16;if(x+W>innerWidth-8)x=rc.left-W-16;if(x<8)x=Math.max(8,innerWidth-W-8);let y=cy-30;if(y+H>innerHeight-10)y=innerHeight-H-10;if(y<64)y=64;b.style.left=x+"px";b.style.top=y+"px";
+ const busy=t=>{$("#qeSt").textContent=t;b.querySelectorAll("button[data-p]").forEach(z=>{if(z.dataset.p!=="x")z.disabled=true})};
+ const go=async ex=>{busy("📸 찰칵상세가 다시 찍는 중… 15초");await regenSec(i,ex);qeClose()};
+ b.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&ev.target.id==="qeIn"&&ev.target.value.trim()){ev.preventDefault();go(ev.target.value.trim())}if(ev.key==="Escape")qeClose()});
+ b.addEventListener("click",ev=>{const a=ev.target.closest("[data-p]");if(!a)return;const k=a.dataset.p;
+  if(k==="x")qeClose();else if(k==="re")go("A different scene and composition from the previous version.");else if(k==="br")go("Make the photo brighter and airier with soft daylight; keep the same scene.");else if(k==="cl")go("A closer shot where the product is larger in the frame; keep the same scene.");else if(k==="un"){undoSec(i);qeClose()}
+  else if(k==="up"){const f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=async()=>{if(!f.files[0])return;const im=await load(URL.createObjectURL(f.files[0]));if(im){(q._hist=q._hist||[]).push(q.img);q.img=im;draw()}qeClose()};f.click()}})}
 function qeClose(){const b=$("#qe");if(b)b.remove();QE=null}
 function quickEdit(i,rx,ry,cx,cy){qeClose();const q=S.sec[i];QE={i,rx,ry,photo:null,kind:"",from:""};
  const b=document.createElement("div");b.id="qe";b.className="qe";
@@ -875,7 +892,7 @@ $("#qsGo").onclick=()=>{$("#qs").classList.remove("on");startMake($("#qsName").v
 const EDL={brand:"브랜드",hook:"첫 문장 (**강조**)",sub:"한 줄 설명",kw:"키워드 (한 줄에 하나)",en:"영어 문장",name:"상품 이름",story:"상품 이야기",say:"고객 속마음 (한 줄에 하나)",pts:"특징 (제목 | 설명)",spec:"규격 (항목 | 값)",use:"사용법 (한 줄에 하나)",ship:"배송 · 교환",care:"구매 전 확인 (한 줄에 하나)",gh0:"소제목 (영문/제목/설명)",gh1:"소제목 (영문/제목/설명)",gh2:"소제목 (영문/제목/설명)",gh3:"소제목 (영문/제목/설명)",gh4:"소제목 (영문/제목/설명)"},EDA=["kw","say","use"];
 function edClose(){$("#ed").classList.remove("on")}
 $("#cv").addEventListener("click",e=>{const cv=$("#cv"),rc=cv.getBoundingClientRect(),yy=(e.clientY-rc.top)/rc.height*cv.height;const rg=(cv._rg||[]).filter(r=>yy>=r.y0&&yy<r.y1).pop();if(!rg)return;
- const ed=$("#ed");if(rg.sec!=null){quickEdit(rg.sec,(e.clientX-rc.left)/rc.width,(yy-rg.y0)/(rg.y1-rg.y0),e.clientX,e.clientY);return}
+ const ed=$("#ed");if(rg.sec!=null&&S.gal){photoEdit(rg.sec,e.clientY);return}if(rg.sec!=null){quickEdit(rg.sec,(e.clientX-rc.left)/rc.width,(yy-rg.y0)/(rg.y1-rg.y0),e.clientX,e.clientY);return}
  ed.dataset.sec="";let h="";for(const k of rg.keys){const v=EDA.includes(k)?(S[k]||(k==="say"?lines(S.who):[])).join("\n"):(S[k]||"");h+=`<div class="fg"><label>${EDL[k]}</label><textarea data-k="${k}" rows="${Math.min(6,Math.max(2,String(v).split("\n").length+1))}">${v.replace(/</g,"&lt;")}</textarea></div>`}
  if(rg.img!=null)h+=`<button type="button" class="btn pr" id="edRe" style="justify-content:center">🔄 이 사진 다시 그리기</button><button type="button" class="btn gh" id="edUp" style="justify-content:center">⬆ 내 사진으로 바꾸기</button>`;
  $("#edB").innerHTML=h;ed.dataset.img=rg.img??"";ed.classList.add("on");
