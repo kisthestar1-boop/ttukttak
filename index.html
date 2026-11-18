@@ -414,7 +414,7 @@ function focusOf(img){if(img._f)return img._f;try{const n=64,cv=document.createE
 function cover(c,img,x,y,w,h,zoom=1,dx=0,dy=0,r=0){if(!img)return;const _ai=img._ai;c.save();if(r){rr(c,x,y,w,h,r);c.clip()}else{c.beginPath();c.rect(x,y,w,h);c.clip()}
  const s=Math.max(w/img.width,h/img.height)*zoom,iw=img.width*s,ih=img.height*s;const [px,py]=zoom>1.01?focusOf(img):[.5,.5];
  let ox=x+w/2-(px+dx)*iw,oy=y+h/2-(py+dy)*ih;ox=Math.min(x,Math.max(x+w-iw,ox));oy=Math.min(y,Math.max(y+h-ih,oy));c.drawImage(img,ox,oy,iw,ih);
- if(_ai&&!img._own&&w>120){const fs=Math.max(11,w*.022);c.font=`600 ${fs}px "Noto Sans KR",sans-serif`;const t="AI 연출 이미지",tw=c.measureText(t).width+fs;c.fillStyle="rgba(0,0,0,.45)";c.fillRect(x+w-tw-fs*.6,y+h-fs*2.2,tw,fs*1.6);c.fillStyle="#fff";c.textAlign="left";c.textBaseline="top";c.fillText(t,x+w-tw-fs*.1,y+h-fs*1.95)}
+ if(false&&_ai&&!img._own&&w>120){const fs=Math.max(11,w*.022);c.font=`600 ${fs}px "Noto Sans KR",sans-serif`;const t="AI 연출 이미지",tw=c.measureText(t).width+fs;c.fillStyle="rgba(0,0,0,.45)";c.fillRect(x+w-tw-fs*.6,y+h-fs*2.2,tw,fs*1.6);c.fillStyle="#fff";c.textAlign="left";c.textBaseline="top";c.fillText(t,x+w-tw-fs*.1,y+h-fs*1.95)}
  c.restore()}
 function lines(s){return String(s||"").split("\n").map(t=>t.trim()).filter(Boolean)}
 function pairs(s){return lines(s).map(l=>{const i=l.indexOf("|");return i<0?[l,""]:[l.slice(0,i).trim(),l.slice(i+1).trim()]})}
@@ -569,11 +569,11 @@ heads는 정확히 5개(hero, wear, detail, scale, gift 순서). photos는 정�
  const t=j.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"{}";const o=JSON.parse(t.replace(/^```json|```$/g,"").trim());if(!Array.isArray(o.photos)||o.photos.length<8)throw new Error("기획이 비었어요");return o}
 function photoPrompt(sec,name,styled,extra){
  return `Create ONE single photograph (not a poster, not a layout): a realistic, high-end commercial product photo for a top-selling Korean online store detail page.
-Product: ${name} — the product in the FIRST reference image. Reproduce it EXACTLY: same shape, color, material, size proportions and every detail. Do not redesign or embellish it.${styled?" The SECOND reference image is another photo from this same shoot: match its lighting, color grading and overall mood so all photos look like one consistent photoshoot.":""}
+Product: ${name} — the product in the FIRST reference image. Reproduce it EXACTLY: same shape, color, material, size proportions and every detail. Do not redesign or embellish it. If the product has a printed label, logo or text on it, reproduce that label exactly as in the reference (the only text allowed in the photo).${styled?" The SECOND reference image is another photo from this same shoot: match its lighting, color grading and overall mood so all photos look like one consistent photoshoot.":""}
 Scene: ${sec.photo||"the product beautifully styled"}.
 Show exactly ONE instance of the product (never two copies in one photo), used correctly and at a realistic scale (e.g. a necklace is worn around the neck). People: natural skin, relaxed pose, face cropped out of frame. Hands, if shown, must be anatomically perfect with five natural fingers; when unsure, avoid hands.
 Style: soft natural daylight, true-to-life colors, shallow depth of field, sharp focus on the product, clean minimal background, premium magazine-quality photography.
-${extra?"Extra request: "+extra+"\n":""}ABSOLUTELY NO text, letters, numbers, rulers, measuring tapes, logos, watermarks, borders, frames or graphic elements anywhere in the image.`}
+${extra?"Extra request: "+extra+"\n":""}Apart from the product's own label, ABSOLUTELY NO text, letters, numbers, rulers, measuring tapes, logos, watermarks, borders, frames or graphic elements anywhere in the image.`}
 function renderGallery(cv,d,W=860){const k=W/860,P=44*k,IW=W-2*P;const c=cv.getContext("2d");const ink="#1E1E22",mu="#7A7A84",acc=d.acc||"#B08D57",bg="#FFFFFF",bg2="#F6F5F2";
  const ph=d.sec.filter(s=>s.img);let est=0;for(const s of ph)est+=Math.round(IW*s.img.height/s.img.width)+24*k;cv.width=W;cv.height=est+6000*k;
  c.fillStyle=bg;c.fillRect(0,0,W,cv.height);c.textBaseline="top";const RG=[];cv._rg=RG;let y=0;
