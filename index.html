@@ -142,6 +142,11 @@ body.studio #make .eb,body.studio #make h2,body.studio #make .lead{display:none}
 body.studio .sbar{display:flex}
 .sbar{display:none;align-items:center;gap:12px;height:56px;padding:0 18px;background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:5}
 .sbar .sp{flex:1}.sbar small{color:var(--mu)}
+#ckIn{text-transform:uppercase}#ckIn::placeholder{text-transform:none}
+@media (max-width:760px){body.studio .start{inset:0;padding-top:130px}.sbar{z-index:9!important;height:auto;flex-wrap:wrap;padding:8px 12px;gap:6px}.sbar>small,.sbar>.sp{display:none}.sbar .logo{white-space:nowrap}
+ #ckBox{order:5;width:100%;margin:0!important;flex-wrap:wrap}#ckIn{flex:1;min-width:0;width:auto!important}#ckBal{order:6;width:100%;font-size:.75rem}#ckMsg{order:7;width:100%}
+ .qs .qb{max-height:calc(100vh - 32px);overflow-y:auto}.qs .qb .ai span{min-width:0}}
+.qs .qb,.qs .qb *{box-sizing:border-box}.qs .qb{max-width:100%}.qs .qb .ai{min-width:0}
 body.studio .mk{grid-template-columns:360px minmax(0,1fr) 230px;gap:0;align-items:stretch;min-height:calc(100vh - 56px)}
 body.studio .form{border-radius:0;border:0;border-right:1px solid var(--ln);max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px}
 body.studio .out{border-radius:0;border:0;top:56px;max-height:calc(100vh - 56px);background:#F4F3F8}
@@ -163,7 +168,7 @@ body.studio.empty .start{display:flex}
 .start .box{width:min(560px,100%);background:#fff;border:2px dashed #CFC9F5;border-radius:26px;padding:46px 24px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;cursor:pointer}
 .start .box:hover{border-color:var(--acc)}
 .start .ic{font-size:2.6rem}.start b{font-size:1.25rem}.start small{color:var(--mu)}
-@media (max-width:900px){body.studio .mk{grid-template-columns:1fr}body.studio .form,body.studio .out,body.studio .side3{position:static;max-height:none}}
+@media (max-width:900px){body.studio .mk,body.studio:not(.edit) .mk{grid-template-columns:minmax(0,1fr)}body.studio .prog{inset:auto 8px 8px 8px!important}body.studio .pgs{grid-template-columns:1fr!important}body.studio .pv{height:auto;min-height:60vh}body.studio .pv canvas{max-width:100%}body.studio .form,body.studio .out,body.studio .side3{position:static;max-height:none}}
 /* price & faq */
 .price{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:760px){.price{grid-template-columns:1fr}}
@@ -335,7 +340,7 @@ nav .lk{color:#333!important}
 <section id="price" style="padding-top:20px"><div class="in">
  <div class="eb">Pricing</div>
  <h2>먼저 무료로 보고, 마음에 들면 충전하세요</h2>
- <p class="lead">로그인 없이 크레딧 코드 하나로 써요. 혼자 만들기 어려우시면 맡기셔도 돼요.</p>
+ <p class="lead">로그인 없이 크레딧 코드 하나로 써요.</p>
  <div class="price">
   <div class="pc hot"><span class="pb">지금 바로</span><h3>무료 맛보기</h3><div class="pp">₩0 <small style="font-size:.9rem;color:var(--mu)">대표 컷 1장</small></div>
    <ul><li>가입 없이 바로 사용</li><li>가입·카드 등록 없이 사진 한 장만</li><li>원하는 분위기·참고 사진대로 맞춰 촬영</li><li>우리 상품 대표 컷 1장을 먼저 확인</li><li>마음에 들면 충전하고 전체 페이지로</li></ul>
@@ -343,13 +348,15 @@ nav .lk{color:#333!important}
   <div class="pc"><span class="pb">추천</span><h3>상세페이지 1건</h3><div class="pp">₩5,000 <small style="font-size:.9rem;color:var(--mu)">50크레딧</small></div>
    <ul><li>연출 사진 14장 + 정보 표 + 구매 전 확인</li><li>사진 다시 찍기 2크레딧 · 글자 고치기와 내 사진 넣기는 무료</li><li>₩10,000 → 110크레딧 (2건 + 다시 찍기 5번) · ₩30,000 → 350크레딧 (7건)</li><li>만들다 실패하면 크레딧이 빠지지 않아요</li><li>안 쓴 크레딧은 환불돼요</li></ul>
    <a class="btn pr go" data-ck="1" href="#make" style="align-self:flex-start">충전하고 만들기 →</a></div>
+  <!-- 보관: 전문가에게 맡기기 카드 (11/18 민성님 요청으로 숨김)
   <div class="pc"><h3>전문가에게 맡기기</h3><div class="pp" style="font-size:1.5rem">9,000원~</div>
    <ul><li>사진만 보내면 찰칵상세 팀이 완성해서 보내 드려요</li><li>기획·문구·연출 사진 포함</li><li>수정 2~10회 (패키지별)</li><li>크몽 안전결제로 주문</li></ul>
    <a class="btn gh" href="https://kmong.com/@%EC%B0%B0%EC%B9%B5%EC%83%81%EC%84%B8" target="_blank" rel="noopener" style="align-self:flex-start">크몽에서 보기 →</a></div>
+  -->
  </div>
  <div style="margin-top:28px;padding:22px 24px;border:1px solid var(--ln);border-radius:20px;background:#FBFAFD">
   <b style="font-size:1.05rem">💳 충전 · 이용 방법 (로그인 필요 없어요)</b>
-  <ol style="margin:12px 0 0;padding-left:20px;line-height:1.9;color:var(--mu)"><li><b style="color:var(--ink)">작업 창의 💳 충전</b> — 금액 고르고 이메일 적으면 주문 번호가 나와요</li><li><b style="color:var(--ink)">카카오페이로 송금</b> — 메모에 주문 번호를 적어 주세요. 확인되면 메일로 크레딧 코드가 가요</li><li><b style="color:var(--ink)">🎟 칸에 코드 넣고 만들기</b> — 만들기를 시작할 때 50크레딧이 빠지고, 실패하면 돌려드려요</li><li><b style="color:var(--ink)">고치고 저장</b> — 글자 고치기·내 사진 넣기는 무료, 다시 찍기만 2크레딧</li></ol></div>
+  <ol style="margin:12px 0 0;padding-left:20px;line-height:1.9;color:var(--mu)"><li><b style="color:var(--ink)">작업 창의 💳 충전</b> — 금액 고르고 이메일 적으면 주문 번호가 나와요</li><li><b style="color:var(--ink)">카카오페이로 송금</b> — 메모에 주문 번호를 적어 주세요. 확인되면 크레딧이 <b>자동으로</b> 들어와요</li><li><b style="color:var(--ink)">사진 올리고 만들기</b> — 시작할 때 50크레딧이 빠지고, 실패하면 돌려드려요. 다른 기기에선 메일로 받은 코드만 넣으면 돼요</li><li><b style="color:var(--ink)">고치고 저장</b> — 글자 고치기·내 사진 넣기는 무료, 다시 찍기만 2크레딧</li></ol></div>
 </div></section>
 
 <section id="faq" style="padding-top:20px"><div class="in" style="max-width:820px">
@@ -616,6 +623,7 @@ async function runGallery(nm,cat){const key=($("#qsKey").value||"").trim();const
    if(t<2&&!S.taste&&(S.sec[i].g==="hero"||S.sec[i].g==="wear")){const q=await aiCheck(im,S.name);if(q&&q.ok===false){fix="AVOID this defect seen in a previous attempt: "+(q.issue||"unnatural details")+".";if(!S.sec[i].img)S.sec[i].img=im;continue}}
    S.sec[i].img=im;steps[i+1][1]="ok";draw();break}catch(e){if(/API key|PERMISSION|401|403|quota|한도|맛보기|크레딧|코드/i.test(e.message)){steps[i+1]=["사진 "+(i+1)+": "+e.message,"er"];pgSet(steps);throw e}if(t)steps[i+1]=["사진 "+(i+1)+": 다시 시도 실패","er"]}}pgSet(steps)};
  try{await one(0,null);const style=S.sec[0].img;let next=1;const w=async()=>{while(next<S.sec.length){const i=next++;await one(i,style)}};await Promise.all([w(),w(),w(),w()])}catch(e){}
+ if(!S.sec.some(s=>s.img)){if(CK.ticket)await CK.refund();CK.ticket=null;steps.push(["사진을 만들지 못했어요. "+(taste?"무료 맛보기는 다시 쓸 수 있어요":"크레딧은 돌려드렸어요")+" · 잠시 뒤 다시 눌러 주세요","er"]);pgSet(steps);setTimeout(()=>$("#prog").classList.remove("on"),6000);return false}
  const L2=steps.length-1;steps[L2][1]="ok";pgSet(steps);draw();CK.ticket=null;setTimeout(()=>{$("#prog").classList.remove("on");if(taste)ckTaste()},900);return true}
 function ckTaste(){let m=document.getElementById("ckT");if(m)m.remove();m=document.createElement("div");m.className="qs on";m.id="ckT";
  m.innerHTML=`<div class="qb"><div class="qh"><b>✨ 무료 맛보기 대표 컷이에요</b><button type="button" class="qx" aria-label="닫기">✕</button></div>
@@ -697,7 +705,7 @@ function undoSec(i){const q=S.sec[i];if(q._hist&&q._hist.length){q.img=q._hist.p
 async function regenSec(i,extra){const b=$("#edRe");if(b){b.disabled=true;b.textContent="그리는 중… (10~20초)"}
  if(S.gal&&PROXY){if(!CK.code){qeClose();ckOpen();return}const tk=await CK.spend("redo");if(!tk){qeClose();ckOpen();return}}
  try{const style=i?S.sec[0].img:(S.sec[1]&&S.sec[1].img);const im=S.gal?await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,photoPrompt(S.sec[i],S.name,!!style,extra),true,S.sec[i].img&&S.sec[i].img.width>=S.sec[i].img.height*0.95?"1:1":"4:5"):await aiPoster(($("#qsKey").value||"").trim(),qFiles[0],style,secPrompt(S.sec[i],i,S.sec.length,S.name,S.palette,!!style,extra),true);(S.sec[i]._hist=S.sec[i]._hist||[]).push(S.sec[i].img);S.sec[i].img=im;snap(S.sec[i]);draw();edClose()}
- catch(e){if(b){b.disabled=false;b.textContent="다시 시도: "+e.message}}}
+ catch(e){if(S.gal&&CK.ticket){await CK.refund()}if(b){b.disabled=false;b.textContent="다시 시도: "+e.message+" (크레딧은 돌려드렸어요)"}}}
 
 /* ===== 광고 표현 검사 (과장·의약품 오인·근거 없는 수치) ===== */
 const LAW=[[/최고|최상|최초|1위|넘버원|유일|완벽|무조건|100\s?%|모든 사람/,"과장 표현 — 객관적 근거(시험 성적·출처)가 없으면 빼는 게 안전해요"],
@@ -780,11 +788,19 @@ const CK={code:LS.get("ck_code")||"",bal:null,ticket:null,
  async spend(op){const j=await this.call({op,code:this.code});if(j.error){ckMsg(j.error);if(j.bal!=null)this.bal=j.bal;ckUI();return null}this.ticket=j.ticket;this.bal=j.bal;ckUI();return j.ticket},
  async refund(){if(!this.ticket)return;const j=await this.call({op:"refund",ticket:this.ticket});if(j.bal!=null)this.bal=j.bal;this.ticket=null;ckUI()}};
 function ckMsg(t){const m=document.getElementById("ckMsg");if(m)m.textContent=t||""}
-function ckUI(){const b=document.getElementById("ckBal"),i=document.getElementById("ckIn");if(i&&CK.code&&!i.value)i.value=CK.code;if(b)b.textContent=CK.code?(CK.bal!=null?"남은 "+CK.bal+" 크레딧 (약 "+Math.floor(CK.bal/50)+"건)":""):"무료 맛보기: 대표 컷 1장"}
+function ckUI(){const b=document.getElementById("ckBal"),i=document.getElementById("ckIn");if(i&&CK.code&&i.value!==CK.code&&document.activeElement!==i)i.value=CK.code;const pend=ckClaims().length;
+ if(b)b.textContent=(CK.code?(CK.bal!=null?"남은 "+CK.bal+" 크레딧 (약 "+Math.floor(CK.bal/50)+"건)":""):"무료 맛보기: 대표 컷 1장")+(pend?" · ⏳ 입금 확인 중":"")}
+function ckClaims(){try{return JSON.parse(LS.get("ck_claims")||"[]")}catch(e){return[]}}
+function ckToast(t){let d=document.createElement("div");d.textContent=t;d.style.cssText="position:fixed;left:50%;top:76px;transform:translateX(-50%);z-index:99;background:#1E1E22;color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:opacity .6s";document.body.appendChild(d);setTimeout(()=>{d.style.opacity=0},4000);setTimeout(()=>d.remove(),4700)}
+/* 입금이 확인되면 주문한 브라우저에 크레딧이 저절로 들어와요 (로그인 없이) */
+async function ckPoll(){const cl=ckClaims();if(!cl.length)return;const left=[];for(const c of cl){const j=await CK.call({op:"claim",claim:c.k});
+  if(j.code){CK.code=j.code;LS.set("ck_code",j.code);CK.bal=j.bal;ckToast("✓ 충전 완료! "+j.credits+"크레딧이 들어왔어요");}else if(j.wait&&Date.now()-c.t<14*864e5)left.push(c)}
+ LS.set("ck_claims",JSON.stringify(left));ckUI()}
+setInterval(()=>{if(ckClaims().length&&!document.hidden)ckPoll()},20000);
 function ckSet(v){CK.code=String(v||"").trim().toUpperCase();LS.set("ck_code",CK.code);CK.bal=null;CK.refresh()}
 function ckOpen(){let m=document.getElementById("ckM");if(m)m.remove();m=document.createElement("div");m.className="qs on";m.id="ckM";
  m.innerHTML=`<div class="qb"><div class="qh"><b>💳 크레딧 충전</b><button type="button" class="qx" aria-label="닫기">✕</button></div>
- <small class="mu2">로그인은 필요 없어요. 입금이 확인되면 <b>크레딧 코드</b>를 메일로 보내 드려요. 코드를 위 🎟 칸에 넣으면 바로 쓸 수 있어요.</small>
+ <small class="mu2">로그인은 필요 없어요. 입금이 확인되면 <b>이 브라우저에 크레딧이 자동으로 들어와요.</b> 다른 기기용 코드는 메일로도 보내 드려요.</small>
  <div style="display:flex;flex-direction:column;gap:8px">
  <label class="ai"><input type="radio" name="ckp" value="p50"> <span><b>₩5,000 · 50크레딧</b> · 상세페이지 1건</span></label>
  <label class="ai"><input type="radio" name="ckp" value="p110" checked> <span><b>₩10,000 · 110크레딧</b> · 2건 + 다시 찍기 5번 <small>(+10% 보너스 · 추천)</small></span></label>
@@ -792,11 +808,14 @@ function ckOpen(){let m=document.getElementById("ckM");if(m)m.remove();m=documen
  <div class="fg"><label>코드 받을 이메일</label><input type="email" id="ckEm" placeholder="you@example.com" style="width:100%;padding:12px 14px;border:1px solid var(--ln);border-radius:12px;font:inherit"></div>
  <button type="button" class="btn pr" id="ckGo" style="justify-content:center">주문 번호 받기</button>
  <div id="ckR"></div>
+ <details style="font-size:.82rem"><summary style="cursor:pointer;color:var(--mu)">코드를 잃어버렸어요</summary><div style="display:flex;gap:6px;margin-top:8px"><input type="email" id="ckFe" placeholder="충전할 때 적은 이메일" style="flex:1;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;font:inherit"><button type="button" class="btn gh sm" id="ckFg">다시 받기</button></div><small id="ckFr" class="mu2"></small></details>
  <small class="mu2">사진 생성이 실패하면 크레딧은 빠지지 않아요 · 쓰지 않은 크레딧은 환불돼요 · 다시 찍기 1장 2크레딧</small></div>`;
  document.body.appendChild(m);m.querySelector(".qx").onclick=()=>m.remove();m.onclick=e=>{if(e.target===m)m.remove()};
+ m.querySelector("#ckFg").onclick=async()=>{const r=m.querySelector("#ckFr");r.textContent="확인 중…";const j=await CK.call({op:"find",email:m.querySelector("#ckFe").value.trim()});r.textContent=j.error||j.msg};
  m.querySelector("#ckGo").onclick=async()=>{const pkg=(m.querySelector("[name=ckp]:checked")||{}).value,email=m.querySelector("#ckEm").value.trim();const r=m.querySelector("#ckR");r.textContent="주문 만드는 중…";
-  const j=await CK.call({op:"order",pkg,email});if(j.error){r.textContent=j.error;return}
-  r.innerHTML=`<div style="padding:14px;border-radius:14px;background:#F6F3FF;line-height:1.7"><b>주문 번호 ${j.order}</b> · ₩${Number(j.amount).toLocaleString()}<br>송금할 때 <b>보내는 분 이름(메모)</b>에 주문 번호 <b>${j.order}</b>를 꼭 적어 주세요.<br>입금 확인 후 보통 1시간 안에 (밤에는 다음 날 아침) 메일로 코드가 가요.</div>`+
+  const j=await CK.call({op:"order",pkg,email,code:CK.code||""});if(j.error){r.textContent=j.error;return}
+  const cl=ckClaims();cl.push({k:j.claim,t:Date.now(),o:j.order});LS.set("ck_claims",JSON.stringify(cl));ckUI();
+  r.innerHTML=`<div style="padding:14px;border-radius:14px;background:#F6F3FF;line-height:1.7"><b>주문 번호 ${j.order}</b> · ₩${Number(j.amount).toLocaleString()}<br>송금할 때 <b>보내는 분 이름(메모)</b>에 주문 번호 <b>${j.order}</b>를 꼭 적어 주세요.<br>입금이 확인되면 <b>이 브라우저에 크레딧이 자동으로 들어와요</b> (보통 1시간 안, 밤에는 다음 날 아침). ${j.into?"지금 쓰시는 코드에 그대로 더해져요.":"다른 기기에서 쓸 코드는 메일로도 보내 드려요."}</div>`+
    (KAKAO_PAY?`<a class="btn pr" style="justify-content:center;margin-top:10px;background:#FEE500;color:#191919" href="${KAKAO_PAY}" target="_blank" rel="noopener">카카오페이로 송금하기</a>`:`<small class="mu2">카카오페이 송금 링크를 준비 중이에요.</small>`)}}
 async function gem(models,body,key,opx){const op=opx||(models===IMG_MODELS?"scene":"copy");
  if(PROXY&&!PROXY.startsWith("__")){const pass=op==="copy"?{}:(CK.ticket?{ticket:CK.ticket}:{taste:CK.fp()});const r=await fetch(PROXY,{method:"POST",body:JSON.stringify(Object.assign({op,body},pass))});const j=await r.json();if(j.error)throw new Error(j.error);return j}
@@ -884,7 +903,7 @@ document.addEventListener("mousedown",ev=>{const b=$("#qe");if(b&&!b.contains(ev
 const qf=document.createElement("input");qf.type="file";qf.accept="image/*";qf.multiple=true;qf.hidden=true;document.body.appendChild(qf);
 let qCat="jewel",qFiles=[];
 const STUDIO=location.hash.startsWith("#studio");
-try{const ci=$("#ckIn");ci.addEventListener("change",()=>ckSet(ci.value));ci.addEventListener("keydown",e=>{if(e.key==="Enter")ckSet(ci.value)});$("#ckBtn").onclick=ckOpen;ckUI();CK.refresh();if(location.hash==="#studio-ck")setTimeout(ckOpen,300)}catch(e){}
+try{const ci=$("#ckIn");ci.addEventListener("change",()=>ckSet(ci.value));ci.addEventListener("keydown",e=>{if(e.key==="Enter")ckSet(ci.value)});$("#ckBtn").onclick=ckOpen;ckUI();CK.refresh();ckPoll();if(location.hash==="#studio-ck")setTimeout(ckOpen,300)}catch(e){}
 document.querySelectorAll(".go").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const ck=a.dataset.ck;if(STUDIO){if(ck)ckOpen();else qf.click();return}const w=window.open(location.href.split("#")[0]+(ck?"#studio-ck":"#studio"),"_blank");if(!w){if(ck)ckOpen();else qf.click()}}));
 if(STUDIO){document.body.classList.add("studio","empty");document.title="작업 창 · 찰칵상세";$("#startBox").onclick=()=>qf.click();
  const st=$("#start");["dragover","dragenter"].forEach(t=>st.addEventListener(t,e=>{e.preventDefault()}));st.addEventListener("drop",e=>{e.preventDefault();qFiles=[...e.dataTransfer.files].filter(f=>f.type.startsWith("image/")).slice(0,6);if(qFiles.length)openSty()})}
