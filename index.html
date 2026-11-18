@@ -789,7 +789,7 @@ const CK={code:LS.get("ck_code")||"",bal:null,ticket:null,
  async refund(){if(!this.ticket)return;const j=await this.call({op:"refund",ticket:this.ticket});if(j.bal!=null)this.bal=j.bal;this.ticket=null;ckUI()}};
 function ckMsg(t){const m=document.getElementById("ckMsg");if(m)m.textContent=t||""}
 function ckUI(){const b=document.getElementById("ckBal"),i=document.getElementById("ckIn");if(i&&CK.code&&i.value!==CK.code&&document.activeElement!==i)i.value=CK.code;const pend=ckClaims().length;
- if(b)b.textContent=(CK.code?(CK.bal!=null?"남은 "+CK.bal+" 크레딧 (약 "+Math.floor(CK.bal/50)+"건)":""):"무료 맛보기: 대표 컷 1장")+(pend?" · ⏳ 입금 확인 중":"")}
+ if(b)b.textContent=(CK.code?(CK.bal!=null?"남은 "+CK.bal+" 크레딧 (약 "+Math.floor(CK.bal/50)+"건)":""):"무료 맛보기: 대표 컷 1장")+(pend?" · ⏳ 입금 확인 중":"");let h=document.getElementById("ckHow");if(!h&&b){h=document.createElement("a");h.id="ckHow";h.href="#";h.style.cssText="font-size:.74rem;color:#6B4FD8;white-space:nowrap;font-weight:700";h.textContent="📋 다른 기기에서 쓰기";h.onclick=e=>{e.preventDefault();if(!CK.code){ckToast("충전하면 코드가 생겨요. 그 코드로 어느 기기에서나 써요");return}try{navigator.clipboard.writeText(CK.code)}catch(_){}ckToast("잔액은 이 컴퓨터가 아니라 코드 "+CK.code+"에 저장돼요 · 다른 기기에선 이 코드만 넣으세요 (복사됨)")};b.insertAdjacentElement("afterend",h)}if(h)h.style.display=CK.code?"":"none"}
 function ckClaims(){try{return JSON.parse(LS.get("ck_claims")||"[]")}catch(e){return[]}}
 function ckToast(t){let d=document.createElement("div");d.textContent=t;d.style.cssText="position:fixed;left:50%;top:76px;transform:translateX(-50%);z-index:99;background:#1E1E22;color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:opacity .6s";document.body.appendChild(d);setTimeout(()=>{d.style.opacity=0},4000);setTimeout(()=>d.remove(),4700)}
 /* 입금이 확인되면 주문한 브라우저에 크레딧이 저절로 들어와요 (로그인 없이) */
@@ -800,7 +800,7 @@ setInterval(()=>{if(ckClaims().length&&!document.hidden)ckPoll()},20000);
 function ckSet(v){CK.code=String(v||"").trim().toUpperCase();LS.set("ck_code",CK.code);CK.bal=null;CK.refresh()}
 function ckOpen(){let m=document.getElementById("ckM");if(m)m.remove();m=document.createElement("div");m.className="qs on";m.id="ckM";
  m.innerHTML=`<div class="qb"><div class="qh"><b>💳 크레딧 충전</b><button type="button" class="qx" aria-label="닫기">✕</button></div>
- <small class="mu2">로그인은 필요 없어요. 입금이 확인되면 <b>이 브라우저에 크레딧이 자동으로 들어와요.</b> 다른 기기용 코드는 메일로도 보내 드려요.</small>
+ <small class="mu2">로그인은 필요 없어요. 입금이 확인되면 <b>이 브라우저에 크레딧이 자동으로 들어와요.</b> 잔액은 컴퓨터가 아니라 <b>크레딧 코드</b>에 저장돼서, 메일로 받은 코드만 넣으면 <b>어느 기기에서나 그대로</b> 써요.</small>
  <div style="display:flex;flex-direction:column;gap:8px">
  <label class="ai"><input type="radio" name="ckp" value="p50"> <span><b>₩5,000 · 50크레딧</b> · 상세페이지 1건</span></label>
  <label class="ai"><input type="radio" name="ckp" value="p110" checked> <span><b>₩10,000 · 110크레딧</b> · 2건 + 다시 찍기 5번 <small>(+10% 보너스 · 추천)</small></span></label>
