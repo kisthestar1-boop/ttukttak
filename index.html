@@ -226,171 +226,28 @@ nav .lk{color:#333!important}
 .st,.wy,.pc,.gc{border-color:rgba(20,16,40,.07)!important;box-shadow:0 1px 2px rgba(20,16,40,.04)}
 .st h3{font-weight:700!important}
 .mkcta{border-style:solid!important;border-color:rgba(20,16,40,.1)!important;background:#FBFAFD!important}.mkcta .ic{color:var(--p2)}
-@media (max-width:560px){.gc .cap,.cap{flex-direction:column;align-items:flex-start;gap:4px}.gc .cap span,.cap span{white-space:nowrap}}</style>
-<style id="home2">
-/* ===== 찰칵상세 홈페이지급 리뉴얼 (2026-11-23) ===== */
-:root{--bg:#FAF8F5;--ink:#1B1916;--mu:#6E6860;--ln:#E9E4DC;--card:#fff;--p1:#FF8A4C;--p2:#F2592F;--p3:#D9381E;--acc:#E2522B;--y:#FFE9A8;--g:#DDF2E3;--dk:#171513}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141210;--ink:#F3EFE9;--mu:#A9A197;--ln:#2E2A25;--card:#1D1A17;--y:#5A4714;--dk:#0E0D0B}}
-:root[data-theme=dark]{--bg:#141210;--ink:#F3EFE9;--mu:#A9A197;--ln:#2E2A25;--card:#1D1A17;--y:#5A4714;--dk:#0E0D0B}
-html{scroll-behavior:auto}
-body:not(.studio)>nav.old{display:none}
-.vh{display:none!important}
-/* 상단 바 */
-.tbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln)}
-.tbar .in{display:flex;align-items:center;gap:28px;height:76px}
-.tbar .brand{display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer}
-.tbar .brand i{width:40px;height:40px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-style:normal;position:relative}
-.tbar .brand i:after{content:"";position:absolute;right:7px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
-.tbar .brand b{font-size:1.55rem;font-weight:900;letter-spacing:-.04em;line-height:1}
-.tbar .brand small{display:block;font-size:.66rem;letter-spacing:.18em;color:var(--mu);font-weight:700;margin-top:4px}
-.tbar .menu{display:flex;gap:4px;margin-left:12px}
-.tbar .menu a{padding:10px 14px;border-radius:10px;font-weight:700;font-size:.98rem;text-decoration:none;color:var(--ink);opacity:.78}
-.tbar .menu a:hover{opacity:1;background:color-mix(in srgb,var(--ink) 5%,transparent)}
-.tbar .menu a.on{opacity:1;color:var(--acc)}
-.tbar .sp{flex:1}
-.tbar .ask{font-weight:700;font-size:.9rem;text-decoration:none;color:var(--mu)}
-.btn.pr{background:var(--acc);box-shadow:0 8px 20px color-mix(in srgb,var(--acc) 28%,transparent)}
-.btn.dk{background:var(--ink);color:var(--bg);border-radius:999px}
-@media (max-width:900px){.tbar .in{height:auto;flex-wrap:wrap;gap:8px;padding-top:10px;padding-bottom:6px}.tbar .menu{order:3;width:100%;margin:0;overflow-x:auto;scrollbar-width:none}.tbar .menu a{white-space:nowrap;padding:8px 11px;font-size:.92rem}.tbar .ask{display:none}.tbar .brand b{font-size:1.35rem}.tbar .brand i{width:34px;height:34px}}
-/* 히어로 */
-.hero{background:var(--bg);text-align:left;padding:64px 0 56px}
-.hero .side{display:none}
-.hero .in{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-.hero .badge{background:var(--card);border:1px solid var(--ln)}
-.hero h1{font-size:clamp(2.4rem,5.2vw,4.1rem);line-height:1.12;letter-spacing:-.045em}
-.hero h1 em{background:none;-webkit-text-fill-color:currentColor;color:var(--acc)}
-.hero .sub{margin-left:0;max-width:30em}
-.hero .cta{justify-content:flex-start}
-.hero .facts{justify-content:flex-start}
-.hero .demo{grid-column:1/-1}
-.hv{position:relative;height:560px}
-.hv .ph{position:absolute;right:0;top:0;width:300px;height:560px;border-radius:38px;background:#111;padding:12px;box-shadow:0 30px 60px rgba(30,20,10,.18)}
-.hv .ph .sc{width:100%;height:100%;border-radius:28px;overflow:hidden;background:#fff}
-.hv .ph .sc img{width:100%}
-.hv .bf{position:absolute;left:0;top:70px;width:230px;background:var(--card);border:1px solid var(--ln);border-radius:20px;padding:12px;box-shadow:0 18px 40px rgba(30,20,10,.10)}
-.hv .bf img{border-radius:12px;aspect-ratio:1/1;object-fit:cover;width:100%}
-.hv .bf b{display:block;font-size:.8rem;margin:10px 2px 2px}
-.hv .bf small{color:var(--mu);font-size:.74rem;margin:0 2px}
-.hv .tg{position:absolute;font-size:.72rem;font-weight:900;letter-spacing:.12em;padding:6px 10px;border-radius:999px;background:var(--ink);color:var(--bg)}
-.hv .ar{position:absolute;left:250px;top:230px;font-size:2rem;color:var(--acc);font-weight:900}
-.hv .chip2{position:absolute;left:30px;bottom:60px;background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:12px 14px;font-size:.82rem;box-shadow:0 14px 30px rgba(30,20,10,.08);max-width:240px}
-.hv .chip2 b{color:var(--acc)}
-@media (max-width:900px){.hero .in{grid-template-columns:1fr;gap:30px}.hv{height:470px}.hv .ph{width:250px;height:470px}.hv .bf{width:150px;top:20px}.hv .ar{display:none}.hv .chip2{display:none}}
-/* 공통 섹션 */
-section{padding:88px 0}
-.eb{color:var(--acc)}
-.pgh{padding:56px 0 8px}
-.pgh .crumb{font-size:.82rem;color:var(--mu);font-weight:700}
-/* 홈: 카테고리 쇼케이스 */
-.show{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.show button{all:unset;cursor:zoom-in;position:relative;border-radius:22px;overflow:hidden;background:var(--card);border:1px solid var(--ln);aspect-ratio:4/5;display:block}
-.show button img{width:100%;height:100%;object-fit:cover;object-position:top}
-.show button span{position:absolute;left:14px;bottom:14px;right:14px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:.86rem}
-.show button span b{font-size:.98rem}
-.show button span em{font-style:normal;color:var(--mu);font-size:.78rem}
-@media (max-width:900px){.show{grid-template-columns:repeat(2,1fr);gap:10px}.show button span{left:8px;right:8px;bottom:8px;padding:8px 10px;flex-direction:column;align-items:flex-start;gap:0}}
-.more{display:inline-flex;margin-top:26px;font-weight:800;text-decoration:none;color:var(--acc)}
-/* 숫자 밴드 */
-.band{background:var(--dk);color:#F3EFE9;padding:70px 0}
-.band .g{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.band .n{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1}
-.band .n i{font-style:normal;color:var(--p1)}
-.band small{display:block;margin-top:10px;color:#BDB4A8;font-size:.88rem}
-@media (max-width:900px){.band .g{grid-template-columns:repeat(2,1fr)}}
-/* 맞춤 제작 split */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.split .im{border-radius:26px;overflow:hidden;aspect-ratio:1/1}
-.split .im img{width:100%;height:100%;object-fit:cover}
-.split ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:12px}
-.split li{display:flex;gap:12px;align-items:flex-start}
-.split li i{flex:none;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);display:grid;place-items:center;font-style:normal;font-weight:900;font-size:.8rem;margin-top:2px}
-.split .bt{display:flex;gap:10px;flex-wrap:wrap}
-@media (max-width:900px){.split{grid-template-columns:1fr;gap:26px}}
-/* 의뢰 진행 순서 */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:f}
-.flow div{background:var(--card);border:1px solid var(--ln);border-radius:20px;padding:22px}
-.flow div:before{counter-increment:f;content:"STEP 0" counter(f);font-size:.72rem;font-weight:900;letter-spacing:.14em;color:var(--acc)}
-.flow b{display:block;margin:8px 0 6px;font-size:1.05rem}
-.flow small{color:var(--mu)}
-@media (max-width:900px){.flow{grid-template-columns:1fr 1fr}}
-.end{background:var(--dk)!important;color:#F3EFE9}
-.end .btn{background:var(--acc);color:#fff}
-footer{background:var(--dk);color:#8F877C;border-top:1px solid #2A2622;padding:26px 20px 40px;text-align:center;font-size:.82rem}
-footer a{color:#BDB4A8}
-.view-fade{animation:vf .35s ease}
-@keyframes vf{from{opacity:0}to{opacity:1}}
-body.studio .tbar,body.studio .hm{display:none!important}
-@media (max-width:900px){.hero .facts span:nth-child(n+4){display:none}.show button span b{font-size:.84rem}.show button span em{font-size:.7rem}.hero{padding-top:36px}}
-.split .im{aspect-ratio:auto}
-.hero .sub{margin:0 0 26px;padding:0}.hero .facts span{background:var(--card);border:1px solid var(--ln)}
-</style>
-</head><body>
+@media (max-width:560px){.gc .cap,.cap{flex-direction:column;align-items:flex-start;gap:4px}.gc .cap span,.cap span{white-space:nowrap}}</style></head><body>
 
-<header class="tbar"><div class="in">
- <a class="brand" data-v="home" href="#home"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.6"/></svg></i><span><b>찰칵상세</b><small>DETAIL PAGE STUDIO</small></span></a>
- <nav class="menu"><a data-v="ex" href="#ex">예시</a><a data-v="how" href="#how">만드는 법</a><a data-v="pf" href="#pf">맞춤 제작</a><a data-v="price" href="#price">요금</a><a data-v="faq" href="#faq">자주 묻는 질문</a></nav>
- <span class="sp"></span>
- <a class="ask" data-v="pf" href="#pf">직접 맡기기</a>
- <a class="btn pr go" href="#make">무료로 만들기</a>
-</div></header>
-<nav class="old" style="display:none"></nav>
+<nav><div class="in">
+ <a class="logo" href="#top"><i>✦</i>찰칵상세</a>
+ <div class="lk"><a href="#ex">예시</a><a href="#how">만드는 법</a><a href="#why">잘 팔리는 구조</a><a href="#pf">맞춤 제작</a><a href="#price">요금</a><a href="#faq">자주 묻는 질문</a></div>
+ <a class="btn pr go" href="#make">시작하기</a>
+</div></nav>
 
 <header class="hero" id="top">
  <div class="side l" id="sideL"></div><div class="side r" id="sideR"></div>
- <div class="in"><div class="htx">
+ <div class="in">
   <span class="badge">✦ 가입 없이 바로 · 대표 컷 1장 무료</span>
   <h1>사진 한 장이면,<br><em>상세페이지 완성</em></h1>
   <p class="sub">상품 사진 <b>한 장</b>만 올리세요. 찰칵상세가 쿠팡 상위 페이지처럼 연출 사진 14장을 찍고 구성해, 쿠팡·스마트스토어에 바로 올리는 상세페이지를 약 3분 만에 완성해요.</p>
   <div class="cta"><a class="btn pr go" href="#make">무료로 시작하기 →</a><a class="btn gh" href="#ex">결과물 보기</a></div>
   <div class="facts"><span>사진 1장이면 끝</span><span>약 3분</span><span>연출 사진 14장 자동 촬영</span><span>눌러서 바로 수정</span><span>쇼핑몰 9곳 규격</span></div>
-  </div><div class="hv" aria-label="사진 한 장이 상세페이지로 바뀌는 모습">
-  <div class="bf"><span class="tg" style="left:12px;top:12px">BEFORE</span><img src="pf/cardigan_raw.jpg" alt="올린 상품 사진 한 장"><b>올린 사진 1장</b><small>휴대폰 사진도 괜찮아요</small></div>
-  <div class="ar">→</div>
-  <div class="ph"><div class="sc"><img src="pf/cardigan_page.jpg" alt="완성된 상세페이지"></div><span class="tg" style="left:-14px;top:30px;background:var(--acc)">AFTER</span></div>
-  <div class="chip2"><b>12구간</b>으로 설득해요<br><small style="color:var(--mu)">장면 → 고를 이유 → 디테일 → 코디 → 사이즈 → FAQ</small></div>
- </div><div class="hide-demo" style="display:none"><div class="demo" aria-label="만들기 화면 미리보기"><div class="tb"><i></i><i></i><i></i><span style="margin-left:8px">찰칵상세 · 작업 화면</span></div>
+  <div class="demo" aria-label="만들기 화면 미리보기"><div class="tb"><i></i><i></i><i></i><span style="margin-left:8px">찰칵상세 · 작업 화면</span></div>
    <div class="bd"><div class="pn"><span class="tag">BEFORE</span><b>올린 사진 1장</b><img id="dmPic" alt=""><small>휴대폰으로 찍은 상품 사진이면 충분해요</small><div class="f">입력한 글 · 없음</div></div>
    <div class="cv"><span class="tag af">AFTER · 2분 뒤</span><span class="arr">→</span><div class="scr"><img id="phImg" alt="자동으로 만든 상세페이지 예시"></div></div>
    <div class="pn rt"><b>✏️ 찰칵상세에게 부탁하기</b><div class="chat me">3번째 사진 더 밝게</div><div class="chat">그 사진만 다시 찍었어요 ✓</div><div class="chat me">쿠팡용 섹션별로 저장</div><div class="chat">780px 폭으로 섹션별 저장했어요 ✓</div><small style="margin-top:auto">섹션을 누르면 그 장만 고쳐서 다시 그려요</small></div></div></div>
  </div>
-</div></header>
-<section class="hm" id="home1"><div class="in">
- <div class="eb">Showcase</div>
- <h2>어떤 상품이든, 팔리는 순서로</h2>
- <p class="lead">상세페이지는 꾸미기가 아니라 <span class="hl">설득하는 순서</span>예요. 상품마다 사는 이유가 다르니, 카테고리에 맞춰 장면과 문구를 새로 짜요.</p>
- <div class="show">
-  <button data-src="pf/cardigan_page.jpg"><img src="pf/cardigan_page.jpg" alt="패션 상세페이지 예시" loading="lazy"><span><b>니트 가디건</b><em>패션</em></span></button>
-  <button data-src="pf/mask_man.jpg"><img src="pf/mask_man_tile.jpg" alt="아웃도어 착용 컷 예시" loading="lazy" style="object-position:center"><span><b>방한마스크</b><em>아웃도어 · 착용 컷</em></span></button>
-  <button data-src="pf/beauty_page.jpg"><img src="pf/beauty_tile.jpg" alt="뷰티 상세페이지 예시" loading="lazy"><span><b>시카 수분크림</b><em>뷰티</em></span></button>
-  <button data-src="pf/food_page.jpg"><img src="pf/food_tile.jpg" alt="식품 상세페이지 예시" loading="lazy"><span><b>수제 그래놀라</b><em>식품</em></span></button>
-  <button data-src="pf/dog_page.jpg"><img src="pf/dog_tile.jpg" alt="반려동물 상세페이지 예시" loading="lazy"><span><b>강아지 수제간식</b><em>반려동물</em></span></button>
-  <button data-src="pf/mask_reversible.gif"><img src="pf/mask_reversible.gif" alt="양면 상품 전환 GIF 예시" loading="lazy" style="object-position:center"><span><b>양면 전환 GIF</b><em>움직이는 컷</em></span></button>
- </div>
- <a class="more" data-v="ex" href="#ex">예시 전체 보기 →</a>
-</div></section>
-
-<div class="band hm" id="home2s"><div class="in"><div class="g">
- <div><div class="n">1<i>장</i></div><small>필요한 건 상품 사진 한 장</small></div>
- <div><div class="n">14<i>컷</i></div><small>착용·디테일·선물 연출 사진</small></div>
- <div><div class="n">3<i>분</i></div><small>올리고 기다리면 완성</small></div>
- <div><div class="n">9<i>곳</i></div><small>쿠팡·스마트스토어 등 규격 저장</small></div>
-</div></div></div>
-
-<section class="hm" id="home3"><div class="in split">
- <div class="im"><img src="pf/mask_woman_tile.jpg" alt="맞춤 제작 착용 컷 예시" loading="lazy"></div>
- <div>
-  <div class="eb">Custom work</div>
-  <h2>직접 맡기고 싶다면,<br>맞춤 제작으로</h2>
-  <p class="lead">도구로 만든 결과에 사람의 손을 한 번 더. 요청하신 장면·모델·움직이는 컷까지 맞춰 드려요.</p>
-  <ul>
-   <li><i>1</i><span><b>결제 전 첫 화면 시안</b> — 보시고 마음에 드실 때만 진행해요</span></li>
-   <li><i>2</i><span><b>모델 착용 컷 · 양면 전환 GIF</b> — 요청하신 조건 그대로</span></li>
-   <li><i>3</i><span><b>짧은 홍보 영상</b> — 상세페이지와 같은 톤으로</span></li>
-  </ul>
-  <div class="bt"><a class="btn dk" data-v="pf" href="#pf">맞춤 제작 보기</a><a class="btn gh" href="https://kmong.com/gig/870606" target="_blank" rel="noopener">크몽에서 의뢰하기 ↗</a></div>
- </div>
-</div></section>
-
+</header>
 
 <section id="ex"><div class="in">
  <div class="eb">Examples</div>
@@ -402,8 +259,8 @@ body.studio .tbar,body.studio .hm{display:none!important}
 
 <style>#pf .gc .th{height:auto;aspect-ratio:1/1}</style><section id="pf" style="padding-top:10px"><div class="in">
  <div class="eb">Custom work</div>
- <h2>맞춤 제작 예시</h2>
- <p class="lead">의뢰를 받으면 찰칵상세 구성에 맞춰 <b>사진을 여러 번 다시 찍고 문구를 직접 다듬어</b> 완성해요. 눌러서 크게 보세요.</p>
+ <h2>맞춤 제작 포트폴리오</h2>
+ <p class="lead">의뢰를 받으면 찰칵상세 구성에 맞춰 <b>사진을 여러 번 다시 찍고 문구를 직접 다듬어</b> 완성해요. 뷰티·식품·반려동물·리빙·건강식품·유아용품까지. 눌러서 크게 보세요.</p>
  <div class="gal">
   <button class="gc pfc" data-src="pf/cardigan_page.jpg"><div class="th"><img src="pf/cardigan_page.jpg" alt="니트 가디건 상세페이지 예시" loading="lazy"></div><div class="cap"><b>니트 가디건</b><span>패션 · 상세페이지 12구간</span></div></button>
   <button class="gc pfc" data-src="pf/beauty_page.jpg"><div class="th"><img src="pf/beauty_tile.jpg" alt="시카 수분크림 상세페이지 예시" loading="lazy"></div><div class="cap"><b>시카 수분크림</b><span>뷰티 · 11구간</span></div></button>
@@ -417,15 +274,6 @@ body.studio .tbar,body.studio .hm{display:none!important}
   <button class="gc pfc" data-src="pf/mask_reversible.gif"><div class="th" style="background:#ecece9"><img src="pf/mask_reversible.gif" alt="리버시블 마스크 앞뒤 전환 예시" loading="lazy" style="animation:none;height:100%;object-fit:cover"></div><div class="cap"><b>리버시블 전환 GIF</b><span>앞뒤 소재 비교</span></div></button>
  </div>
  <p class="note">※ 실제 판매 상품이 아닌 설명용 예시예요. 의뢰해 주시면 보내 주신 상품 사진으로 새로 만들어요.</p>
-
- <h3 style="margin:54px 0 18px;font-size:1.35rem;letter-spacing:-.02em">의뢰는 이렇게 진행돼요</h3>
- <div class="flow">
-  <div><b>요청 확인</b><small>상품·원하는 느낌·판매처를 채팅으로 알려 주세요.</small></div>
-  <div><b>첫 화면 시안</b><small>결제 전에 제일 위 1~2장을 먼저 보여 드려요.</small></div>
-  <div><b>전체 제작</b><small>장면 → 고를 이유 → 디테일 → 코디 → 사이즈 → FAQ 순서로 완성해요.</small></div>
-  <div><b>수정 · 전달</b><small>수정 2회, 쇼핑몰 규격 파일과 원본을 함께 드려요.</small></div>
- </div>
- <div class="bt" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px"><a class="btn pr" href="https://kmong.com/gig/870606" target="_blank" rel="noopener">크몽에서 의뢰하기 ↗</a><a class="btn gh go" href="#make">직접 만들어 보기</a></div>
 </div></section>
 <script>document.querySelectorAll(".pfc").forEach(b=>b.onclick=()=>{const i=document.getElementById("lbImg");i.src=b.dataset.src;document.getElementById("lb").classList.add("on")});</script>
 
@@ -541,7 +389,7 @@ body.studio .tbar,body.studio .hm{display:none!important}
 </div></section>
 
 <div class="end"><h2>오늘 올릴 상품, 지금 찰칵</h2><p style="opacity:.9;margin:0 0 22px">사진 한 장이면 충분해요.</p><a class="btn go" href="#make">무료로 시작하기 →</a></div>
-<footer><b style="color:#F3EFE9">찰칵상세</b> · 사진 한 장으로 상세페이지 · <a href="#faq" data-v="faq">자주 묻는 질문</a><br><small>예시 상품과 사진은 설명용으로 만든 가상의 상품이에요.</small></footer>
+<footer>찰칵상세</footer>
 <div class="qs" id="qs" role="dialog" aria-modal="true" aria-labelledby="qsT"><div class="qb">
  <div class="qh"><b id="qsT">거의 다 됐어요 ✦</b><button type="button" class="qx" aria-label="닫기">✕</button></div>
  <div class="qp" id="qsPics"></div>
@@ -1168,29 +1016,29 @@ f.onclick=()=>{const b=sv();if(b)b.click()};
 setInterval(()=>{const b=sv();f.style.display=(b&&b.offsetParent!==null)?"flex":"none"},800)})();
 function fsHint(){const f=document.getElementById("fsave");if(!f)return;f.classList.remove("hint");void f.offsetWidth;f.classList.add("hint");f.innerHTML="⬇ 고친 페이지 저장 <small>JPG</small>"}
 </script>
-
+<style id="vhs">.vh{display:none!important}.vtop{padding-top:110px!important}.view-fade{animation:vf .35s ease}@keyframes vf{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}nav .lk a.on{color:#6d5efc;font-weight:800}</style>
 <script id="router">
 (function(){
  if(location.hash.startsWith("#studio"))return;
- const MAP={home:["top","home1","home2s","home3"],ex:["ex","cat"],how:["how","why"],pf:["pf"],price:["price"],faq:["faq"],make:["make"]};
+ const MAP={home:["top","ex"],how:["how"],why:["why"],pf:["pf"],price:["price"],faq:["faq"]};
  const ALL=[].concat(...Object.values(MAP)).map(id=>document.getElementById(id)).filter(Boolean);
- const ID2V={};for(const v in MAP)MAP[v].forEach(id=>ID2V[id]=v);
+ const ID2V={};for(const v in MAP)MAP[v].forEach(id=>ID2V[id]=v);ID2V.top="home";
  function show(v,push){
   if(!MAP[v])v="home";
-  ALL.forEach(el=>el.classList.add("vh"));
-  MAP[v].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove("vh");el.classList.remove("view-fade");void el.offsetWidth;el.classList.add("view-fade")}});
-  document.querySelectorAll(".tbar .menu a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));
+  ALL.forEach(el=>el.classList.add("vh"));ALL.forEach(el=>el.classList.remove("vtop"));if(v!=="home"){const f=document.getElementById(MAP[v][0]);if(f)f.classList.add("vtop")}
+  MAP[v].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove("vh","view-fade");void el.offsetWidth;el.classList.add("view-fade")}});
+  document.querySelectorAll("nav .lk a").forEach(a=>a.classList.toggle("on",ID2V[a.getAttribute("href").slice(1)]===v&&v!=="home"||a.getAttribute("href")==="#ex"&&v==="home"&&false));
   window.scrollTo(0,0);
   if(push)history.pushState({v},"",v==="home"?location.pathname:"#"+v);
  }
  document.addEventListener("click",e=>{
   const a=e.target.closest("a[href^='#']");if(!a||a.classList.contains("go"))return;
-  const id=a.getAttribute("href").slice(1);const v=a.dataset.v||ID2V[id]||(id==="home"||id==="top"?"home":null);
-  if(!v)return;e.preventDefault();show(v,true);
+  const id=a.getAttribute("href").slice(1);if(id==="make"||id==="")return;
+  let v=ID2V[id];if(id==="ex")v="home";if(!v)return;e.preventDefault();show(v,true);
+  if(id==="ex")setTimeout(()=>document.getElementById("ex").scrollIntoView({behavior:"smooth"}),60);
  });
- document.querySelectorAll(".show button").forEach(b=>b.onclick=()=>{const i=document.getElementById("lbImg");i.src=b.dataset.src;document.getElementById("lb").classList.add("on")});
- window.addEventListener("popstate",()=>show((location.hash||"#home").slice(1),false));
- const h0=(location.hash||"").slice(1);show(ID2V[h0]||h0||"home",false);
+ window.addEventListener("popstate",()=>{const h=(location.hash||"#home").slice(1);if(h!=="make")show(ID2V[h]||h,false)});
+ const h0=(location.hash||"").slice(1);if(h0!=="make")show(ID2V[h0]||h0||"home",false);
 })();
 </script>
 </body></html>
