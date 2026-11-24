@@ -1,0 +1,113 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+@font-face{font-family:HD,'Noto Sans CJK KR';src:url(file:///home/claude/minsung-ai/toon_tools/fonts/Jua-Regular.ttf)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:860px;background:#fbf8f2;font-family:'Noto Sans CJK KR',sans-serif;color:#2e3328}
+.sec{padding:110px 70px;text-align:center}
+.alt{background:#eef2e6}
+.inv{background:#2e3328;color:#fbf8f2}
+.inv .sub,.inv small,.inv p{color:#c4cbb8!important}
+.eye{display:inline-block;font-size:16px;letter-spacing:.32em;color:#6f8a5c;font-weight:800}
+.pill{display:inline-block;font-size:16px;font-weight:800;color:#fff;background:#6f8a5c;padding:9px 20px;border-radius:99px;letter-spacing:.08em}
+h1{font-family:HD,'Noto Sans CJK KR';font-weight:400!important;font-size:68px;line-height:1.26;margin-top:24px;font-weight:400;letter-spacing:-1px}
+h2{font-family:HD,'Noto Sans CJK KR';font-weight:400!important;font-size:50px;line-height:1.34;margin-top:18px;font-weight:400;letter-spacing:-.5px}
+h1 em,h2 em{font-style:normal;color:#6f8a5c}
+.inv h2 em{color:#bcd6a3}
+.sub{font-size:23px;line-height:1.8;color:#646a5c;margin-top:24px}
+img.full{width:860px;display:block}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:34px}
+.tags span{font-size:20px;font-weight:700;padding:12px 20px;border-radius:99px;background:#ffffff;border:2px solid #e2e8d6;color:#6f8a5c}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px}
+.nums div{background:#ffffff;border-radius:24px;padding:34px 10px;border:1px solid #e2e8d6}
+.nums b{display:block;font-family:HD,'Noto Sans CJK KR';font-weight:400;font-size:46px;color:#6f8a5c}
+.nums small{display:block;font-size:18px;color:#646a5c;margin-top:8px;line-height:1.5}
+.pain{display:grid;gap:14px;margin-top:44px;text-align:left}
+.pain div{background:#ffffff;border-radius:20px;padding:26px 30px;font-size:23px;display:flex;gap:18px;align-items:center;border:1px solid #e2e8d6}
+.pain i{flex:none;width:40px;height:40px;border-radius:50%;background:#f7e6dc;color:#c27a52;font-style:normal;font-weight:900;display:grid;place-items:center;font-size:20px}
+.turn{font-family:HD,'Noto Sans CJK KR';font-size:40px;line-height:1.45;margin-top:60px}
+.turn em{font-style:normal;color:#6f8a5c}
+.arrow{font-size:40px;color:#6f8a5c;margin-top:30px}
+.pt{display:inline-flex;align-items:center;gap:14px}
+.pt b{font-family:HD,'Noto Sans CJK KR';font-weight:400;font-size:26px;color:#fff;background:#6f8a5c;border-radius:99px;padding:6px 20px;letter-spacing:.1em}
+.pt span{font-size:17px;font-weight:800;letter-spacing:.3em;color:#6f8a5c}
+.cap{font-size:19px;color:#646a5c;padding:20px 70px 0;text-align:center;line-height:1.6}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px;text-align:left}
+.kv div{background:#ffffff;border-radius:22px;padding:28px;border:1px solid #e2e8d6}
+.kv b{display:block;font-size:24px}.kv small{display:block;font-size:18px;color:#646a5c;margin-top:10px;line-height:1.6}
+.kv .e{font-size:40px;display:block;margin-bottom:10px}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;margin-top:44px;font-size:21px;border-radius:24px;overflow:hidden;background:#ffffff;border:1px solid #e2e8d6}
+.cmp th{padding:24px 12px;font-size:21px;background:#eef2e6;color:#646a5c;font-weight:700}
+.cmp th.us{background:#6f8a5c;color:#fff}
+.cmp td{padding:22px 12px;border-top:1px solid #e2e8d6;line-height:1.5}
+.cmp td:first-child{font-weight:800;width:170px;color:#2e3328}
+.cmp td.us{color:#6f8a5c;font-weight:800;background:#f4f8ee}
+.cmp td.no{color:#646a5c}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:44px}
+.grid2 figure{background:#ffffff;border-radius:22px;overflow:hidden;border:1px solid #e2e8d6;text-align:left}
+.grid2 img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.grid2 figcaption{padding:20px 22px;font-size:19px;line-height:1.5}
+.grid2 figcaption b{display:block;font-size:22px;margin-bottom:4px}
+.grid2 figcaption small{color:#646a5c;font-size:17px}
+.scene{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.scene figure{position:relative}
+.scene img{width:100%;height:560px;object-fit:cover;display:block}
+.scene figcaption{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(255,255,255,.9);color:#222;border-radius:16px;padding:16px 18px;font-size:18px;line-height:1.5;text-align:left}
+.scene figcaption b{display:block;font-size:20px}
+.who{display:grid;gap:12px;margin-top:44px;text-align:left}
+.who div{display:flex;gap:20px;align-items:center;background:#ffffff;border-radius:22px;padding:22px 26px;border:1px solid #e2e8d6}
+.who .e{flex:none;width:70px;height:70px;border-radius:50%;background:#eef2e6;display:grid;place-items:center;font-size:34px}
+.who b{display:block;font-size:23px}.who small{display:block;font-size:18px;color:#646a5c;margin-top:6px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px}
+.steps div{background:#ffffff;border-radius:24px;padding:34px 16px;border:1px solid #e2e8d6}
+.steps em{display:block;font-style:normal;font-family:HD,'Noto Sans CJK KR';font-size:44px;color:#6f8a5c}
+.steps b{display:block;font-size:23px;margin-top:8px}.steps small{display:block;font-size:18px;color:#646a5c;margin-top:8px;line-height:1.55}
+.box{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:40px}
+.box div{background:#ffffff;border-radius:20px;padding:26px 6px;border:1px solid #e2e8d6}
+.box .e{font-size:42px}.box b{display:block;font-size:19px;margin-top:10px}.box small{display:block;font-size:16px;color:#646a5c;margin-top:4px}
+.info{width:100%;border-collapse:collapse;margin-top:40px;font-size:20px;text-align:left;background:#ffffff;border-radius:20px;overflow:hidden}
+.info td{padding:20px 24px;border-bottom:1px solid #e2e8d6;line-height:1.55}
+.info td:first-child{width:200px;color:#6f8a5c;font-weight:800;background:#eef2e6}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:44px}
+.trust div{border:2px dashed #a8bd96;border-radius:24px;padding:34px 10px}
+.trust .e{font-size:46px}.trust b{display:block;font-size:21px;margin-top:10px}.trust small{display:block;font-size:16px;color:#646a5c;margin-top:6px;line-height:1.5}
+.rv{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px}
+.rv div{background:#ffffff;border-radius:20px;padding:20px;border:1px solid #e2e8d6;text-align:left}
+.rv .ph{aspect-ratio:1/1;border-radius:14px;background:#eef2e6;display:grid;place-items:center;font-size:16px;color:#646a5c}
+.rv .ln{height:12px;border-radius:6px;background:#eef2e6;margin-top:12px}
+.rv .st{color:#6f8a5c;font-size:18px;margin-top:14px;letter-spacing:2px}
+.q{background:#ffffff;border-radius:20px;padding:28px 32px;margin-top:14px;text-align:left;border:1px solid #e2e8d6}
+.q b{font-size:23px;display:block}.q p{font-size:19px;color:#646a5c;margin-top:10px;line-height:1.7}
+.ship{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:40px;text-align:left}
+.ship div{background:#ffffff;border-radius:20px;padding:26px 24px;border:1px solid #e2e8d6}
+.ship b{display:block;font-size:21px}.ship small{display:block;font-size:17px;color:#646a5c;margin-top:8px;line-height:1.6}
+.cta{font-family:HD,'Noto Sans CJK KR';font-size:54px;line-height:1.35;margin-top:10px}
+.cta em{font-style:normal;color:#bcd6a3}
+.note{font-size:15px;color:#646a5c;margin-top:36px}
+</style></head><body><div class="sec" style="padding-bottom:70px"><span class="pill">🐾 HANDMADE DOG TREATS</span><h1>재료 하나,<br><em>마음은 가득</em> 담았어요</h1><p class="sub">국내산 닭가슴살만 얇게 썰어 천천히 말린 수제 간식.<br>우리 아이 입에 들어가는 거니까, 보호자가 먼저 안심할 수 있게.</p></div>
+<img class="full" src="d1.jpg">
+<div class="sec"><div class="eye">SUMMARY</div><h2>한눈에 보는<br><em>닭가슴살 수제간식</em></h2><div class="tags"><span>#원재료1가지</span><span>#국내산닭가슴살</span><span>#무첨가</span><span>#저온건조</span><span>#소량수제</span></div><div class="nums"><div><b>1가지</b><small>원재료는<br>닭가슴살뿐</small></div><div><b>8시간</b><small>저온에서<br>천천히 건조</small></div><div><b>0</b><small>방부제·색소·향료<br>(예시)</small></div></div></div>
+<div class="sec alt"><div class="eye">WORRY</div><h2>간식 고를 때<br>이런 걱정 있으셨죠?</h2><div class="pain"><div><i>✕</i>성분표에 모르는 이름이 너무 많아요</div><div><i>✕</i>먹고 나면 자꾸 긁거나 탈이 나요</div><div><i>✕</i>딱딱해서 노견이 잘 못 씹어요</div><div><i>✕</i>어디서 누가 만들었는지 알 수가 없어요</div></div><div class="arrow">▼</div><p class="turn">그래서 <em>재료는 하나, 과정은 정직하게</em><br>매일 조금씩 직접 만들어요</p></div>
+<img class="full" src="d2.jpg"><p class="cap">결이 그대로 살아 있는 진짜 닭가슴살 (예시)</p><div style="height:60px"></div>
+<div class="sec" style="padding-bottom:64px"><div class="pt"><b>POINT 01</b><span>ONE INGREDIENT</span></div><h2>원재료는<br><em>닭가슴살 하나</em></h2><p class="sub">섞지 않고, 붙이지 않고, 썰어서 말리기만 했어요.<br>알레르기가 걱정되는 아이도 성분이 단순해 확인이 쉬워요.</p></div>
+<div class="sec alt" style="padding-bottom:64px"><div class="pt"><b>POINT 02</b><span>SLOW DRY</span></div><h2>낮은 온도에서<br><em>8시간</em> 천천히</h2><p class="sub">높은 온도로 빨리 말리지 않아요.<br>결을 살려 말려야 씹는 맛도 향도 살아요.</p></div>
+<img class="full" src="d3.jpg">
+<div class="sec" style="padding-bottom:64px"><div class="pt"><b>POINT 03</b><span>SAFE</span></div><h2>보호자가 먼저<br><em>확인하는 세 가지</em></h2><p class="sub">우리 아이 입에 들어가는 거니까.</p><div class="kv"><div><span class="e">🐔</span><b>국내산 원료</b><small>닭가슴살 원산지 (예시)</small></div><div><span class="e">🚫</span><b>무첨가</b><small>방부제·색소·향료 없이</small></div><div><span class="e">✂️</span><b>두 가지 크기</b><small>소형견 큐브 / 중대형견 슬라이스</small></div><div><span class="e">🧊</span><b>냉동 보관</b><small>장기 보관도 안심</small></div></div></div>
+<div class="sec alt" style="padding-bottom:64px"><div class="pt"><b>POINT 04</b><span>LOVE</span></div><h2>한 입 먹고<br><em>꼬리부터</em> 흔들어요</h2><p class="sub">고소한 닭 향에 간식 봉투 소리만 들려도 달려와요.</p></div>
+<img class="full" src="d1.jpg">
+<div class="sec"><div class="eye">COMPARE</div><h2>흔한 간식과<br><em>무엇이 다를까요</em></h2><table class="cmp"><tr><th></th><th>일반 대량 간식</th><th class="us">닭가슴살 수제간식</th></tr><tr><td>원재료</td><td class="no">여러 가지 혼합</td><td class="us">닭가슴살 하나</td></tr><tr><td>첨가물</td><td class="no">보존료·향미제</td><td class="us">넣지 않아요</td></tr><tr><td>건조 방식</td><td class="no">고온 단시간</td><td class="us">저온 8시간</td></tr><tr><td>식감</td><td class="no">딱딱하고 질김</td><td class="us">결대로 찢어지는 식감</td></tr><tr><td>제조</td><td class="no">대량 공장</td><td class="us">소량 수제 (예시)</td></tr></table><p class="note" style="margin-top:18px">※ 일반적인 제품과 비교한 예시 기준이에요</p></div>
+<div class="sec alt"><div class="eye">DETAIL</div><h2>가까이 들여다보면<br><em>더 안심돼요</em></h2><div class="grid2"><figure><img src="x_jerky.jpg"><figcaption><b>결이 살아 있는 슬라이스</b><small>손으로 찢어 주기 좋아요</small></figcaption></figure><figure><img src="x_cube.jpg"><figcaption><b>한 입 큐브</b><small>소형견·훈련용</small></figcaption></figure><figure><img src="x_tray.jpg"><figcaption><b>건조 전 손질</b><small>기름기와 힘줄 제거</small></figcaption></figure><figure><img src="x_pouch.jpg"><figcaption><b>지퍼 파우치</b><small>소분 포장</small></figcaption></figure></div></div>
+<div class="sec" style="padding-bottom:60px"><div class="eye">SCENE</div><h2>이럴 때<br><em>하나씩</em> 꺼내 주세요</h2><p class="sub">산책 다녀와서, 훈련 끝나고, 그냥 예뻐서.</p></div><div class="scene"><figure><img src="x_pup.jpg"><figcaption><b>산책 후</b>칭찬 간식으로 하나</figcaption></figure><figure><img src="x_oven.jpg"><figcaption><b>매일 조금씩</b>적은 양을 신선하게 만들어요</figcaption></figure></div>
+<div class="sec alt"><div class="eye">PROCESS</div><h2>이렇게 <em>만들어요</em></h2><p class="sub">매일 아침, 그날 쓸 만큼만 손질해서 말려요.</p></div>
+<img class="full" src="d4.jpg"><div class="sec" style="padding:46px 70px 70px"><div class="pt"><b>STEP 1</b></div><h2 style="font-size:40px">결대로 얇게 손질</h2><p class="sub">기름기와 힘줄을 걷어 내고, 결을 따라 고른 두께로 썰어요. 두께가 같아야 고르게 말라요.</p></div>
+<img class="full" src="d5.jpg"><div class="sec" style="padding:46px 70px 70px"><div class="pt"><b>STEP 2</b></div><h2 style="font-size:40px">낮은 온도에서 8시간</h2><p class="sub">트레이에 겹치지 않게 한 장씩 펼쳐 천천히 말려요. 서두르지 않아야 결이 살아요.</p></div>
+<div class="sec inv"><div class="eye">STORY</div><h2>한 입 먹고,<br><em>다시 걷고 싶어지는</em> 산책길</h2><p class="sub">간식은 결국 함께 보내는 시간이라고 생각해요.<br>산책길에 하나, 잘했다고 하나. 그 작은 순간이 오래 남도록<br>재료는 단순하게, 과정은 정직하게 만들어요.</p></div>
+<img class="full" src="d6.jpg">
+<div class="sec"><div class="eye">FOR YOU</div><h2>이런 보호자님께<br><em>먼저 권해요</em></h2><div class="who"><div><span class="e">🔍</span><span><b>성분표를 꼼꼼히 보는 분</b><small>재료가 하나라 확인이 쉬워요</small></span></div><div><span class="e">🐶</span><span><b>소형견 보호자</b><small>한 입 큐브 크기</small></span></div><div><span class="e">👴</span><span><b>노견과 함께하는 분</b><small>잘게 찢어 주기 좋아요</small></span></div><div><span class="e">🎓</span><span><b>훈련 중인 분</b><small>작게 잘라 보상용으로</small></span></div><div><span class="e">🎁</span><span><b>강아지 친구 선물</b><small>파우치 선물 세트</small></span></div></div></div>
+<div class="sec alt"><div class="eye">HOW TO</div><h2>하루 이만큼 주세요</h2><div class="steps"><div><em>1</em><b>소형견</b><small>5kg 미만<br>하루 2~3조각</small></div><div><em>2</em><b>중형견</b><small>5~15kg<br>하루 4~5조각</small></div><div><em>3</em><b>대형견</b><small>15kg 이상<br>하루 6조각 이내</small></div></div><p class="cap" style="padding:26px 0 0">※ 간식은 하루 열량의 10% 이내로 · 처음엔 조금씩 반응을 확인해 주세요</p></div>
+<img class="full" src="d7.jpg">
+<div class="sec"><div class="eye">IN THE BOX</div><h2>이렇게 보내 드려요</h2><div class="box"><div><div class="e">🍗</div><b>슬라이스</b><small>100g</small></div><div><div class="e">🧊</div><b>한 입 큐브</b><small>100g</small></div><div><div class="e">🛍️</div><b>지퍼 파우치</b><small>소분 포장</small></div><div><div class="e">📄</div><b>급여 안내서</b><small>체중별 급여량</small></div></div></div>
+<div class="sec alt"><div class="eye">PRODUCT INFO</div><h2>상품 정보</h2><table class="info"><tr><td>제품명</td><td>닭가슴살 수제간식 (예시)</td></tr><tr><td>원재료</td><td>닭가슴살 100% (국내산 · 예시)</td></tr><tr><td>중량</td><td>100g / 200g</td></tr><tr><td>급여 대상</td><td>생후 3개월 이상 모든 견종</td></tr><tr><td>보관</td><td>냉동 보관 · 해동 후 3일 이내 급여</td></tr><tr><td>유통기한</td><td>냉동 기준 제조일로부터 6개월</td></tr></table></div>
+<div class="sec"><div class="eye">TRUST</div><h2>믿고 먹일 수 있게</h2><div class="trust"><div><div class="e">🏭</div><b>제조 시설</b><small>사료 제조업 등록 자리</small></div><div><div class="e">🧾</div><b>성분 등록</b><small>성분 등록증 자리</small></div><div><div class="e">🔬</div><b>원료 증명</b><small>원산지 증명 자리</small></div></div><p class="note" style="margin-top:20px">※ 점선 칸은 판매자님의 실제 인증서·시험 성적서로 채워지는 자리예요</p></div>
+<div class="sec alt"><div class="eye">REVIEW</div><h2>포토 후기가 들어갈 자리</h2><p class="sub">판매가 시작되면 실제 구매 고객의 사진 후기로 채워요.<br>가짜 후기는 넣지 않아요.</p><div class="rv"><div><div class="ph">📷 실제 후기 사진</div><div class="st">★★★★★</div><div class="ln"></div><div class="ln" style="width:70%"></div></div><div><div class="ph">📷 실제 후기 사진</div><div class="st">★★★★★</div><div class="ln"></div><div class="ln" style="width:70%"></div></div><div><div class="ph">📷 실제 후기 사진</div><div class="st">★★★★★</div><div class="ln"></div><div class="ln" style="width:70%"></div></div></div></div>
+<div class="sec"><div class="eye">Q&amp;A</div><h2>구매 전에 많이 물어보세요</h2><div style="margin-top:30px"><div class="q"><b>Q. 고양이도 먹을 수 있나요?</b><p>닭가슴살 하나라 괜찮지만, 작게 잘라 소량부터 주세요.</p></div><div class="q"><b>Q. 이갈이 중인 아기 강아지도 되나요?</b><p>생후 3개월 이후부터, 잘게 찢어서 주세요.</p></div><div class="q"><b>Q. 냉동인데 바로 줘도 되나요?</b><p>실온에 10분 정도 두었다가 주세요.</p></div><div class="q"><b>Q. 알레르기가 있는 아이도 괜찮나요?</b><p>닭에 알레르기가 없다면 성분이 단순해 비교적 안심이에요. 수의사와 상의해 주세요.</p></div><div class="q"><b>Q. 정기 배송 되나요?</b><p>2주·4주 간격 정기 배송을 선택할 수 있어요 (예시).</p></div></div></div>
+<div class="sec alt"><div class="eye">DELIVERY</div><h2>배송 · 교환 안내</h2><div class="ship"><div><b>🚚 배송</b><small>평일 오후 2시 전 주문 시 당일 출발 (예시)</small></div><div><b>🔄 교환·반품</b><small>받은 날로부터 7일 이내 (예시 · 상품별 상이)</small></div><div><b>💬 문의</b><small>톡톡·고객센터로 편하게 물어보세요</small></div></div></div>
+<img class="full" src="d1.jpg"><div class="sec inv"><p class="cta">오늘 산책 끝나고,<br><em>꼬리 흔드는 한 입</em></p><p class="note">※ 찰칵상세 제작 예시 · 브랜드와 상품 정보는 예시로 만든 내용이에요</p></div></body></html>
